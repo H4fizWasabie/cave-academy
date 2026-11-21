@@ -37,6 +37,7 @@ type Page struct {
 	Nav   string   // active nav item: home, program, bots, produk, tentang ("" for none)
 	CSS   []string // extra stylesheets, e.g. "home" loads /static/css/home.css
 	Crumb string   // breadcrumb label for {{template "breadcrumb" .}}; "" on the home page
+	User  *User    // logged-in user or nil; render fills it in, handlers leave it alone
 	Data  any
 }
 
@@ -62,7 +63,9 @@ func New(cfg Config) (*Server, error) {
 
 func (s *Server) Close() error { return s.db.Close() }
 
-func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) { s.mux.ServeHTTP(w, r) }
+func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	s.mux.ServeHTTP(&reqWriter{w, r}, r) // reqWriter lets render find the logged-in user
+}
 
 // routes registers every v1 route. Patterns without a method accept GET and
 // POST so a page's owner can handle its form in the same handler.
@@ -132,6 +135,9 @@ func (s *Server) renderStatus(w http.ResponseWriter, status int, name string, p 
 		log.Printf("render: no template %q", name)
 		http.Error(w, "Ralat dalaman", http.StatusInternalServerError)
 		return
+	}
+	if rw, ok := w.(*reqWriter); ok && p.User == nil {
+		p.User = s.currentUser(rw.r)
 	}
 	var buf bytes.Buffer // buffer so a template error cannot leave half a page
 	if err := t.ExecuteTemplate(&buf, "layout", p); err != nil {
