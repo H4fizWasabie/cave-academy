@@ -17,10 +17,10 @@ func TestBotsLandingHasKeyContent(t *testing.T) {
 		"Berteraskan NLP", "Menyokong Komunikasi", "Membantu Penyelesaian Masalah", "Mudah &amp; Praktikal",
 		"Terokai AI NLP Bots", "Lihat Demonstrasi (2 Minit)", `href="#senarai-bot"`,
 		"Pilihan AI NLP Bots",
-		"NLP Bot Educators", "NLP Bot Sales &amp; Marketing", "NLP Bot HR &amp; People Management",
+		"NLP Bot</span> Educators", "NLP Bot</span> Sales &amp; Marketing", "NLP Bot</span> HR &amp; People Management",
 		`href="/ai-nlp-bots/educators"`, `href="/ai-nlp-bots/sales-marketing"`, `href="/ai-nlp-bots/hr"`,
 		"3 soalan sehari", `href="/daftar"`,
-		"Bagaimana Ia Membantu Anda?", "Produktiviti", "Langganan Sekarang", "AI NLP Bots The Cave Academy",
+		"Bagaimana Ia Membantu Anda?", "Produktiviti", "Langgan Sekarang", "AI NLP Bots The Cave Academy",
 		"Lihat Pelan Langganan", "https://wa.me/60123947200?text=",
 	} {
 		if !strings.Contains(body, want) {

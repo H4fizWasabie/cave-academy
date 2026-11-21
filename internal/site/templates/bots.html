@@ -19,7 +19,10 @@
       </ul>
     </div>
   </div>
-  <img class="hero__img" src="/static/img/hero.jpg" alt="Jurulatih The Cave Academy di lobi pejabat" width="710" height="248">
+  <picture class="bots-hero__img">
+    <source media="(min-width: 640px)" srcset="/static/img/bots-hero-desktop.jpg">
+    <img src="/static/img/bots-hero-mobile.jpg" alt="Pakar The Cave Academy bersama komputer riba dengan otak AI yang bercahaya" width="276" height="287">
+  </picture>
 </section>
 
 <section class="container">
@@ -33,12 +36,14 @@
 </section>
 
 <section class="container bots-list" id="senarai-bot">
-  <h2 class="section-title">Pilihan AI NLP Bots</h2>
-  <p class="bots-note">Akaun percuma mendapat 3 soalan sehari. <a href="/daftar">Daftar akaun percuma</a>.</p>
+  <div class="bots-list__head">
+    <h2 class="section-title">Pilihan AI NLP Bots</h2>
+    <p class="bots-note">Akaun percuma mendapat 3 soalan sehari. <a href="/daftar">Daftar akaun percuma</a>.</p>
+  </div>
   <div class="cards">
     {{range .Data}}<article class="card">
       <div class="card__media"><img src="/static/img/{{.Image}}" alt="" loading="lazy"></div>
-      <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#{{.Icon}}"/></svg><h3>NLP Bot {{.Name}}</h3></div>
+      <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#{{.Icon}}"/></svg><h3><span class="card__pre">NLP Bot</span> {{.Name}}</h3></div>
       <p class="card__text">{{.Desc}}</p>
       <a class="card__cta" href="/ai-nlp-bots/{{.Slug}}"><span>{{.CTA}}</span> {{template "arrow"}}</a>
     </article>
@@ -60,7 +65,7 @@
 <section class="container bots-cta">
   <div class="cta-banner">
     <svg class="icon cta-banner__icon" aria-hidden="true"><use href="#i-ai-screen"/></svg>
-    <h2 class="cta-banner__title">Langganan Sekarang AI NLP Bots The Cave Academy</h2>
+    <h2 class="cta-banner__title">Langgan Sekarang<br>AI NLP Bots The Cave Academy</h2>
     <p class="cta-banner__text">Dapatkan akses kepada rangkaian AI NLP Bots yang praktikal, mudah digunakan dan relevan dengan keperluan anda.</p>
     <a class="btn btn--navy" href="https://wa.me/60123947200?text=Hai%20The%20Cave%20Academy%2C%20saya%20berminat%20untuk%20mengetahui%20pelan%20langganan%20AI%20NLP%20Bots.%20Boleh%20berikan%20maklumat%20lanjut%3F">Lihat Pelan Langganan {{template "arrow"}}</a>
   </div>
