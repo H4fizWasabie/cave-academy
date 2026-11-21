@@ -133,6 +133,12 @@ func (s *Server) daftar(w http.ResponseWriter, r *http.Request) {
 	if !authForm(w, r) {
 		return
 	}
+	ip := clientIP(r)
+	if s.limits.signupIP.over(ip) {
+		s.authPage(w, http.StatusTooManyRequests, "Daftar", authData{Mode: "daftar", Name: strings.TrimSpace(r.PostFormValue("name")),
+			Email: normalizeEmail(r.PostFormValue("email")), Next: next, Error: tooManyAttempts})
+		return
+	}
 	name := strings.TrimSpace(r.PostFormValue("name"))
 	email := normalizeEmail(r.PostFormValue("email"))
 	password := r.PostFormValue("password")
@@ -166,6 +172,7 @@ func (s *Server) daftar(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Ralat dalaman", http.StatusInternalServerError)
 		return
 	}
+	s.limits.signupIP.add(ip)
 	id, _ := res.LastInsertId()
 	s.startSession(w, r, id, next)
 }
@@ -184,6 +191,12 @@ func (s *Server) logMasuk(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	email := normalizeEmail(r.PostFormValue("email"))
+	ip := clientIP(r)
+	if s.limits.loginEmail.over(email) || s.limits.loginIP.over(ip) { // refuse before touching the password
+		s.authPage(w, http.StatusTooManyRequests, "Log Masuk",
+			authData{Mode: "masuk", Email: email, Next: next, Error: tooManyAttempts})
+		return
+	}
 	var id int64
 	var hash string
 	err := s.db.QueryRow(`SELECT id, password_hash FROM users WHERE email = ?`, email).Scan(&id, &hash)
@@ -194,10 +207,13 @@ func (s *Server) logMasuk(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err != nil {
+		s.limits.loginEmail.add(email)
+		s.limits.loginIP.add(ip)
 		s.authPage(w, http.StatusUnauthorized, "Log Masuk",
 			authData{Mode: "masuk", Email: email, Next: next, Error: "Emel atau kata laluan tidak betul."})
 		return
 	}
+	s.limits.loginEmail.reset(email)
 	s.startSession(w, r, id, next)
 }
 

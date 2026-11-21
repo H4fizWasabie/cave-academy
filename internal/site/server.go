@@ -28,7 +28,8 @@ type Server struct {
 	mailer    *Mailer
 	templates map[string]*template.Template
 	mux       *http.ServeMux
-	chat      chatOpts // chat.go; the zero value is production
+	chat      chatOpts    // chat.go; the zero value is production
+	limits    *rateLimits // ratelimit.go: login and signup throttling
 }
 
 // Page is the data every template receives as ".". Handlers fill it in;
@@ -53,6 +54,7 @@ func New(cfg Config) (*Server, error) {
 		config: cfg,
 		mailer: &Mailer{APIKey: cfg.ResendKey, From: cfg.MailFrom},
 		mux:    http.NewServeMux(),
+		limits: newRateLimits(),
 	}
 	if s.templates, err = loadTemplates(); err != nil {
 		db.Close()

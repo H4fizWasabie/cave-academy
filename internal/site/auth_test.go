@@ -200,7 +200,7 @@ func TestNextRedirectIsLocalOnly(t *testing.T) {
 		i++
 		form := signupForm(fmt.Sprintf("u%d@example.com", i))
 		form.Set("next", next)
-		rec := authPost(t, s, "/daftar", form, nil)
+		rec := postFrom(s, "/daftar", form, fmt.Sprintf("198.51.100.%d:1", i)) // own IP each: signups are rate limited per IP
 		if got := rec.Header().Get("Location"); got != want {
 			t.Errorf("next %q -> %q, want %q", next, got, want)
 		}
