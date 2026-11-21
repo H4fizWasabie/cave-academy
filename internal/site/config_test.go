@@ -7,7 +7,7 @@ func TestConfigDefaults(t *testing.T) {
 		t.Setenv(k, "")
 	}
 	c := ConfigFromEnv()
-	if c.Addr != ":8080" || c.DBPath != "cave-academy.db" || c.OpenRouterModel != "anthropic/claude-haiku-4.5" ||
+	if c.Addr != ":8080" || c.DBPath != "cave-academy.db" || c.OpenRouterModel != "openai/gpt-6-luna" ||
 		c.MailFrom != "The Cave Academy <noreply@caveacademy.my>" || c.AdminEmail != "adam.caveconsult@gmail.com" ||
 		c.OpenRouterKey != "" || c.ResendKey != "" {
 		t.Errorf("defaults = %+v", c)

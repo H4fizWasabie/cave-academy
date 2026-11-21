@@ -20,7 +20,7 @@ A marketing site for The Cave Academy plus its highlight feature, the **AI NLP B
 | `ADDR` | listen address | `:8080` |
 | `DB_PATH` | SQLite file | `cave-academy.db` |
 | `OPENROUTER_API_KEY` | chatbot answers | unset: chat replies with a "not configured" message |
-| `OPENROUTER_MODEL` | OpenRouter model id | `anthropic/claude-haiku-4.5` |
+| `OPENROUTER_MODEL` | OpenRouter model id | `openai/gpt-6-luna` |
 | `RESEND_API_KEY` | sends email | unset: email is logged to stdout instead |
 | `MAIL_FROM` | sender address | `The Cave Academy <noreply@caveacademy.my>` |
 | `ADMIN_EMAIL` | receives form submissions | `adam.caveconsult@gmail.com` |

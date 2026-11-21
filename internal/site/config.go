@@ -19,7 +19,7 @@ func ConfigFromEnv() Config {
 		Addr:            env("ADDR", ":8080"),
 		DBPath:          env("DB_PATH", "cave-academy.db"),
 		OpenRouterKey:   os.Getenv("OPENROUTER_API_KEY"),
-		OpenRouterModel: env("OPENROUTER_MODEL", "anthropic/claude-haiku-4.5"),
+		OpenRouterModel: env("OPENROUTER_MODEL", "openai/gpt-6-luna"),
 		ResendKey:       os.Getenv("RESEND_API_KEY"),
 		MailFrom:        env("MAIL_FROM", "The Cave Academy <noreply@caveacademy.my>"),
 		AdminEmail:      env("ADMIN_EMAIL", "adam.caveconsult@gmail.com"),
