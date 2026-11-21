@@ -24,7 +24,7 @@
 .home .hero__title .gold { display: block; }
 .home .hero__sub { margin-top: 10px; font-size: 11.5px; line-height: 1.4; font-weight: 500; }
 .home .hero__actions { flex-direction: column; align-items: flex-start; gap: 8px; margin-top: 12px; }
-.home .hero__actions .btn { padding: 8px 16px; font-size: 12px; gap: 7px; white-space: nowrap; }
+.home .hero__actions .btn { padding: 8px 16px; min-height: 40px; font-size: 12px; gap: 7px; white-space: nowrap; }
 .home .hero__actions .btn .icon { font-size: 14px; }
 .home picture { display: contents; }
 .home .hero__img {
@@ -46,6 +46,13 @@
 .home .feature span { overflow-wrap: anywhere; }
 .home .feature + .feature { border-left: 1px solid var(--line); }
 .home .feature .icon { width: 24px; height: 24px; }
+/* Below 480px the strip goes 3 + 2, centred, so no label is squeezed. */
+@media (max-width: 479px) {
+  .home .features { flex-wrap: wrap; justify-content: center; padding: 8px 4px; }
+  .home .feature { flex: 0 0 33.333%; padding: 8px 4px; }
+  .home .feature + .feature { border-left: 0; }
+  .home .feature:is(:nth-child(2), :nth-child(3), :nth-child(5)) { border-left: 1px solid var(--line); }
+}
 
 /* ---------- Solutions ---------- */
 .home-solutions { margin-top: 16px; }
@@ -66,7 +73,7 @@
 }
 .home .card__body h3 { font-size: 13px; line-height: 1.2; }
 .home .card__text { padding: 2px 0 0; font-size: 11px; line-height: 1.35; }
-.home .card__cta { margin-right: 10px; width: 32px; height: 32px; }
+.home .card__cta { margin-right: 10px; width: 40px; height: 40px; }
 .home .card__cta .icon { width: 16px; height: 16px; }
 
 /* ---------- Trainer banner: one row ---------- */
@@ -81,6 +88,15 @@
 .home .cta-banner__text { font-size: 11px; line-height: 1.35; }
 .home .cta-banner .btn { justify-self: end; padding: 8px 10px; font-size: 11px; gap: 5px; max-width: 80px; line-height: 1.15; text-align: left; }
 .home .cta-banner .btn .icon { font-size: 14px; }
+
+/* Phones: the banner stacks (icon + title, text, full-width button). */
+@media (max-width: 639px) {
+  .home .cta-banner { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "icon title" "text text" "btn btn"; gap: 8px 12px; padding: 14px; }
+  .home .cta-banner__icon { width: 36px; height: 36px; }
+  .home .cta-banner__title { font-size: 15px; padding-right: 0; border-right: 0; }
+  .home .cta-banner__text { font-size: 12.5px; }
+  .home .cta-banner .btn { justify-self: stretch; justify-content: center; max-width: none; min-height: 44px; font-size: 13px; text-align: center; }
+}
 
 /* ---------- Tablet ---------- */
 @media (min-width: 640px) {

@@ -346,3 +346,21 @@ ul { margin: 0; padding: 0; list-style: none; }
   .header__actions { gap: 8px; }
   .header__actions .btn--sm { padding: 7px 12px; }
 }
+
+/* Very narrow phones (320px): tighten the header so the menu button stays on screen. */
+@media (max-width: 359px) {
+  .site-header .container { padding-inline: 8px; }
+  .header__bar, .header__actions { gap: 4px; }
+  .site-header .brand { gap: 6px; }
+  .site-header .brand__logo { width: 38px; height: 38px; }
+  .site-header .brand__text { padding-left: 7px; }
+  .header__actions .btn--outline { padding-inline: 6px; }
+}
+
+/* Phones: breadcrumb and footer links get a 40px tap target without moving the layout. */
+@media (max-width: 639px) {
+  .card__cta { width: 40px; height: 40px; }
+  .breadcrumb a { padding-block: 12px; margin-block: -12px; }
+  .footer__list { row-gap: 0; }
+  .footer__list a { display: flex; align-items: center; min-height: 40px; }
+}
