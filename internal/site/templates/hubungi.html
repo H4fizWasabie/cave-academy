@@ -1,0 +1,48 @@
+{{define "content"}}
+{{if .Data.Thanks}}<div class="container"><p class="form-thanks" role="status">Terima kasih! Mesej anda telah dihantar. Kami akan menghubungi anda secepat mungkin.</p></div>{{end}}
+<section class="hero hero--plain">
+  <div class="container hero__inner">
+    {{template "breadcrumb" .}}
+    <div class="hero__text">
+      <h1 class="hero__title">Hubungi <span class="gold">Kami</span></h1>
+      <p class="hero__sub">Ada soalan tentang program, produk atau kerjasama? Hantar mesej atau hubungi kami terus.</p>
+    </div>
+  </div>
+</section>
+
+<section class="container page-section contact">
+  <div class="panel contact__details">
+    <h2 class="section-title">Maklumat Hubungan</h2>
+    <ul class="contact__list">
+      <li><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg><div><strong>WhatsApp / Telefon</strong><br><a href="https://wa.me/60123947200">012-394 7200</a> <span class="contact__sep">&middot;</span> <a href="tel:+60123947200">Telefon</a></div></li>
+      <li><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg><div><strong>E-mel</strong><br><a href="mailto:adam.caveconsult@gmail.com">adam.caveconsult@gmail.com</a></div></li>
+    </ul>
+    <a class="btn btn--wa" href="https://wa.me/60123947200"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>WhatsApp Chat</a>
+  </div>
+
+  <div class="panel" id="borang">
+    <h2 class="section-title">Hantar Mesej</h2>
+    {{if not .Data.Thanks}}
+    <form class="form" method="post" action="/hubungi-kami" novalidate>
+      <div class="form__trap" aria-hidden="true"><label>Laman web <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <div class="field{{if .Data.Err.name}} field--error{{end}}">
+        <label for="name">Nama</label>
+        <input id="name" name="name" type="text" autocomplete="name" maxlength="100" required value="{{.Data.V.name}}"{{if .Data.Err.name}} aria-invalid="true" aria-describedby="name-err"{{end}}>
+        {{with .Data.Err.name}}<p class="field__error" id="name-err">{{.}}</p>{{end}}
+      </div>
+      <div class="field{{if .Data.Err.email}} field--error{{end}}">
+        <label for="email">E-mel</label>
+        <input id="email" name="email" type="email" autocomplete="email" maxlength="254" required value="{{.Data.V.email}}"{{if .Data.Err.email}} aria-invalid="true" aria-describedby="email-err"{{end}}>
+        {{with .Data.Err.email}}<p class="field__error" id="email-err">{{.}}</p>{{end}}
+      </div>
+      <div class="field{{if .Data.Err.message}} field--error{{end}}">
+        <label for="message">Mesej</label>
+        <textarea id="message" name="message" rows="5" maxlength="2000" required{{if .Data.Err.message}} aria-invalid="true" aria-describedby="message-err"{{end}}>{{.Data.V.message}}</textarea>
+        {{with .Data.Err.message}}<p class="field__error" id="message-err">{{.}}</p>{{end}}
+      </div>
+      <button class="btn btn--primary" type="submit">Hantar Mesej {{template "arrow"}}</button>
+    </form>
+    {{end}}
+  </div>
+</section>
+{{end}}
