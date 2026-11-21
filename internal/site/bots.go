@@ -2,16 +2,28 @@ package site
 
 import "net/http"
 
-// Bot is one of the three NLP chatbots. Slug is the URL segment.
+// Bot is one of the three NLP chatbots. Slug is the URL segment, Name the
+// short name ("Educators"); the full title is "NLP Bot " + Name. Desc, Image,
+// Icon (symbol id in partials.html) and CTA are for the landing page cards.
 type Bot struct {
-	Slug string
-	Name string
+	Slug  string
+	Name  string
+	Desc  string
+	Image string
+	Icon  string
+	CTA   string
 }
 
 var bots = []Bot{
-	{Slug: "educators", Name: "Educators"},
-	{Slug: "sales-marketing", Name: "Sales & Marketing"},
-	{Slug: "hr", Name: "HR & People Management"},
+	{Slug: "educators", Name: "Educators",
+		Desc:  "Sokongan AI untuk guru dalam komunikasi, pengurusan kelas, motivasi dan kesejahteraan diri.",
+		Image: "bot-educators.jpg", Icon: "i-mortarboard", CTA: "Terokai Educators Bot"},
+	{Slug: "sales-marketing", Name: "Sales & Marketing",
+		Desc:  "Bantu tingkatkan kemahiran komunikasi, pengaruh, rundingan dan pencapaian jualan.",
+		Image: "bot-sales-marketing.jpg", Icon: "i-target", CTA: "Terokai Sales & Marketing Bot"},
+	{Slug: "hr", Name: "HR & People Management",
+		Desc:  "Sokongan untuk pengurusan manusia, motivasi, prestasi, konflik dan pembangunan pasukan.",
+		Image: "bot-hr.jpg", Icon: "i-users", CTA: "Terokai HR Bot"},
 }
 
 func findBot(slug string) (Bot, bool) {
@@ -24,7 +36,7 @@ func findBot(slug string) (Bot, bool) {
 }
 
 func (s *Server) botsLanding(w http.ResponseWriter, r *http.Request) {
-	s.render(w, "stub", Page{Title: "AI NLP Bots", Nav: "bots", Crumb: "AI NLP Bots"})
+	s.render(w, "bots", Page{Title: "AI NLP Bots", Nav: "bots", Crumb: "AI NLP Bots", CSS: []string{"bots"}, Data: bots})
 }
 
 func (s *Server) botPage(w http.ResponseWriter, r *http.Request) {
