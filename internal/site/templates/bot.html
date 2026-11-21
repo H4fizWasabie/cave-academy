@@ -1,0 +1,70 @@
+{{/* One bot's page: the intro and sign-up card when logged out, the chat when logged in. Page.Data is botView (bots.go). */}}
+{{define "content"}}
+{{with .Data}}
+<section class="bot{{if .LoggedIn}} bot--chat{{end}}">
+  <div class="container">
+    {{template "breadcrumb" $}}
+    {{if .LoggedIn}}
+    <div class="chat" data-chat>
+      <header class="chat__head">
+        <span class="chat__avatar"><svg class="icon" aria-hidden="true"><use href="#{{.Bot.Icon}}"/></svg></span>
+        <div class="chat__who">
+          <h1 class="chat__title">NLP Bot {{.Bot.Name}}</h1>
+          <p class="chat__status">Bot AI. Bukan manusia.</p>
+        </div>
+        {{if .Free}}<p class="chat__count" data-count data-limit="{{.Limit}}">Baki soalan hari ini: {{.Remaining}}/{{.Limit}}</p>{{end}}
+      </header>
+
+      <div class="chat__log" role="log" aria-live="polite" aria-label="Perbualan" data-log>
+        <div class="msg msg--assistant"><div class="msg__body">Hai! Saya NLP Bot {{.Bot.Name}}. {{.Bot.Desc}} Tanya saya apa-apa soalan.</div></div>
+        {{range .Messages}}<div class="msg msg--{{.Role}}"><div class="msg__body">{{.Body}}</div></div>
+        {{end}}<div id="terkini"></div>
+      </div>
+
+      <div class="chat__foot">
+        {{if .Error}}<p class="chat__error" role="alert">{{.Error}}</p>{{end}}
+        {{if not .Messages}}<div class="chat__chips" data-chips hidden>
+          {{range .Bot.Examples}}<button class="chip" type="button" data-example>{{.}}</button>
+          {{end}}
+        </div>{{end}}
+        <form class="chat__form" method="post" action="/ai-nlp-bots/{{.Bot.Slug}}" data-chat-form>
+          <label class="sr-only" for="chat-input">Soalan anda</label>
+          <textarea id="chat-input" name="message" rows="1" maxlength="1000" placeholder="Taip soalan anda di sini..." required>{{.Draft}}</textarea>
+          <button class="chat__send" type="submit" aria-label="Hantar soalan">
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M21 3 10.5 13.5M21 3l-6.5 18-4-7.5L3 9.5z"/></svg>
+          </button>
+        </form>
+        <p class="chat__note">Jawapan AI mungkin tidak tepat dan bukan nasihat perubatan, undang-undang atau kewangan.</p>
+      </div>
+    </div>
+    {{else}}
+    <div class="bot__intro">
+      <div class="bot__media"><img src="/static/img/{{.Bot.Image}}" alt="" width="320" height="200"></div>
+      <div class="bot__about">
+        <h1 class="bot__title"><svg class="icon" aria-hidden="true"><use href="#{{.Bot.Icon}}"/></svg>NLP Bot {{.Bot.Name}}</h1>
+        <p class="bot__desc">{{.Bot.Desc}}</p>
+      </div>
+    </div>
+
+    <section class="bot__examples" aria-labelledby="contoh-soalan">
+      <h2 class="section-title" id="contoh-soalan">Contoh soalan</h2>
+      <ul class="bot__questions">
+        {{range .Bot.Examples}}<li>{{.}}</li>
+        {{end}}
+      </ul>
+    </section>
+
+    <div class="bot__signup">
+      <h2 class="bot__signup-title">Daftar percuma untuk bertanya 3 soalan sehari</h2>
+      <p>Log masuk atau daftar akaun percuma untuk berbual dengan NLP Bot {{.Bot.Name}}.</p>
+      <div class="bot__signup-actions">
+        <a class="btn btn--primary" href="/daftar?next={{.Next}}">Daftar Percuma</a>
+        <a class="btn btn--outline" href="/log-masuk?next={{.Next}}">Log Masuk</a>
+      </div>
+    </div>
+    {{end}}
+  </div>
+</section>
+{{end}}
+{{end}}
+{{define "head"}}{{if .User}}<script src="/static/js/chat.js" defer></script>{{end}}{{end}}
