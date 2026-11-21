@@ -22,7 +22,7 @@
 .bots-checks li {
   display: flex; align-items: center; gap: 6px; padding: 5px 8px 5px 5px; max-width: 100%;
   background: rgba(255, 255, 255, .96); border-radius: var(--r-pill); box-shadow: var(--shadow-sm);
-  font: 600 10px/1.25 var(--font-head); color: var(--navy);
+  font: 600 11px/1.25 var(--font-head); color: var(--navy);
 }
 .bots-checks li:nth-child(1) { margin-left: 6px; }
 .bots-checks li:nth-child(4) { margin-left: 4px; }
@@ -33,14 +33,14 @@
 
 /* Five-up strips stay on one row even on phones, as in the mockup. */
 .bots-hero ~ section .features { flex-wrap: nowrap; padding: 8px 2px; margin-top: 6px; background: var(--white); box-shadow: var(--shadow-md); border: 1px solid #eef0f6; }
-.bots-hero ~ section .feature { flex: 1 1 0; min-width: 0; padding: 4px 3px; gap: 5px; font-size: 10px; line-height: 1.25; }
+.bots-hero ~ section .feature { flex: 1 1 0; min-width: 0; padding: 4px 3px; gap: 5px; font-size: 11px; line-height: 1.25; }
 .bots-hero ~ section .feature .icon { width: 28px; height: 28px; }
 .bots-hero ~ section .feature + .feature { border-left: 1px solid var(--line); }
 .bots-hero ~ section .features.features--plain { background: none; box-shadow: none; border: 0; margin-top: 8px; padding-block: 0; }
 
 .bots-list { margin-top: 20px; }
 .bots-list__head .section-title, .bots-help .section-title { font-size: 16px; gap: 10px; }
-.bots-note { margin-top: 4px; font-size: 10.5px; color: var(--navy-soft); }
+.bots-note { margin-top: 4px; font-size: 11px; color: var(--navy-soft); }
 .bots-note a { font-weight: 700; color: var(--navy); text-decoration: underline; text-decoration-color: var(--gold-deep); text-underline-offset: 3px; }
 .bots-help { margin-top: 18px; }
 .bots-cta { margin-top: 16px; }
@@ -91,8 +91,8 @@
 }
 .bots-cta .cta-banner__icon { width: 32px; height: 32px; }
 .bots-cta .cta-banner__title { font-size: 11px; line-height: 1.25; padding-left: 7px; border-left: 2px solid var(--gold); }
-.bots-cta .cta-banner__text { font-size: 9.5px; line-height: 1.3; padding-left: 7px; border-left: 2px solid var(--gold); }
-.bots-cta .cta-banner .btn { justify-self: stretch; padding: 8px 4px; font-size: 10.5px; gap: 4px; text-align: center; border-width: 1.5px; }
+.bots-cta .cta-banner__text { font-size: 11px; line-height: 1.3; padding-left: 7px; border-left: 2px solid var(--gold); }
+.bots-cta .cta-banner .btn { justify-self: stretch; padding: 8px 4px; font-size: 11px; gap: 4px; text-align: center; border-width: 1.5px; }
 .bots-cta .cta-banner .btn .icon { font-size: 13px; }
 @media (min-width: 640px) {
   .bots-cta .cta-banner { grid-template-columns: auto minmax(0, 1.3fr) minmax(0, 1fr) 130px; gap: 0 18px; padding: 16px 24px; }

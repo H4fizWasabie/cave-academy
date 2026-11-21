@@ -19,7 +19,7 @@
 .corp-hero .hero__title { border: 0; padding: 0; font-size: clamp(20px, 5.6vw, 34px); line-height: 1.08; text-wrap: balance; }
 .corp-hero .hero__sub { margin-top: 6px; font-size: 11px; line-height: 1.35; max-width: 16em; }
 .corp-hero .hero__actions { flex-direction: column; align-items: flex-start; gap: 6px; margin-top: 10px; padding: 0; }
-.corp-hero .btn { padding: 6px 13px; font-size: 10px; gap: 6px; white-space: nowrap; }
+.corp-hero .btn { padding: 6px 13px; font-size: 11px; gap: 6px; white-space: nowrap; }
 .corp-hero .btn .icon { width: 14px; height: 14px; }
 
 /* ---------- Page wrapper: tighter side padding on phones, like the mockup ---------- */
@@ -30,7 +30,7 @@
   flex-wrap: nowrap; margin-top: 6px; padding: 10px 2px; background: var(--white);
   border-radius: 14px; box-shadow: var(--shadow-md);
 }
-.corp-features .feature { flex: 1 1 0; min-width: 0; gap: 5px; padding: 4px 2px; font: 500 8.5px/1.3 var(--font-head); color: var(--navy-soft); }
+.corp-features .feature { flex: 1 1 0; min-width: 0; gap: 5px; padding: 4px 2px; font: 500 11px/1.3 var(--font-head); color: var(--navy-soft); }
 .corp-features .feature + .feature { border-left: 1px solid var(--line); }
 .corp-features .feature b { font-weight: 700; color: var(--navy); }
 .corp-features .feature .icon { width: 26px; height: 26px; }
@@ -49,14 +49,14 @@
 .area__img { width: 100%; height: auto; aspect-ratio: 1.9; object-fit: cover; }
 .area__label {
   position: relative; flex: 1; display: flex; align-items: center; gap: 4px;
-  padding: 6px 4px 7px; font: 600 7.5px/1.25 var(--font-head); color: var(--navy); letter-spacing: -.01em;
+  padding: 6px 4px 7px; font: 600 11px/1.25 var(--font-head); color: var(--navy); letter-spacing: -.01em;
 }
 .area__label::before {
   content: ""; position: absolute; left: 0; bottom: 100%; width: 42%; height: 9px;
   background: var(--gold-grad); clip-path: polygon(0 0, 100% 100%, 0 100%);
 }
 .area__label .icon { width: 17px; height: 17px; color: #2d4fb5; stroke-width: 1.9; }
-.corp-all { display: flex; width: fit-content; margin: 14px auto 0; padding: 6px 18px; font-size: 10px; }
+.corp-all { display: flex; width: fit-content; margin: 14px auto 0; padding: 6px 18px; font-size: 11px; }
 .corp-all .icon { width: 14px; height: 14px; }
 
 .steps { display: grid; padding: 0; list-style: none; grid-template-columns: repeat(4, 1fr); gap: 11px; margin-top: 12px; counter-reset: none; }
@@ -64,7 +64,7 @@
   position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
   padding: 12px 1px; text-align: center;
   background: var(--white); border: 1px solid #eef0f6; border-radius: 10px; box-shadow: var(--shadow-md);
-  font: 600 7.5px/1.3 var(--font-head); color: var(--navy); letter-spacing: -.01em;
+  font: 600 11px/1.3 var(--font-head); color: var(--navy); letter-spacing: -.01em;
 }
 .step .icon { width: 22px; height: 22px; color: var(--navy); }
 .step:not(:last-child)::after {
@@ -80,8 +80,8 @@
 }
 .corp-cta .cta-banner__icon { width: 34px; height: 34px; padding-right: 10px; box-sizing: content-box; border-right: 2px solid var(--gold); }
 .corp-cta .cta-banner__title { font-size: 12px; align-self: end; }
-.corp-cta .cta-banner__text { font-size: 8.5px; line-height: 1.35; align-self: start; }
-.corp-cta .cta-banner .btn { justify-self: end; padding: 8px 11px; font-size: 9.5px; gap: 5px; white-space: nowrap; }
+.corp-cta .cta-banner__text { font-size: 11px; line-height: 1.35; align-self: start; }
+.corp-cta .cta-banner .btn { justify-self: end; padding: 8px 11px; font-size: 11px; gap: 5px; white-space: nowrap; }
 .corp-cta .cta-banner .btn .icon { width: 12px; height: 12px; }
 
 /* ---------- RFQ form ---------- */
@@ -118,7 +118,7 @@
 .rfq__thanks .btn { margin-top: 6px; }
 
 @media (max-width: 359px) {
-  .area__label { font-size: 6.5px; }
+  .area__label { font-size: 11px; }
   .corp-cta .cta-banner { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "icon title" "icon text" "btn btn"; gap: 2px 10px; }
   .corp-cta .cta-banner .btn { justify-self: stretch; margin-top: 8px; }
 }
@@ -127,15 +127,15 @@
   .corp-hero .hero__title { font-size: clamp(24px, 5.6vw, 34px); }
   .corp-hero .hero__sub { font-size: 13px; }
   .corp-hero .btn { padding: 10px 18px; font-size: 13px; }
-  .corp-features .feature { font-size: 10.5px; }
+  .corp-features .feature { font-size: 11px; }
   .corp-features .feature .icon { width: 30px; height: 30px; }
   .corp-wrap .section-title { font-size: 19px; }
-  .area__label { font-size: 9.5px; padding: 8px 6px 9px; gap: 5px; }
+  .area__label { font-size: 11px; padding: 8px 6px 9px; gap: 5px; }
   .area__label .icon { width: 18px; height: 18px; }
   .area__label::before { height: 12px; }
   .corp-all { font-size: 12px; padding: 8px 20px; }
   .steps { gap: 16px; }
-  .step { font-size: 9.5px; padding: 12px 2px; }
+  .step { font-size: 11px; padding: 12px 2px; }
   .step .icon { width: 28px; height: 28px; }
   .step:not(:last-child)::after { left: calc(100% + 4px); width: 8px; height: 12px; }
   .corp-cta .cta-banner { padding: 14px 16px; gap: 3px 14px; }

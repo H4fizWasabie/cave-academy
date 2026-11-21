@@ -39,7 +39,7 @@
 
 /* ---------- Feature strip: five across, icon over label on the phone ---------- */
 .produk-strip .features { flex-wrap: nowrap; margin-top: 14px; padding: 10px 2px; }
-.produk-strip .feature { flex: 1 1 0; min-width: 0; gap: 5px; padding: 4px 2px; font-size: 9.5px; line-height: 1.25; }
+.produk-strip .feature { flex: 1 1 0; min-width: 0; gap: 5px; padding: 4px 2px; font-size: 11px; line-height: 1.25; }
 .produk-strip .feature .icon { width: 28px; height: 28px; }
 .produk-strip .feature + .feature { border-left: 1px solid var(--line); }
 
@@ -193,7 +193,7 @@
   .pprods { gap: 8px; }
   .pprod__body { padding-inline: 4px; }
   .pprod__name { font-size: 11.5px; }
-  .pprod__desc { font-size: 10.5px; }
+  .pprod__desc { font-size: 11px; }
   .produk-why { display: flex; align-items: center; gap: 24px; }
   .produk-why .why { flex: 1; margin-top: 0; }
   .produk-why .section-title { font-size: 17px; flex: 0 1 290px; }
