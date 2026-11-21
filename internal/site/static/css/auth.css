@@ -14,17 +14,21 @@
 }
 .nav__logout:hover { background: var(--pale-yellow); }
 
-@media (min-width: 1100px) {
-  .nav__user { padding: 0; border: 0; font-size: 14px; }
+@media (min-width: 1280px) {
+  .nav__user { padding: 0; border: 0; font-size: 14px; gap: 8px; }
+  /* a long first name must not push the WhatsApp button off screen */
+  .nav__user span { max-width: 5.5em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nav__logout { padding: 4px 10px; font-size: 12px; white-space: nowrap; }
   /* one more item in the nav: keep labels on one line, tighten the gaps */
   .nav__list { gap: 16px; }
   .header__bar { gap: 12px; }
   .nav__list > li > a { white-space: nowrap; }
 }
 
-@media (min-width: 1100px) and (max-width: 1199px) {
-  .nav__list { gap: 11px; }
-  .nav__list > li > a, .nav__user { font-size: 13px; }
+/* Logged in: the extra account item needs room, so the buttons lose their icons. */
+@media (min-width: 1280px) {
+  .has-user .nav__list { gap: 12px; }
+  .has-user .header__actions .btn .icon { display: none; }
 }
 
 /* Auth pages */
