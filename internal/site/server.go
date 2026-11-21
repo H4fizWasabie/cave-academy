@@ -28,6 +28,7 @@ type Server struct {
 	mailer    *Mailer
 	templates map[string]*template.Template
 	mux       *http.ServeMux
+	chat      chatOpts // chat.go; the zero value is production
 }
 
 // Page is the data every template receives as ".". Handlers fill it in;
