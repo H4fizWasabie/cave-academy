@@ -156,19 +156,3 @@ func (f rfqForm) validate() (errs map[string]string, participants int) {
 	}
 	return errs, participants
 }
-
-// validPhone accepts digits with spaces, dashes, brackets and a plus
-// (8 to 15 digits), e.g. "012-394 7200" or "+60 12-394 7200".
-func validPhone(p string) bool {
-	digits := 0
-	for _, r := range p {
-		switch {
-		case r >= '0' && r <= '9':
-			digits++
-		case strings.ContainsRune(" -+()", r):
-		default:
-			return false
-		}
-	}
-	return digits >= 8 && digits <= 15
-}
