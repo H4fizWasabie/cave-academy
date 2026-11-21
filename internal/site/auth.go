@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"encoding/hex"
 	"net/http"
-	"net/mail"
 	"net/url"
 	"strings"
 	"time"
@@ -248,8 +247,3 @@ func orDefault(next string) string {
 }
 
 func normalizeEmail(e string) string { return strings.ToLower(strings.TrimSpace(e)) }
-
-func validEmail(e string) bool {
-	a, err := mail.ParseAddress(e)
-	return err == nil && a.Address == e
-}

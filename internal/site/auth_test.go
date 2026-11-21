@@ -10,7 +10,7 @@ import (
 )
 
 // post sends a form POST to path, with the given cookies and extra headers.
-func post(t *testing.T, s *Server, path string, form url.Values, cookies []*http.Cookie, hdr ...string) *httptest.ResponseRecorder {
+func authPost(t *testing.T, s *Server, path string, form url.Values, cookies []*http.Cookie, hdr ...string) *httptest.ResponseRecorder {
 	t.Helper()
 	req := httptest.NewRequest(http.MethodPost, path, strings.NewReader(form.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
@@ -41,7 +41,7 @@ func signupForm(email string) url.Values {
 // signUp registers a user and returns the session cookie.
 func signUp(t *testing.T, s *Server, email string) *http.Cookie {
 	t.Helper()
-	rec := post(t, s, "/daftar", signupForm(email), nil)
+	rec := authPost(t, s, "/daftar", signupForm(email), nil)
 	c := sessionOf(rec)
 	if rec.Code != http.StatusSeeOther || c == nil {
 		t.Fatalf("signup = %d, cookie %v", rec.Code, c)
@@ -61,7 +61,7 @@ func request(s *Server, path string, cookies ...*http.Cookie) *httptest.Response
 
 func TestSignupCreatesUserAndSession(t *testing.T) {
 	s := newTestServer(t)
-	rec := post(t, s, "/daftar", signupForm("  Siti@Example.COM "), nil)
+	rec := authPost(t, s, "/daftar", signupForm("  Siti@Example.COM "), nil)
 	if rec.Code != http.StatusSeeOther || rec.Header().Get("Location") != "/ai-nlp-bots" {
 		t.Fatalf("signup = %d -> %q, want 303 -> /ai-nlp-bots", rec.Code, rec.Header().Get("Location"))
 	}
@@ -97,7 +97,7 @@ func (s *Server) currentUserFromCookie(t *testing.T, c *http.Cookie) *User {
 
 func TestSignupCookieSecureBehindHTTPS(t *testing.T) {
 	s := newTestServer(t)
-	rec := post(t, s, "/daftar", signupForm("a@b.my"), nil, "X-Forwarded-Proto", "https")
+	rec := authPost(t, s, "/daftar", signupForm("a@b.my"), nil, "X-Forwarded-Proto", "https")
 	if c := sessionOf(rec); c == nil || !c.Secure {
 		t.Errorf("cookie = %+v, want Secure", c)
 	}
@@ -113,7 +113,7 @@ func TestSignupErrorsKeepValuesNeverPassword(t *testing.T) {
 		"Sila masukkan emel yang sah": {"name": {"Ali"}, "email": {"bukan-emel"}, "password": {"rahsia123"}},
 	}
 	for want, form := range cases {
-		rec := post(t, s, "/daftar", form, nil)
+		rec := authPost(t, s, "/daftar", form, nil)
 		body := rec.Body.String()
 		if rec.Code != http.StatusUnprocessableEntity || !strings.Contains(body, want) {
 			t.Errorf("%q: code %d, body missing message", want, rec.Code)
@@ -139,7 +139,7 @@ func TestLogin(t *testing.T) {
 	s := newTestServer(t)
 	signUp(t, s, "siti@example.com")
 
-	rec := post(t, s, "/log-masuk", url.Values{"email": {" SITI@example.com"}, "password": {"rahsia123"}}, nil)
+	rec := authPost(t, s, "/log-masuk", url.Values{"email": {" SITI@example.com"}, "password": {"rahsia123"}}, nil)
 	if rec.Code != http.StatusSeeOther || sessionOf(rec) == nil || s.currentUserFromCookie(t, sessionOf(rec)) == nil {
 		t.Fatalf("login = %d, cookie %v", rec.Code, sessionOf(rec))
 	}
@@ -148,7 +148,7 @@ func TestLogin(t *testing.T) {
 		{"email": {"siti@example.com"}, "password": {"salah-salah"}},
 		{"email": {"tiada@example.com"}, "password": {"rahsia123"}},
 	} {
-		rec := post(t, s, "/log-masuk", form, nil)
+		rec := authPost(t, s, "/log-masuk", form, nil)
 		body := rec.Body.String()
 		if rec.Code != http.StatusUnauthorized || !strings.Contains(body, "Emel atau kata laluan tidak betul") ||
 			!strings.Contains(body, form.Get("email")) || strings.Contains(body, form.Get("password")) || sessionOf(rec) != nil {
@@ -161,7 +161,7 @@ func TestLogoutDeletesSessionAndCookie(t *testing.T) {
 	s := newTestServer(t)
 	c := signUp(t, s, "siti@example.com")
 
-	rec := post(t, s, "/log-keluar", url.Values{}, []*http.Cookie{c})
+	rec := authPost(t, s, "/log-keluar", url.Values{}, []*http.Cookie{c})
 	if rec.Code != http.StatusSeeOther || rec.Header().Get("Location") != "/" {
 		t.Fatalf("logout = %d -> %q", rec.Code, rec.Header().Get("Location"))
 	}
@@ -200,7 +200,7 @@ func TestNextRedirectIsLocalOnly(t *testing.T) {
 		i++
 		form := signupForm(fmt.Sprintf("u%d@example.com", i))
 		form.Set("next", next)
-		rec := post(t, s, "/daftar", form, nil)
+		rec := authPost(t, s, "/daftar", form, nil)
 		if got := rec.Header().Get("Location"); got != want {
 			t.Errorf("next %q -> %q, want %q", next, got, want)
 		}
@@ -208,11 +208,11 @@ func TestNextRedirectIsLocalOnly(t *testing.T) {
 	// next survives a failed login and is passed on by a good one.
 	signUp(t, s, "siti@example.com")
 	form := url.Values{"email": {"siti@example.com"}, "password": {"rahsia123"}, "next": {"/produk-digital"}}
-	if loc := post(t, s, "/log-masuk", form, nil).Header().Get("Location"); loc != "/produk-digital" {
+	if loc := authPost(t, s, "/log-masuk", form, nil).Header().Get("Location"); loc != "/produk-digital" {
 		t.Errorf("login next = %q", loc)
 	}
 	form.Set("password", "salah-salah")
-	if body := post(t, s, "/log-masuk", form, nil).Body.String(); !strings.Contains(body, `name="next" value="/produk-digital"`) {
+	if body := authPost(t, s, "/log-masuk", form, nil).Body.String(); !strings.Contains(body, `name="next" value="/produk-digital"`) {
 		t.Error("failed login lost next")
 	}
 }
@@ -252,11 +252,11 @@ func TestRequireUserRedirectsToLogin(t *testing.T) {
 
 func TestPostFromOtherOriginIsRejected(t *testing.T) {
 	s := newTestServer(t)
-	rec := post(t, s, "/daftar", signupForm("a@b.my"), nil, "Origin", "https://evil.example")
+	rec := authPost(t, s, "/daftar", signupForm("a@b.my"), nil, "Origin", "https://evil.example")
 	if rec.Code != http.StatusForbidden || sessionOf(rec) != nil {
 		t.Errorf("cross-origin POST = %d", rec.Code)
 	}
-	rec = post(t, s, "/daftar", signupForm("a@b.my"), nil, "Origin", "http://example.com") // httptest host
+	rec = authPost(t, s, "/daftar", signupForm("a@b.my"), nil, "Origin", "http://example.com") // httptest host
 	if rec.Code != http.StatusSeeOther {
 		t.Errorf("same-origin POST = %d", rec.Code)
 	}
