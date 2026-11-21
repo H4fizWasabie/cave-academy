@@ -1,0 +1,17 @@
+# Installed to /etc/caddy/sites/ by deploy/staging.sh.
+# ponytail: sslip.io hostname until caveacademy.my has DNS; then switch to staging.caveacademy.my.
+cave-academy.13-140-65-183.sslip.io {
+	bind 13.140.65.183
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		X-Robots-Tag "noindex, nofollow"
+	}
+	encode zstd gzip
+	# The same staging login as cave LMS staging; the file lives only on the VPS.
+	basic_auth {
+		import /etc/caddy/cave-lms-staging-login
+	}
+	reverse_proxy 127.0.0.1:8096
+}

@@ -18,3 +18,11 @@ To give a user unlimited chat (until paid plans land): `sqlite3 cave-academy.db 
 ```bash
 ./test.sh
 ```
+
+## Staging
+
+```bash
+deploy/staging.sh
+```
+
+From a clean, pushed `main`. Builds a Linux binary, installs it on the VPS as `cave-academy-staging` (systemd, port 8096) behind Caddy at https://cave-academy.13-140-65-183.sslip.io/ (the cave LMS staging login guards it, `noindex`). Secrets live only in `/etc/cave-academy/staging.env` on the VPS (`OPENROUTER_API_KEY`, later `RESEND_API_KEY` and `MAIL_FROM`); after editing it, `systemctl restart cave-academy-staging`. Without `RESEND_API_KEY`, form emails go to `journalctl -u cave-academy-staging`.
