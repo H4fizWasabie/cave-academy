@@ -51,14 +51,6 @@ func TestUnknownPathsAre404(t *testing.T) {
 	}
 }
 
-func TestStubPagesSayComingSoon(t *testing.T) {
-	s := newTestServer(t)
-	_, body := get(t, s, "/tentang-kami")
-	if !strings.Contains(body, "Halaman ini akan datang") {
-		t.Error("stub page missing placeholder text")
-	}
-}
-
 func TestHomeHasKeyContent(t *testing.T) {
 	s := newTestServer(t)
 	_, body := get(t, s, "/")

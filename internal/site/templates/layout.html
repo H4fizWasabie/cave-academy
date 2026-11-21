@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&display=swap">
 <link rel="stylesheet" href="/static/css/base.css">
+<link rel="stylesheet" href="/static/css/auth.css">
 {{range .CSS}}<link rel="stylesheet" href="/static/css/{{.}}.css">
 {{end}}{{block "head" .}}{{end}}
 <script src="/static/js/site.js" defer></script>
@@ -52,6 +53,8 @@
         </li>
         <li><a href="/produk-digital"{{if eq .Nav "produk"}} aria-current="page"{{end}}>Produk Digital</a></li>
         <li><a href="/tentang-kami"{{if eq .Nav "tentang"}} aria-current="page"{{end}}>Tentang Kami</a></li>
+        {{if .User}}<li class="nav__user"><span>{{.User.FirstName}}</span><form method="post" action="/log-keluar"><button class="nav__logout" type="submit">Log Keluar</button></form></li>
+        {{else}}<li><a class="nav__login" href="/log-masuk">Log Masuk</a></li>{{end}}
       </ul>
     </nav>
 
@@ -99,7 +102,7 @@
         <li><a href="/trainer-panel">Trainer Panel</a></li>
         <li><a href="/tentang-kami">Tentang Kami</a></li>
         <li><a href="/hubungi-kami">Hubungi Kami</a></li>
-        <li><a href="/log-masuk">Log Masuk</a></li>
+        {{if not .User}}<li><a href="/log-masuk">Log Masuk</a></li>{{end}}
       </ul>
     </div>
   </div>
