@@ -1,0 +1,142 @@
+{{define "corp-icons"}}<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="c-target" viewBox="0 0 24 24"><circle cx="11" cy="13" r="8"/><circle cx="11" cy="13" r="4.2"/><circle cx="11" cy="13" r="1" style="fill:currentColor"/><path d="M12 12l8-8M17 3h4v4" style="stroke:var(--accent,currentColor)"/></symbol>
+  <symbol id="c-chat" viewBox="0 0 24 24"><path d="M4 5h11a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H9l-4 3v-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M8 12h5M7 8.5h8" style="stroke:var(--accent,currentColor)"/><path d="M19 9h1a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2v3l-3.5-3H12"/></symbol>
+  <symbol id="c-clipboard" viewBox="0 0 24 24"><rect x="4.5" y="4.5" width="15" height="17" rx="2.5"/><path d="M9 4.5V3h6v1.5M8 9.5h8M8 13h4"/><path d="M13 17.5l2 2 4-4" style="stroke:var(--accent,currentColor)"/></symbol>
+  <symbol id="c-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5l1.6 2.4 2.8-.7.7 2.8 2.8.7-.7 2.8L21.5 12l-2.4 1.6.7 2.8-2.8.7-.7 2.8-2.8-.7L12 21.5l-1.6-2.4-2.8.7-.7-2.8-2.8-.7.7-2.8L2.5 12l2.4-1.6-.7-2.8 2.8-.7.7-2.8 2.8.7z"/></symbol>
+  <symbol id="c-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9.5 15v-4.5a2.5 2.5 0 0 1 5 0V15M9.5 13h5" style="stroke:var(--accent,currentColor)"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></symbol>
+</svg>{{end}}
+
+{{define "rfq-error"}}{{with .}}<p class="rfq__error" role="alert">{{.}}</p>{{end}}{{end}}
+
+{{define "content"}}
+{{template "corp-icons"}}
+{{$e := .Data.Errors}}
+<section class="hero corp-hero">
+  <div class="container hero__inner">
+    <div class="hero__text">
+      {{template "breadcrumb" .}}
+      <h1 class="hero__title">Corporate Training &amp; <span class="gold">RFQ</span></h1>
+      <p class="hero__sub">Program latihan berimpak tinggi untuk organisasi, jabatan dan agensi.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#rfq"><svg class="icon" aria-hidden="true"><use href="#i-calendar-check"/></svg>Mohon Program / RFQ {{template "arrow"}}</a>
+        <a class="btn btn--outline" href="/tentang-kami"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Lihat Video Pengenalan (2 Minit)</a>
+      </div>
+    </div>
+  </div>
+  <img class="hero__img" src="/static/img/hero.jpg" alt="Jurulatih The Cave Academy di bilik latihan" width="710" height="248">
+</section>
+
+<section class="container">
+  <ul class="features corp-features">
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg><span>Trainer <br>Profesional</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#c-target"/></svg><span>Kandungan <br>Praktikal &amp; Relevan</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><span>Boleh Disesuaikan <br>(Customized)</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg><span>Berimpak Tinggi <br>&amp; Boleh Diukur</span></li>
+  </ul>
+</section>
+
+<div class="container corp-cols">
+  <section class="corp-areas" aria-labelledby="areas-title">
+    <h2 class="section-title" id="areas-title">Bidang Latihan Popular</h2>
+    <ul class="areas">
+      {{range .Data.Areas}}
+      <li class="area">
+        <img class="area__img" src="/static/img/{{.Image}}" alt="" loading="lazy">
+        <div class="area__label"><svg class="icon" aria-hidden="true"><use href="#{{.Icon}}"/></svg><span>{{.Name}}</span></div>
+      </li>
+      {{end}}
+    </ul>
+    <a class="btn btn--outline btn--sm corp-all" href="#rfq">Lihat Semua Program Latihan {{template "arrow"}}</a>
+  </section>
+
+  <section class="corp-process" aria-labelledby="process-title">
+    <h2 class="section-title" id="process-title">Proses Pelaksanaan Latihan</h2>
+    <ol class="steps">
+      <li class="step"><svg class="icon" aria-hidden="true"><use href="#c-chat"/></svg><span>1. Perbincangan <br>Keperluan</span></li>
+      <li class="step"><svg class="icon" aria-hidden="true"><use href="#c-clipboard"/></svg><span>2. Cadangan <br>Program</span></li>
+      <li class="step"><svg class="icon" aria-hidden="true"><use href="#i-calendar-check"/></svg><span>3. Pelaksanaan <br>Latihan</span></li>
+      <li class="step"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg><span>4. Penilaian <br>&amp; Impak</span></li>
+    </ol>
+  </section>
+</div>
+
+<section class="container corp-cta">
+  <div class="cta-banner">
+    <svg class="icon cta-banner__icon" aria-hidden="true"><use href="#c-clipboard"/></svg>
+    <h2 class="cta-banner__title">Mohon Sebut Harga (RFQ)</h2>
+    <p class="cta-banner__text">Dapatkan cadangan program latihan yang bersesuaian dengan keperluan organisasi anda.</p>
+    <a class="btn btn--navy" href="#rfq">Mohon Program / RFQ {{template "arrow"}}</a>
+  </div>
+</section>
+
+<section class="container rfq" id="rfq" aria-labelledby="rfq-title">
+  <div class="rfq__card">
+    <h2 class="section-title" id="rfq-title">Borang Permohonan Program / RFQ</h2>
+    {{if .Data.Sent}}
+    <div class="rfq__thanks" role="status">
+      <svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>
+      <h3>Terima kasih!</h3>
+      <p>Permintaan anda telah kami terima. Pasukan The Cave Academy akan menghubungi anda tidak lama lagi dengan cadangan program.</p>
+      <a class="btn btn--outline btn--sm" href="/corporate-training#rfq">Hantar permintaan lain</a>
+    </div>
+    {{else}}
+    <p class="rfq__intro">Isi butiran di bawah dan kami akan menghubungi anda dengan cadangan program dan sebut harga.</p>
+    {{if $e}}<p class="rfq__summary" role="alert">{{with $e.form}}{{.}}{{else}}Sila semak ruangan yang bertanda di bawah.{{end}}</p>{{end}}
+    <form class="rfq__form" method="post" action="/corporate-training#rfq">
+      <div class="rfq__field">
+        <label for="f-organisation">Nama organisasi</label>
+        <input id="f-organisation" name="organisation" type="text" required maxlength="200" autocomplete="organization" value="{{.Data.Form.Organisation}}"{{if $e.organisation}} aria-invalid="true"{{end}}>
+        {{template "rfq-error" $e.organisation}}
+      </div>
+      <div class="rfq__field">
+        <label for="f-contact">Nama untuk dihubungi</label>
+        <input id="f-contact" name="contact_name" type="text" required maxlength="200" autocomplete="name" value="{{.Data.Form.ContactName}}"{{if $e.contact_name}} aria-invalid="true"{{end}}>
+        {{template "rfq-error" $e.contact_name}}
+      </div>
+      <div class="rfq__field">
+        <label for="f-email">E-mel</label>
+        <input id="f-email" name="email" type="email" required maxlength="200" autocomplete="email" value="{{.Data.Form.Email}}"{{if $e.email}} aria-invalid="true"{{end}}>
+        {{template "rfq-error" $e.email}}
+      </div>
+      <div class="rfq__field">
+        <label for="f-phone">Nombor telefon</label>
+        <input id="f-phone" name="phone" type="tel" required maxlength="30" autocomplete="tel" value="{{.Data.Form.Phone}}"{{if $e.phone}} aria-invalid="true"{{end}}>
+        {{template "rfq-error" $e.phone}}
+      </div>
+      <div class="rfq__field">
+        <label for="f-area">Bidang latihan</label>
+        {{$sel := .Data.Form.TrainingArea}}
+        <select id="f-area" name="training_area" required{{if $e.training_area}} aria-invalid="true"{{end}}>
+          <option value="">Pilih bidang latihan</option>
+          {{range .Data.Areas}}<option value="{{.Name}}"{{if eq .Name $sel}} selected{{end}}>{{.Name}}</option>
+          {{end}}<option value="{{.Data.Other}}"{{if eq .Data.Other $sel}} selected{{end}}>{{.Data.Other}}</option>
+        </select>
+        {{template "rfq-error" $e.training_area}}
+      </div>
+      <div class="rfq__field">
+        <label for="f-participants">Bilangan peserta (anggaran)</label>
+        <input id="f-participants" name="participants" type="number" inputmode="numeric" min="1" max="100000" value="{{.Data.Form.Participants}}"{{if $e.participants}} aria-invalid="true"{{end}}>
+        {{template "rfq-error" $e.participants}}
+      </div>
+      <div class="rfq__field">
+        <label for="f-date">Tarikh pilihan</label>
+        <input id="f-date" name="preferred_date" type="date" value="{{.Data.Form.PreferredDate}}"{{if $e.preferred_date}} aria-invalid="true"{{end}}>
+        {{template "rfq-error" $e.preferred_date}}
+      </div>
+      <div class="rfq__field rfq__field--wide">
+        <label for="f-notes">Catatan</label>
+        <textarea id="f-notes" name="notes" rows="4" maxlength="2000" placeholder="Objektif latihan, lokasi, tempoh atau keperluan khas"{{if $e.notes}} aria-invalid="true"{{end}}>{{.Data.Form.Notes}}</textarea>
+        {{template "rfq-error" $e.notes}}
+      </div>
+      <div class="rfq__hp" aria-hidden="true">
+        <label for="f-website">Laman web (jangan isi)</label>
+        <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+      <div class="rfq__submit">
+        <button class="btn btn--primary" type="submit"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>Hantar Permintaan {{template "arrow"}}</button>
+      </div>
+    </form>
+    {{end}}
+  </div>
+</section>
+{{end}}
