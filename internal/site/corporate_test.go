@@ -51,7 +51,7 @@ func TestCorporatePageHasKeyContent(t *testing.T) {
 		"Corporate Training &amp; ", "RFQ", "Program latihan berimpak tinggi untuk organisasi, jabatan dan agensi.",
 		"Trainer", "Kandungan", "Boleh Disesuaikan", "Berimpak Tinggi",
 		"Bidang Latihan Popular", "Kepimpinan &amp; Pengurusan", "Keberkesanan Organisasi", "Pembangunan Pasukan", "AI, NLP &amp; Komunikasi Berimpak",
-		"Proses Pelaksanaan Latihan", "1. Perbincangan", "2. Cadangan", "3. Pelaksanaan", "4. Penilaian",
+		"Proses Pelaksanaan Latihan", "1.&nbsp;Perbincangan", "2.&nbsp;Cadangan", "3.&nbsp;Pelaksanaan", "4.&nbsp;Penilaian",
 		"Mohon Sebut Harga (RFQ)", `href="#rfq"`,
 		`id="rfq"`, `method="post"`, `action="/corporate-training#rfq"`,
 		`name="organisation"`, `name="contact_name"`, `name="email"`, `name="phone"`,

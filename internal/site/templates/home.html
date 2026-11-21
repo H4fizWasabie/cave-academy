@@ -1,4 +1,5 @@
 {{define "content"}}
+<div class="home">
 <section class="hero">
   <div class="container hero__inner">
     <div class="hero__text">
@@ -10,10 +11,14 @@
       </div>
     </div>
   </div>
-  <img class="hero__img" src="/static/img/hero.jpg" alt="Jurulatih The Cave Academy di lobi pejabat" width="710" height="248">
+  <picture>
+    <source media="(min-width: 1100px)" srcset="/static/img/hero.jpg" width="710" height="248">
+    <img class="hero__img" src="/static/img/home-hero-phone.jpg" alt="Jurulatih The Cave Academy di lobi pejabat" width="409" height="420">
+  </picture>
 </section>
 
-<section class="container">
+<section class="home-features">
+  <div class="container">
   <ul class="features">
     <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg><span>Latihan Praktikal<br>&amp; Berimpak</span></li>
     <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg><span>Rangkaian<br>Trainer Profesional</span></li>
@@ -21,6 +26,7 @@
     <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-laptop"/></svg><span>Akses Digital<br>24/7</span></li>
     <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg><span>Sesuai untuk Individu,<br>Pasukan &amp; Organisasi</span></li>
   </ul>
+  </div>
 </section>
 
 <section class="container home-solutions">
@@ -28,20 +34,23 @@
   <div class="cards">
     <article class="card">
       <div class="card__media"><img src="/static/img/solution-corporate.jpg" alt="" loading="lazy"></div>
-      <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#i-calendar-check"/></svg><h3>Corporate Training &amp; RFQ</h3></div>
-      <p class="card__text">Program latihan berimpak tinggi untuk organisasi, jabatan dan agensi.</p>
+      <svg class="icon card__icon" aria-hidden="true"><use href="#i-calendar-check"/></svg>
+      <div class="card__body"><h3>Corporate Training &amp; RFQ</h3>
+      <p class="card__text">Program latihan berimpak tinggi untuk organisasi, jabatan dan agensi.</p></div>
       <a class="card__cta" href="/corporate-training"><span>Mohon Program / RFQ</span> {{template "arrow"}}</a>
     </article>
     <article class="card">
       <div class="card__media"><img src="/static/img/solution-bots.jpg" alt="" loading="lazy"></div>
-      <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#i-robot"/></svg><h3>AI NLP Bots</h3></div>
-      <p class="card__text">Rakan AI berasaskan NLP untuk komunikasi, kepimpinan, pengurusan dan pembuatan keputusan.</p>
+      <svg class="icon card__icon" aria-hidden="true"><use href="#i-robot"/></svg>
+      <div class="card__body"><h3>AI NLP Bots</h3>
+      <p class="card__text">Rakan AI berasaskan NLP untuk komunikasi, kepimpinan, pengurusan dan pembuatan keputusan.</p></div>
       <a class="card__cta" href="/ai-nlp-bots"><span>Terokai AI NLP Bots</span> {{template "arrow"}}</a>
     </article>
     <article class="card">
       <div class="card__media"><img src="/static/img/solution-products.jpg" alt="" loading="lazy"></div>
-      <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><h3>Digital Products</h3></div>
-      <p class="card__text">Management game, workbook, eBook dan bahan latihan digital untuk pembelajaran berterusan.</p>
+      <svg class="icon card__icon" aria-hidden="true"><use href="#i-layers"/></svg>
+      <div class="card__body"><h3>Digital Products</h3>
+      <p class="card__text">Management game, workbook, eBook dan bahan latihan digital untuk pembelajaran berterusan.</p></div>
       <a class="card__cta" href="/produk-digital"><span>Lihat Produk Digital</span> {{template "arrow"}}</a>
     </article>
   </div>
@@ -55,4 +64,5 @@
     <a class="btn btn--navy" href="/trainer-panel">Daftar Sekarang {{template "arrow"}}</a>
   </div>
 </section>
+</div>
 {{end}}
