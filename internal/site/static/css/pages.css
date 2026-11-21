@@ -67,3 +67,7 @@
   .contact { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); align-items: start; gap: 24px; }
   .panel--form { max-width: 860px; margin-inline: auto; }
 }
+
+@media (max-width: 639px) {
+  .contact__list a { display: inline-flex; align-items: center; min-height: 40px; }
+}

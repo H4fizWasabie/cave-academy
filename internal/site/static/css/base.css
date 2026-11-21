@@ -105,7 +105,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   font: 800 14px/1 var(--font-head); color: var(--navy); letter-spacing: .01em;
   width: min-content; min-width: 6.4em;
 }
-.brand__tagline { font: 600 7.5px/1.25 var(--font-head); letter-spacing: .07em; color: var(--navy); max-width: 9.5em; }
+.brand__tagline { font: 600 9px/1.25 var(--font-head); letter-spacing: .07em; color: var(--navy); max-width: 9.5em; }
 .brand--light .brand__name, .brand--light .brand__tagline { color: var(--white); }
 
 .header__actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
@@ -341,8 +341,26 @@ ul { margin: 0; padding: 0; list-style: none; }
   .brand__logo { width: 52px; height: 52px; }
   .brand__text { padding-left: 10px; }
   .brand__name { font-size: 17px; }
-  .brand__tagline { font-size: 8px; }
+  .brand__tagline { font-size: 9px; }
   .header__bar { gap: 12px; }
   .header__actions { gap: 8px; }
   .header__actions .btn--sm { padding: 7px 12px; }
+}
+
+/* Very narrow phones (320px): tighten the header so the menu button stays on screen. */
+@media (max-width: 359px) {
+  .site-header .container { padding-inline: 8px; }
+  .header__bar, .header__actions { gap: 4px; }
+  .site-header .brand { gap: 6px; }
+  .site-header .brand__logo { width: 38px; height: 38px; }
+  .site-header .brand__text { padding-left: 7px; }
+  .header__actions .btn--outline { padding-inline: 6px; }
+}
+
+/* Phones: breadcrumb and footer links get a 40px tap target without moving the layout. */
+@media (max-width: 639px) {
+  .card__cta { width: 40px; height: 40px; }
+  .breadcrumb a { padding-block: 12px; margin-block: -12px; }
+  .footer__list { row-gap: 0; }
+  .footer__list a { display: flex; align-items: center; min-height: 40px; }
 }

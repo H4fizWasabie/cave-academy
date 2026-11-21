@@ -7,9 +7,20 @@
 .bots-hero .hero__title { font-size: clamp(23px, 6.6vw, 30px); padding-left: 9px; border-left-width: 3px; white-space: nowrap; }
 .bots-hero .hero__sub { font-size: 12.5px; line-height: 1.4; margin-top: 8px; font-weight: 600; }
 .bots-hero .hero__actions { flex-direction: column; align-items: stretch; width: calc(100% + 24px); gap: 7px; margin-top: 12px; }
-.bots-hero .hero__actions .btn { padding: 7px 10px; font-size: 11.5px; gap: 6px; justify-content: flex-start; white-space: nowrap; }
+.bots-hero .hero__actions .btn { padding: 7px 10px; min-height: 40px; font-size: 11.5px; gap: 6px; justify-content: flex-start; white-space: nowrap; }
 .bots-hero .hero__actions .btn .icon { font-size: 16px; }
 .bots-hero .hero__actions .btn--primary { justify-content: space-between; }
+
+/* Phones: title + text on the left, chips on the right, and the buttons on their own row below both,
+   so the chips never sit on top of a button. */
+@media (max-width: 479px) {
+  .bots-hero__grid { grid-template-columns: minmax(0, 1fr) 112px; grid-template-rows: auto 1fr auto; gap: 0 6px; margin: 4px 0 0; }
+  .bots-hero .hero__text { display: contents; }
+  .bots-hero .hero__title { grid-column: 1; grid-row: 1; align-self: start; }
+  .bots-hero .hero__sub { grid-column: 1; grid-row: 2; align-self: start; }
+  .bots-checks { grid-column: 2; grid-row: 1 / span 2; }
+  .bots-hero .hero__actions { grid-column: 1 / -1; grid-row: 3; width: auto; max-width: 290px; margin-top: 10px; }
+}
 
 .bots-hero__img { position: absolute; top: 0; right: 0; bottom: 0; width: 74%; }
 .bots-hero__img img {
@@ -22,7 +33,7 @@
 .bots-checks li {
   display: flex; align-items: center; gap: 6px; padding: 5px 8px 5px 5px; max-width: 100%;
   background: rgba(255, 255, 255, .96); border-radius: var(--r-pill); box-shadow: var(--shadow-sm);
-  font: 600 10px/1.25 var(--font-head); color: var(--navy);
+  font: 600 11px/1.25 var(--font-head); color: var(--navy);
 }
 .bots-checks li:nth-child(1) { margin-left: 6px; }
 .bots-checks li:nth-child(4) { margin-left: 4px; }
@@ -33,14 +44,21 @@
 
 /* Five-up strips stay on one row even on phones, as in the mockup. */
 .bots-hero ~ section .features { flex-wrap: nowrap; padding: 8px 2px; margin-top: 6px; background: var(--white); box-shadow: var(--shadow-md); border: 1px solid #eef0f6; }
-.bots-hero ~ section .feature { flex: 1 1 0; min-width: 0; padding: 4px 3px; gap: 5px; font-size: 10px; line-height: 1.25; }
+.bots-hero ~ section .feature { flex: 1 1 0; min-width: 0; padding: 4px 3px; gap: 5px; font-size: 11px; line-height: 1.25; }
 .bots-hero ~ section .feature .icon { width: 28px; height: 28px; }
 .bots-hero ~ section .feature + .feature { border-left: 1px solid var(--line); }
 .bots-hero ~ section .features.features--plain { background: none; box-shadow: none; border: 0; margin-top: 8px; padding-block: 0; }
+/* ...below 480px they go 3 + 2, centred, so no label is squeezed. */
+@media (max-width: 479px) {
+  .bots-hero ~ section .features { flex-wrap: wrap; justify-content: center; padding: 8px 4px; }
+  .bots-hero ~ section .feature { flex: 0 0 33.333%; padding: 8px 4px; }
+  .bots-hero ~ section .feature + .feature { border-left: 0; }
+  .bots-hero ~ section .feature:is(:nth-child(2), :nth-child(3), :nth-child(5)) { border-left: 1px solid var(--line); }
+}
 
 .bots-list { margin-top: 20px; }
 .bots-list__head .section-title, .bots-help .section-title { font-size: 16px; gap: 10px; }
-.bots-note { margin-top: 4px; font-size: 10.5px; color: var(--navy-soft); }
+.bots-note { margin-top: 4px; font-size: 11px; color: var(--navy-soft); }
 .bots-note a { font-weight: 700; color: var(--navy); text-decoration: underline; text-decoration-color: var(--gold-deep); text-underline-offset: 3px; }
 .bots-help { margin-top: 18px; }
 .bots-cta { margin-top: 16px; }
@@ -63,7 +81,7 @@
 .bots-list .card__head .icon { grid-area: icon; align-self: center; width: 28px; height: 28px; }
 .bots-list .card__head h3 { grid-area: head; padding: 10px 0 0 9px; font-size: 13.5px; }
 .bots-list .card__text { padding: 3px 0 10px 9px; font-size: 11.5px; line-height: 1.35; }
-.bots-list .card__cta { margin-right: 8px; width: 32px; height: 32px; }
+.bots-list .card__cta { margin-right: 8px; width: 40px; height: 40px; }
 
 @media (min-width: 640px) {
   .bots-hero__grid { grid-template-columns: minmax(0, 330px) 190px; gap: 20px; }
@@ -91,9 +109,26 @@
 }
 .bots-cta .cta-banner__icon { width: 32px; height: 32px; }
 .bots-cta .cta-banner__title { font-size: 11px; line-height: 1.25; padding-left: 7px; border-left: 2px solid var(--gold); }
-.bots-cta .cta-banner__text { font-size: 9.5px; line-height: 1.3; padding-left: 7px; border-left: 2px solid var(--gold); }
-.bots-cta .cta-banner .btn { justify-self: stretch; padding: 8px 4px; font-size: 10.5px; gap: 4px; text-align: center; border-width: 1.5px; }
+.bots-cta .cta-banner__text { font-size: 11px; line-height: 1.3; padding-left: 7px; border-left: 2px solid var(--gold); }
+.bots-cta .cta-banner .btn { justify-self: stretch; padding: 8px 4px; font-size: 11px; gap: 4px; text-align: center; border-width: 1.5px; }
 .bots-cta .cta-banner .btn .icon { font-size: 13px; }
+@media (max-width: 359px) {
+  .bots-list .card { grid-template-columns: 72px 24px minmax(0, 1fr) auto; column-gap: 6px; }
+  .bots-list .card::before { left: 106px; }
+  .bots-list .card__head .icon { width: 24px; height: 24px; }
+  .bots-list .card__head h3 { font-size: 12.5px; padding-left: 7px; }
+  .bots-list .card__text { padding-left: 7px; }
+  .bots-list .card__cta { margin-right: 6px; }
+}
+
+/* Phones: the banner stacks (icon + title, text, full-width button). */
+@media (max-width: 639px) {
+  .bots-cta .cta-banner { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "icon title" "text text" "btn btn"; gap: 8px 12px; padding: 14px; }
+  .bots-cta .cta-banner__icon { width: 36px; height: 36px; }
+  .bots-cta .cta-banner__title { font-size: 15px; padding-left: 12px; }
+  .bots-cta .cta-banner__text { font-size: 12.5px; padding-left: 0; border-left: 0; }
+  .bots-cta .cta-banner .btn { padding: 10px 14px; min-height: 44px; font-size: 13px; }
+}
 @media (min-width: 640px) {
   .bots-cta .cta-banner { grid-template-columns: auto minmax(0, 1.3fr) minmax(0, 1fr) 130px; gap: 0 18px; padding: 16px 24px; }
   .bots-cta .cta-banner__icon { width: 52px; height: 52px; }
@@ -143,7 +178,7 @@
   .bots-list .card__head h3 { padding: 0; font-size: 14.5px; line-height: 1.15; }
   .bots-list .card__pre { display: block; }
   .bots-list .card__text { padding: 5px 12px 6px 0; font-size: 13px; line-height: 1.4; }
-  .bots-list .card__cta { width: auto; height: auto; margin: 0 14px 12px 0; padding: 6px 8px; font-size: clamp(10.5px, .9vw, 11.5px); gap: 2px; white-space: nowrap; }
+  .bots-list .card__cta { width: auto; height: auto; margin: 0 14px 12px 0; padding: 6px 8px; font-size: clamp(11px, .9vw, 11.5px); gap: 2px; white-space: nowrap; }
   .bots-list .card__cta .icon { width: 14px; height: 14px; }
 
   .bots-help { display: flex; align-items: center; gap: 28px; margin-top: 16px; }

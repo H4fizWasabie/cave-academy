@@ -39,9 +39,16 @@
 
 /* ---------- Feature strip: five across, icon over label on the phone ---------- */
 .produk-strip .features { flex-wrap: nowrap; margin-top: 14px; padding: 10px 2px; }
-.produk-strip .feature { flex: 1 1 0; min-width: 0; gap: 5px; padding: 4px 2px; font-size: 9.5px; line-height: 1.25; }
+.produk-strip .feature { flex: 1 1 0; min-width: 0; gap: 5px; padding: 4px 2px; font-size: 11px; line-height: 1.25; }
 .produk-strip .feature .icon { width: 28px; height: 28px; }
 .produk-strip .feature + .feature { border-left: 1px solid var(--line); }
+/* Below 480px the strip goes 3 + 2, centred, so no label is squeezed. */
+@media (max-width: 479px) {
+  .produk-strip .features { flex-wrap: wrap; justify-content: center; padding: 8px 4px; }
+  .produk-strip .feature { flex: 0 0 33.333%; padding: 8px 4px; }
+  .produk-strip .feature + .feature { border-left: 0; }
+  .produk-strip .feature:is(:nth-child(2), :nth-child(3), :nth-child(5)) { border-left: 1px solid var(--line); }
+}
 
 /* ---------- Kategori: tall photo, gold wave edge, icon + title, outline pill ---------- */
 .pcats { display: grid; gap: 16px; margin-top: 16px; }
@@ -64,6 +71,7 @@
   font: 600 13px/1.2 var(--font-head); color: var(--navy); text-align: center;
   transition: background-color .15s ease;
 }
+.pcat__btn { min-height: 40px; }
 .pcat__btn span { flex: 1; }
 .pcat__btn:hover { background: var(--pale-yellow); }
 .pcat__btn .icon { flex: none; width: 16px; height: 16px; stroke-width: 2.2; }
@@ -71,7 +79,7 @@
 /* ---------- Produk Pilihan ---------- */
 .produk-picks { margin-top: 28px; }
 .produk-picks__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
-.produk-picks__all { display: inline-flex; align-items: center; gap: 6px; font: 600 13px var(--font-head); color: var(--navy); text-decoration: underline; text-underline-offset: 3px; }
+.produk-picks__all { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; font: 600 13px var(--font-head); color: var(--navy); text-decoration: underline; text-underline-offset: 3px; }
 .produk-picks__all .icon { width: 16px; height: 16px; }
 
 .pprods { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 12px; margin-top: 16px; }
@@ -193,7 +201,7 @@
   .pprods { gap: 8px; }
   .pprod__body { padding-inline: 4px; }
   .pprod__name { font-size: 11.5px; }
-  .pprod__desc { font-size: 10.5px; }
+  .pprod__desc { font-size: 11px; }
   .produk-why { display: flex; align-items: center; gap: 24px; }
   .produk-why .why { flex: 1; margin-top: 0; }
   .produk-why .section-title { font-size: 17px; flex: 0 1 290px; }
