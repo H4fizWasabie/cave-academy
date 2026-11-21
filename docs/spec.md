@@ -45,11 +45,11 @@ Header nav: Utama / Program (dropdown: Corporate Training & RFQ, Trainer Panel) 
 
 ## Design
 
-Match the mockups: navy (~#0f1a3c) headings and dark buttons, yellow/gold (~#f5c518 to #e0a800 gradient) accent buttons, highlights and section-title dashes, white cards with soft shadows and rounded corners, WhatsApp green (#25d366). Heavy geometric sans for headings (e.g. Poppins/Montserrat, self-hosted), clean sans for body. Mobile-first, responsive to desktop.
+Match the mockups: navy (~#0f1a3c) headings and dark buttons, yellow/gold (~#f5c518 to #e0a800 gradient) accent buttons, highlights and section-title dashes, white cards with soft shadows and rounded corners, WhatsApp green (#25d366). Heavy geometric sans for headings (Poppins, loaded from Google Fonts for now; self-host before launch if wanted), clean sans for body. Mobile-first, responsive to desktop.
 
 Recurring blocks: hero (title with a yellow-highlighted second line, subtitle, primary yellow CTA, outlined "Lihat ... (2 Minit)" button, hero photo); a feature strip of 4 to 5 icon+label items; section title with a yellow dash; image cards with a diagonal yellow edge; a pale-yellow CTA banner with a navy pill button.
 
-Assets: no real logo or photos supplied yet. Crop the round CAVE badge and the hero photos from the mockups as placeholders (`static/img/`), to be replaced by the client's files.
+Assets: no real logo or photos supplied yet. Crop the round CAVE badge and the hero photos from the mockups as placeholders (`internal/site/static/img/`, embedded in the binary), to be replaced by the client's files.
 
 ## Accounts
 

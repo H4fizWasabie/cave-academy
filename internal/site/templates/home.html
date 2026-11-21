@@ -1,0 +1,58 @@
+{{define "content"}}
+<section class="hero">
+  <div class="container hero__inner">
+    <div class="hero__text">
+      <h1 class="hero__title">Pembangunan Kompetensi Berasaskan <span class="gold">AI, NLP &amp; Pengalaman Praktikal</span></h1>
+      <p class="hero__sub">Platform latihan, jaringan trainer dan produk digital untuk meningkatkan keupayaan individu, pasukan dan organisasi.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="/corporate-training"><svg class="icon" aria-hidden="true"><use href="#i-calendar-check"/></svg>Terokai Program Latihan {{template "arrow"}}</a>
+        <a class="btn btn--outline" href="/tentang-kami"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Lihat Pengenalan (2 Minit)</a>
+      </div>
+    </div>
+  </div>
+  <img class="hero__img" src="/static/img/hero.jpg" alt="Jurulatih The Cave Academy di lobi pejabat" width="710" height="248">
+</section>
+
+<section class="container">
+  <ul class="features">
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-mortarboard"/></svg><span>Latihan Praktikal<br>&amp; Berimpak</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg><span>Rangkaian<br>Trainer Profesional</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><span>Penyelesaian<br>End-to-End</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-laptop"/></svg><span>Akses Digital<br>24/7</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg><span>Sesuai untuk Individu,<br>Pasukan &amp; Organisasi</span></li>
+  </ul>
+</section>
+
+<section class="container home-solutions">
+  <h2 class="section-title">Penyelesaian Untuk Anda</h2>
+  <div class="cards">
+    <article class="card">
+      <div class="card__media"><img src="/static/img/solution-corporate.jpg" alt="" loading="lazy"></div>
+      <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#i-calendar-check"/></svg><h3>Corporate Training &amp; RFQ</h3></div>
+      <p class="card__text">Program latihan berimpak tinggi untuk organisasi, jabatan dan agensi.</p>
+      <a class="card__cta" href="/corporate-training"><span>Mohon Program / RFQ</span> {{template "arrow"}}</a>
+    </article>
+    <article class="card">
+      <div class="card__media"><img src="/static/img/solution-bots.jpg" alt="" loading="lazy"></div>
+      <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#i-robot"/></svg><h3>AI NLP Bots</h3></div>
+      <p class="card__text">Rakan AI berasaskan NLP untuk komunikasi, kepimpinan, pengurusan dan pembuatan keputusan.</p>
+      <a class="card__cta" href="/ai-nlp-bots"><span>Terokai AI NLP Bots</span> {{template "arrow"}}</a>
+    </article>
+    <article class="card">
+      <div class="card__media"><img src="/static/img/solution-products.jpg" alt="" loading="lazy"></div>
+      <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><h3>Digital Products</h3></div>
+      <p class="card__text">Management game, workbook, eBook dan bahan latihan digital untuk pembelajaran berterusan.</p>
+      <a class="card__cta" href="/produk-digital"><span>Lihat Produk Digital</span> {{template "arrow"}}</a>
+    </article>
+  </div>
+</section>
+
+<section class="container home-cta">
+  <div class="cta-banner">
+    <svg class="icon cta-banner__icon" aria-hidden="true"><use href="#i-trainer"/></svg>
+    <h2 class="cta-banner__title">Berminat Menjadi Trainer Panel The Cave Academy?</h2>
+    <p class="cta-banner__text">Kongsikan kepakaran dan pengalaman latihan anda. Sertai rangkaian trainer profesional kami.</p>
+    <a class="btn btn--navy" href="/trainer-panel">Daftar Sekarang {{template "arrow"}}</a>
+  </div>
+</section>
+{{end}}
