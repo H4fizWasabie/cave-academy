@@ -1,0 +1,68 @@
+{{define "content"}}
+<section class="hero bots-hero">
+  <div class="container hero__inner">
+    {{template "breadcrumb" .}}
+    <div class="bots-hero__grid">
+      <div class="hero__text">
+        <h1 class="hero__title">AI NLP <span class="gold">Bots</span></h1>
+        <p class="hero__sub">Rakan AI pintar berteraskan NLP untuk komunikasi, kepimpinan, pengurusan dan pembuatan keputusan.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#senarai-bot"><svg class="icon" aria-hidden="true"><use href="#i-robot"/></svg>Terokai AI NLP Bots {{template "arrow"}}</a>
+          <a class="btn btn--outline" href="/ai-nlp-bots/educators"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Lihat Demonstrasi (2 Minit)</a>
+        </div>
+      </div>
+      <ul class="bots-checks">
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Berteraskan NLP</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Menyokong Komunikasi</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Membantu Penyelesaian Masalah</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Mudah &amp; Praktikal</li>
+      </ul>
+    </div>
+  </div>
+  <img class="hero__img" src="/static/img/hero.jpg" alt="Jurulatih The Cave Academy di lobi pejabat" width="710" height="248">
+</section>
+
+<section class="container">
+  <ul class="features">
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-bolt"/></svg><span>Respons Pantas<br>&amp; Relevan</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-monitor"/></svg><span>Berpandukan<br>Prinsip NLP</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg><span>Disesuaikan<br>Mengikut Niche</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-cloud"/></svg><span>Akses 24/7<br>Di Web &amp; Mobile</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg><span>Selamat, Mudah<br>&amp; Mesra Pengguna</span></li>
+  </ul>
+</section>
+
+<section class="container bots-list" id="senarai-bot">
+  <h2 class="section-title">Pilihan AI NLP Bots</h2>
+  <p class="bots-note">Akaun percuma mendapat 3 soalan sehari. <a href="/daftar">Daftar akaun percuma</a>.</p>
+  <div class="cards">
+    {{range .Data}}<article class="card">
+      <div class="card__media"><img src="/static/img/{{.Image}}" alt="" loading="lazy"></div>
+      <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#{{.Icon}}"/></svg><h3>NLP Bot {{.Name}}</h3></div>
+      <p class="card__text">{{.Desc}}</p>
+      <a class="card__cta" href="/ai-nlp-bots/{{.Slug}}"><span>{{.CTA}}</span> {{template "arrow"}}</a>
+    </article>
+    {{end}}
+  </div>
+</section>
+
+<section class="container bots-help">
+  <h2 class="section-title">Bagaimana Ia Membantu Anda?</h2>
+  <ul class="features features--plain">
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-chat"/></svg><span>Komunikasi<br>Lebih Berkesan</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-trainer"/></svg><span>Kepimpinan<br>Lebih Berpengaruh</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-gear"/></svg><span>Pengurusan<br>Lebih Teratur</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg><span>Pemikiran &amp;<br>Keputusan Lebih Jelas</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg><span>Produktiviti<br>Lebih Tinggi</span></li>
+  </ul>
+</section>
+
+<section class="container bots-cta">
+  <div class="cta-banner">
+    <svg class="icon cta-banner__icon" aria-hidden="true"><use href="#i-ai-screen"/></svg>
+    <h2 class="cta-banner__title">Langganan Sekarang AI NLP Bots The Cave Academy</h2>
+    <p class="cta-banner__text">Dapatkan akses kepada rangkaian AI NLP Bots yang praktikal, mudah digunakan dan relevan dengan keperluan anda.</p>
+    <a class="btn btn--navy" href="https://wa.me/60123947200?text=Hai%20The%20Cave%20Academy%2C%20saya%20berminat%20untuk%20mengetahui%20pelan%20langganan%20AI%20NLP%20Bots.%20Boleh%20berikan%20maklumat%20lanjut%3F">Lihat Pelan Langganan {{template "arrow"}}</a>
+  </div>
+</section>
+{{end}}
