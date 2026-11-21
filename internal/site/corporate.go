@@ -20,10 +20,10 @@ type trainingArea struct {
 }
 
 var trainingAreas = []trainingArea{
-	{"Kepimpinan & Pengurusan", "area-leadership.jpg", "i-users"},
-	{"Keberkesanan Organisasi", "area-organisation.jpg", "c-gear"},
-	{"Pembangunan Pasukan", "area-team.jpg", "i-users"},
-	{"AI, NLP & Komunikasi Berimpak", "area-ai-nlp.jpg", "c-chip"},
+	{"Kepimpinan & Pengurusan", "corp-area-leadership.jpg", "i-users"},
+	{"Keberkesanan Organisasi", "corp-area-organisation.jpg", "c-gear"},
+	{"Pembangunan Pasukan", "corp-area-team.jpg", "i-users"},
+	{"AI, NLP & Komunikasi Berimpak", "corp-area-ai-nlp.jpg", "c-chip"},
 }
 
 const areaOther = "Lain-lain"
