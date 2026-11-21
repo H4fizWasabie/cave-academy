@@ -1,0 +1,96 @@
+{{define "content"}}
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-gamepad" viewBox="0 0 24 24"><path d="M7 7h10a5 5 0 0 1 4.8 6.4l-.9 3.2a2.6 2.6 0 0 1-4.4 1l-1.8-2.1H9.3l-1.8 2.1a2.6 2.6 0 0 1-4.4-1l-.9-3.2A5 5 0 0 1 7 7z"/><path d="M8 10v3M6.5 11.5h3"/><circle cx="15.5" cy="10.5" r=".9" style="fill:var(--accent,currentColor);stroke:none"/><circle cx="17.8" cy="12.5" r=".9" style="fill:var(--accent,currentColor);stroke:none"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.5C10 5 6.5 4.5 3 5v13c3.5-.5 7 0 9 1.5 2-1.5 5.5-2 9-1.5V5c-3.5-.5-7 0-9 1.5z"/><path d="M12 6.5v13"/><path d="M6 9.5h3M6 12.5h3" style="stroke:var(--accent,currentColor)"/></symbol>
+  <symbol id="i-ebook" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 19h3"/><path d="M9 9.5l3-3 3 3" style="stroke:var(--accent,currentColor)"/></symbol>
+</svg>
+
+<section class="hero produk-hero">
+  <div class="container hero__inner">
+    {{template "breadcrumb" .}}
+    <div class="produk-hero__grid">
+      <div class="hero__text">
+        <h1 class="hero__title">Produk <span class="gold">Digital</span></h1>
+        <p class="hero__sub">Management game, workbook, eBook dan bahan latihan digital untuk pembelajaran berterusan, praktikal dan berimpak.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#kategori"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg>Terokai Produk Digital {{template "arrow"}}</a>
+          <a class="btn btn--outline" href="/tentang-kami"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Lihat Pengenalan (2 Minit)</a>
+        </div>
+      </div>
+      <ul class="checklist">
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Praktikal &amp; Berteraskan Pengalaman</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Sedia Guna Untuk Latihan / Bengkel</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Boleh Diubah Suai Mengikut Keperluan</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Menepati Keperluan Individu, Pasukan &amp; Organisasi</li>
+      </ul>
+    </div>
+  </div>
+  <img class="hero__img" src="/static/img/hero.jpg" alt="Jurulatih The Cave Academy di lobi pejabat" width="710" height="248">
+</section>
+
+<section class="container">
+  <ul class="features">
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-gamepad"/></svg><span>Management<br>Game / Simulasi</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>Workbook &amp;<br>Modul</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-ebook"/></svg><span>eBook</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-laptop"/></svg><span>Bahan Latihan<br>Digital</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-gear"/></svg><span>Sedia Guna &amp;<br>Boleh Diubah Suai</span></li>
+  </ul>
+</section>
+
+<div class="container produk-main">
+  <section id="kategori" class="produk-cats">
+    <h2 class="section-title">Kategori Produk Digital</h2>
+    <div class="pcats">
+      {{range .Data.Categories}}
+      <article class="pcat">
+        <div class="pcat__media"><img src="/static/img/{{.Image}}" alt="" width="267" height="127" loading="lazy"></div>
+        <div class="pcat__body">
+          <h3 class="pcat__title"><svg class="icon" aria-hidden="true"><use href="#{{.Icon}}"/></svg>{{.Name}}</h3>
+          <p class="pcat__text">{{.Description}}</p>
+          <a class="pcat__btn" href="{{.WA}}" target="_blank" rel="noopener"><span>{{.Button}}</span> {{template "arrow"}}</a>
+        </div>
+      </article>
+      {{end}}
+    </div>
+  </section>
+
+  <section id="produk-pilihan" class="produk-picks">
+    <div class="produk-picks__head">
+      <h2 class="section-title">Produk Pilihan</h2>
+      <a class="produk-picks__all" href="#senarai-produk">Lihat Semua Produk {{template "arrow"}}</a>
+    </div>
+    <ul class="pprods" id="senarai-produk">
+      {{range .Data.Products}}
+      <li>
+        <a class="pprod" href="{{.WA}}" target="_blank" rel="noopener" aria-label="{{.Name}}: tanya di WhatsApp">
+          <span class="pprod__cover"><img src="/static/img/{{.Image}}" alt="Kulit {{.Name}}" width="124" height="146" loading="lazy"></span>
+          <span class="pprod__name">{{.Name}}</span>
+          <span class="pprod__desc">{{.Description}}</span>
+        </a>
+      </li>
+      {{end}}
+    </ul>
+  </section>
+</div>
+
+<section class="container produk-why">
+  <h2 class="section-title">Kenapa Pilih Produk Digital TCA?</h2>
+  <ul class="why">
+    <li><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg><span>Berasaskan<br>Pengalaman Sebenar</span></li>
+    <li><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg><span>Praktikal &amp;<br>Mudah Diaplikasi</span></li>
+    <li><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><span>Sesuai untuk<br>Individu &amp; Pasukan</span></li>
+    <li><svg class="icon" aria-hidden="true"><use href="#i-laptop"/></svg><span>Akses Digital<br>Bila-bila Masa</span></li>
+    <li><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg><span>Berkualiti &amp;<br>Berimpak Tinggi</span></li>
+  </ul>
+</section>
+
+<section class="container produk-cta">
+  <div class="cta-banner">
+    <svg class="icon cta-banner__icon" aria-hidden="true"><use href="#i-laptop"/></svg>
+    <h2 class="cta-banner__title">Terokai Koleksi Produk Digital</h2>
+    <p class="cta-banner__text">Dapatkan management game, workbook, eBook dan bahan latihan digital terbaik untuk anda dan organisasi.</p>
+    <a class="btn btn--navy" href="#senarai-produk">Lihat Semua Produk {{template "arrow"}}</a>
+  </div>
+</section>
+{{end}}
