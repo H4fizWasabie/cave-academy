@@ -23,7 +23,7 @@
 </head>
 <body>
 {{template "icons"}}
-<header class="site-header" id="site-header">
+<header class="site-header{{if .User}} has-user{{end}}" id="site-header">
   <div class="container header__bar">
     <a class="brand" href="/" aria-label="The Cave Academy, Utama">
       <img class="brand__logo" src="/static/img/logo.png" alt="" width="56" height="56">
