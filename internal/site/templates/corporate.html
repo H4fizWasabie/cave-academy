@@ -12,30 +12,35 @@
 {{template "corp-icons"}}
 {{$e := .Data.Errors}}
 <section class="hero corp-hero">
+  <picture>
+    <source media="(min-width: 640px)" srcset="/static/img/corp-hero-d.jpg" width="705" height="271">
+    <img class="hero__img" src="/static/img/corp-hero-m.jpg" alt="Jurulatih The Cave Academy di bilik latihan" width="361" height="334">
+  </picture>
   <div class="container hero__inner">
     <div class="hero__text">
       {{template "breadcrumb" .}}
-      <h1 class="hero__title">Corporate Training &amp; <span class="gold">RFQ</span></h1>
-      <p class="hero__sub">Program latihan berimpak tinggi untuk organisasi, jabatan dan agensi.</p>
+      <div class="corp-hero__head">
+        <h1 class="hero__title">Corporate Training &amp; <span class="gold">RFQ</span></h1>
+        <p class="hero__sub">Program latihan berimpak tinggi untuk organisasi, jabatan dan agensi.</p>
+      </div>
       <div class="hero__actions">
         <a class="btn btn--primary" href="#rfq"><svg class="icon" aria-hidden="true"><use href="#i-calendar-check"/></svg>Mohon Program / RFQ {{template "arrow"}}</a>
         <a class="btn btn--outline" href="/tentang-kami"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Lihat Video Pengenalan (2 Minit)</a>
       </div>
     </div>
   </div>
-  <img class="hero__img" src="/static/img/hero.jpg" alt="Jurulatih The Cave Academy di bilik latihan" width="710" height="248">
 </section>
 
-<section class="container">
+<section class="container corp-wrap">
   <ul class="features corp-features">
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg><span>Trainer <br>Profesional</span></li>
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#c-target"/></svg><span>Kandungan <br>Praktikal &amp; Relevan</span></li>
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><span>Boleh Disesuaikan <br>(Customized)</span></li>
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg><span>Berimpak Tinggi <br>&amp; Boleh Diukur</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg><span><b>Trainer</b> <br>Profesional</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#c-target"/></svg><span><b>Kandungan</b> <br>Praktikal &amp; Relevan</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><span><b>Boleh Disesuaikan</b> <br>(Customized)</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg><span><b>Berimpak Tinggi</b> <br>&amp; Boleh Diukur</span></li>
   </ul>
 </section>
 
-<div class="container corp-cols">
+<div class="container corp-wrap corp-cols">
   <section class="corp-areas" aria-labelledby="areas-title">
     <h2 class="section-title" id="areas-title">Bidang Latihan Popular</h2>
     <ul class="areas">
@@ -52,15 +57,15 @@
   <section class="corp-process" aria-labelledby="process-title">
     <h2 class="section-title" id="process-title">Proses Pelaksanaan Latihan</h2>
     <ol class="steps">
-      <li class="step"><svg class="icon" aria-hidden="true"><use href="#c-chat"/></svg><span>1. Perbincangan <br>Keperluan</span></li>
-      <li class="step"><svg class="icon" aria-hidden="true"><use href="#c-clipboard"/></svg><span>2. Cadangan <br>Program</span></li>
-      <li class="step"><svg class="icon" aria-hidden="true"><use href="#i-calendar-check"/></svg><span>3. Pelaksanaan <br>Latihan</span></li>
-      <li class="step"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg><span>4. Penilaian <br>&amp; Impak</span></li>
+      <li class="step"><svg class="icon" aria-hidden="true"><use href="#c-chat"/></svg><span>1.&nbsp;Perbincangan <br>Keperluan</span></li>
+      <li class="step"><svg class="icon" aria-hidden="true"><use href="#c-clipboard"/></svg><span>2.&nbsp;Cadangan <br>Program</span></li>
+      <li class="step"><svg class="icon" aria-hidden="true"><use href="#i-calendar-check"/></svg><span>3.&nbsp;Pelaksanaan <br>Latihan</span></li>
+      <li class="step"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg><span>4.&nbsp;Penilaian <br>&amp; Impak</span></li>
     </ol>
   </section>
 </div>
 
-<section class="container corp-cta">
+<section class="container corp-wrap corp-cta">
   <div class="cta-banner">
     <svg class="icon cta-banner__icon" aria-hidden="true"><use href="#c-clipboard"/></svg>
     <h2 class="cta-banner__title">Mohon Sebut Harga (RFQ)</h2>
