@@ -7,12 +7,15 @@ import (
 )
 
 func (s *Server) trainerPanel(w http.ResponseWriter, r *http.Request) {
-	page := Page{Title: "Trainer Panel", Nav: "program", Crumb: "Trainer Panel", CSS: []string{"pages"}}
+	page := Page{Title: "Trainer Panel", Description: "Sertai rangkaian trainer profesional The Cave Academy. Daftar sebagai Trainer Panel dan kongsikan kepakaran anda.", Nav: "program", Crumb: "Trainer Panel", CSS: []string{"pages"}}
 	switch r.Method {
 	case http.MethodGet, http.MethodHead:
 		page.Data = formView{Thanks: r.URL.Query().Get("terima-kasih") == "1"}
 		s.render(w, "trainer", page)
 	case http.MethodPost:
+		if !s.formAllowed(w, r) {
+			return
+		}
 		fields := [][2]string{{"name", "Nama"}, {"email", "E-mel"}, {"phone", "Telefon"}, {"expertise", "Bidang kepakaran"}, {"years_experience", "Tahun pengalaman"}, {"bio", "Bio ringkas"}}
 		v, ok := readForm(w, r, "name", "email", "phone", "expertise", "years_experience", "bio")
 		if !ok {
@@ -46,6 +49,7 @@ func (s *Server) trainerPanel(w http.ResponseWriter, r *http.Request) {
 				http.Error(w, "Ralat dalaman", http.StatusInternalServerError)
 				return
 			}
+			s.formSaved(r)
 			s.notifyAdmin("Permohonan baharu Trainer Panel", v, fields)
 		}
 		http.Redirect(w, r, "/trainer-panel?terima-kasih=1", http.StatusSeeOther)

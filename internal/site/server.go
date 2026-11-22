@@ -28,19 +28,22 @@ type Server struct {
 	mailer    *Mailer
 	templates map[string]*template.Template
 	mux       *http.ServeMux
-	chat      chatOpts    // chat.go; the zero value is production
-	limits    *rateLimits // ratelimit.go: login and signup throttling
+	chat      chatOpts     // chat.go; the zero value is production
+	limits    *rateLimits  // ratelimit.go: login and signup throttling
+	abuse     *abuseLimits // middleware.go: chat and form spam guards
 }
 
 // Page is the data every template receives as ".". Handlers fill it in;
 // page-specific values go in Data.
 type Page struct {
-	Title string   // <title> and page heading; "" gives the plain site title
-	Nav   string   // active nav item: home, program, bots, produk, tentang ("" for none)
-	CSS   []string // extra stylesheets, e.g. "home" loads /static/css/home.css
-	Crumb string   // breadcrumb label for {{template "breadcrumb" .}}; "" on the home page
-	User  *User    // logged-in user or nil; render fills it in, handlers leave it alone
-	Data  any
+	Title       string   // <title> and page heading; "" gives the plain site title
+	Nav         string   // active nav item: home, program, bots, produk, tentang ("" for none)
+	CSS         []string // extra stylesheets, e.g. "home" loads /static/css/home.css
+	Description string   // <meta name="description">; "" gives the site default (seo.go)
+	Crumb       string   // breadcrumb label for {{template "breadcrumb" .}}; "" on the home page
+	User        *User    // logged-in user or nil; render fills it in, handlers leave it alone
+	SEO         seoMeta  // canonical URL and share image; render fills it in (seo.go)
+	Data        any
 }
 
 // New opens the database, loads the templates and registers every route.
@@ -55,7 +58,9 @@ func New(cfg Config) (*Server, error) {
 		mailer: &Mailer{APIKey: cfg.BrevoKey, From: cfg.MailFrom},
 		mux:    http.NewServeMux(),
 		limits: newRateLimits(),
+		abuse:  newAbuseLimits(),
 	}
+	s.abuse.useClock(s.now) // s.now follows chat.Now, so tests control it
 	if s.templates, err = loadTemplates(); err != nil {
 		db.Close()
 		return nil, fmt.Errorf("templates: %w", err)
@@ -65,10 +70,6 @@ func New(cfg Config) (*Server, error) {
 }
 
 func (s *Server) Close() error { return s.db.Close() }
-
-func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	s.mux.ServeHTTP(&reqWriter{w, r}, r) // reqWriter lets render find the logged-in user
-}
 
 // routes registers every v1 route. Patterns without a method accept GET and
 // POST so a page's owner can handle its form in the same handler.
@@ -102,6 +103,24 @@ func (s *Server) routes() {
 	s.mux.HandleFunc("/daftar", s.daftar)
 	s.mux.HandleFunc("/log-masuk", s.logMasuk)
 	s.mux.HandleFunc("/log-keluar", s.logKeluar)
+
+	// Admin back office (admin.go): admins only, anyone else gets a 404.
+	s.mux.HandleFunc("/admin", s.adminOverview)
+	s.mux.HandleFunc("/admin/{page}", s.adminPage)
+
+	// Hardening (middleware.go): health check and the styled 404 for every unknown path.
+	s.mux.HandleFunc("GET /healthz", s.healthz)
+	s.mux.HandleFunc("/", s.notFound)
+
+	// Legal pages and SEO (legal.go, seo.go).
+	s.mux.HandleFunc("GET /dasar-privasi", s.privasi)
+	s.mux.HandleFunc("GET /terma", s.terma)
+	s.mux.HandleFunc("GET /robots.txt", s.robots)
+	s.mux.HandleFunc("GET /sitemap.xml", s.sitemap)
+
+	// Password reset by email (reset.go).
+	s.mux.HandleFunc("/lupa-kata-laluan", s.lupaKataLaluan)
+	s.mux.HandleFunc("/reset-kata-laluan", s.resetKataLaluan)
 }
 
 // loadTemplates parses layout.html + partials.html together with each page
@@ -141,6 +160,9 @@ func (s *Server) renderStatus(w http.ResponseWriter, status int, name string, p 
 	}
 	if rw, ok := w.(*reqWriter); ok && p.User == nil {
 		p.User = s.currentUser(rw.r)
+	}
+	if rw, ok := w.(*reqWriter); ok {
+		s.fillSEO(&p, rw.r, status)
 	}
 	var buf bytes.Buffer // buffer so a template error cannot leave half a page
 	if err := t.ExecuteTemplate(&buf, "layout", p); err != nil {

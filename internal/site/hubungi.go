@@ -72,12 +72,15 @@ func (s *Server) notifyAdmin(subject string, v map[string]string, fields [][2]st
 }
 
 func (s *Server) hubungi(w http.ResponseWriter, r *http.Request) {
-	page := Page{Title: "Hubungi Kami", Crumb: "Hubungi Kami", CSS: []string{"pages"}}
+	page := Page{Title: "Hubungi Kami", Description: "Hubungi The Cave Academy melalui WhatsApp, emel atau borang untuk soalan tentang latihan, AI NLP Bots dan produk digital.", Crumb: "Hubungi Kami", CSS: []string{"pages"}}
 	switch r.Method {
 	case http.MethodGet, http.MethodHead:
 		page.Data = formView{Thanks: r.URL.Query().Get("terima-kasih") == "1"}
 		s.render(w, "hubungi", page)
 	case http.MethodPost:
+		if !s.formAllowed(w, r) {
+			return
+		}
 		fields := [][2]string{{"name", "Nama"}, {"email", "E-mel"}, {"message", "Mesej"}}
 		v, ok := readForm(w, r, "name", "email", "message")
 		if !ok {
@@ -100,6 +103,7 @@ func (s *Server) hubungi(w http.ResponseWriter, r *http.Request) {
 				http.Error(w, "Ralat dalaman", http.StatusInternalServerError)
 				return
 			}
+			s.formSaved(r)
 			s.notifyAdmin("Mesej baharu dari borang Hubungi Kami", v, fields)
 		}
 		http.Redirect(w, r, "/hubungi-kami?terima-kasih=1", http.StatusSeeOther)

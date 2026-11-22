@@ -1,0 +1,65 @@
+{{/* Dasar Privasi. Page.Data is the last-updated date (legal.go). Keep the text in step with what the code really stores. */}}
+{{define "content"}}
+<section class="container legal">
+  {{template "breadcrumb" .}}
+  <h1 class="legal__title">Dasar Privasi</h1>
+  <p class="legal__updated">Kemas kini terakhir: {{.Data}}</p>
+  <div class="legal__body">
+    <p>Dasar ini menerangkan bagaimana The Cave Academy ("kami") mengumpul, menggunakan dan melindungi data peribadi anda apabila anda menggunakan laman web ini. Kami mematuhi Akta Perlindungan Data Peribadi 2010 (PDPA) Malaysia. Dengan menggunakan laman web ini, anda bersetuju dengan dasar ini.</p>
+
+    <h2 class="section-title">Data yang kami kumpul</h2>
+    <ul>
+      <li><strong>Akaun:</strong> nama, alamat emel dan kata laluan anda. Kata laluan disimpan dalam bentuk cincang (hash) sahaja; kami tidak dapat membacanya.</li>
+      <li><strong>Sembang AI NLP Bots:</strong> mesej yang anda taip dan jawapan bot, disimpan bersama akaun anda supaya sejarah sembang kekal selepas anda muat semula halaman.</li>
+      <li><strong>Borang:</strong> butiran yang anda isi dalam borang RFQ (Corporate Training), borang Hubungi Kami dan borang Trainer Panel, seperti nama, organisasi, emel, nombor telefon, mesej, kepakaran dan pengalaman.</li>
+      <li><strong>Teknikal:</strong> kuki sesi (lihat di bawah) dan log pelayan asas seperti alamat IP, yang digunakan untuk keselamatan dan menghadkan percubaan log masuk berulang.</li>
+    </ul>
+
+    <h2 class="section-title">Kenapa kami mengumpulnya</h2>
+    <ul>
+      <li>Mewujudkan dan mengurus akaun anda serta menghadkan penggunaan percuma (3 soalan sehari).</li>
+      <li>Menjana jawapan daripada AI NLP Bots dan menyimpan sejarah sembang anda.</li>
+      <li>Menjawab pertanyaan, permohonan program (RFQ) dan permohonan Trainer Panel anda.</li>
+      <li>Menjaga keselamatan laman web dan mencegah penyalahgunaan.</li>
+    </ul>
+    <p>Kami tidak menjual data anda dan tidak menggunakannya untuk pengiklanan.</p>
+
+    <h2 class="section-title">Kuki</h2>
+    <p>Kami hanya menggunakan satu kuki sesi yang diperlukan untuk mengekalkan log masuk anda. Kami tidak menggunakan kuki analitik atau pengiklanan.</p>
+
+    <h2 class="section-title">Pihak ketiga yang memproses data</h2>
+    <p>Kami menggunakan pemproses berikut untuk menyediakan perkhidmatan:</p>
+    <ul>
+      <li><strong>OpenRouter</strong> (penyedia AI): mesej yang anda hantar kepada bot dihantar kepada OpenRouter dan model AI di belakangnya untuk menjana jawapan. Pemproses ini mungkin berada di luar Malaysia. Dengan menggunakan sembang, anda bersetuju data itu dipindahkan ke luar negara untuk tujuan ini. Jangan taip maklumat sensitif seperti nombor kad, kata laluan atau maklumat kesihatan dalam sembang.</li>
+      <li><strong>Brevo</strong> (emel): menghantar emel borang yang anda hantar kepada pasukan kami.</li>
+      <li><strong>Pelayan VPS</strong> (pengehosan): tempat laman web dan pangkalan data kami berjalan.</li>
+    </ul>
+    <p>Kami juga boleh mendedahkan data jika dikehendaki oleh undang-undang atau pihak berkuasa yang sah.</p>
+
+    <h2 class="section-title">Tempoh simpanan</h2>
+    <p>Data akaun dan sejarah sembang disimpan selagi akaun anda aktif. Butiran borang disimpan selagi perlu untuk menjawab anda dan menguruskan hubungan perniagaan yang berkaitan. Apabila anda meminta penghapusan, kami akan memadam data anda kecuali yang wajib kami simpan menurut undang-undang.</p>
+
+    <h2 class="section-title">Keselamatan</h2>
+    <p>Kami mengambil langkah munasabah untuk melindungi data anda: kata laluan dicincang, kuki sesi ditandakan HttpOnly dan Secure apabila menggunakan HTTPS, percubaan log masuk dihadkan, dan akses ke pangkalan data terhad kepada pasukan kami. Tiada sistem yang sepenuhnya selamat, jadi kami tidak dapat menjamin keselamatan mutlak.</p>
+
+    <h2 class="section-title">Hak anda</h2>
+    <p>Di bawah PDPA, anda berhak untuk:</p>
+    <ul>
+      <li>meminta akses kepada data peribadi anda yang kami simpan;</li>
+      <li>meminta pembetulan data yang tidak tepat;</li>
+      <li>meminta penghapusan akaun dan data anda; dan</li>
+      <li>menarik balik persetujuan anda, dengan menyedari bahawa sesetengah perkhidmatan (seperti sembang AI) tidak dapat disediakan tanpa data berkenaan.</li>
+    </ul>
+    <p>Hantar permintaan anda melalui emel kepada <a href="mailto:adam.caveconsult@gmail.com">adam.caveconsult@gmail.com</a> dari alamat emel akaun anda. Kami akan menjawab dalam tempoh 21 hari.</p>
+
+    <h2 class="section-title">Kanak-kanak</h2>
+    <p>Laman web ini bukan ditujukan kepada kanak-kanak di bawah 18 tahun. Jika anda di bawah 18 tahun, minta kebenaran ibu bapa atau penjaga sebelum mendaftar.</p>
+
+    <h2 class="section-title">Perubahan dasar</h2>
+    <p>Kami boleh mengemas kini dasar ini. Tarikh kemas kini terakhir dipaparkan di atas. Penggunaan berterusan selepas perubahan bermaksud anda menerima dasar yang dikemas kini.</p>
+
+    <h2 class="section-title">Hubungi kami</h2>
+    <p>Soalan tentang dasar ini: <a href="mailto:adam.caveconsult@gmail.com">adam.caveconsult@gmail.com</a> atau WhatsApp <a href="https://wa.me/60123947200">012-394&nbsp;7200</a>. Lihat juga <a href="/terma">Terma Penggunaan</a> kami.</p>
+  </div>
+</section>
+{{end}}

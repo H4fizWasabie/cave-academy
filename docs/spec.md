@@ -24,6 +24,9 @@ A marketing site for The Cave Academy plus its highlight feature, the **AI NLP B
 | `BREVO_API_KEY` | sends email (Brevo transactional API) | unset: email is logged to stdout instead |
 | `MAIL_FROM` | sender address | `The Cave Academy <noreply@caveacademy.my>` |
 | `ADMIN_EMAIL` | receives form submissions | `adam.caveconsult@gmail.com` |
+| `BASE_URL` | public origin for canonical links and `/sitemap.xml` | `https://caveacademy.my` |
+| `APP_ENV` | `development` or `production`. Production refuses to start without `OPENROUTER_API_KEY`, `BREVO_API_KEY`, `BASE_URL` and a valid `MAIL_FROM` | `development` |
+| `CHAT_DAILY_CAP` | OpenRouter answers per KL day across all users (cost guard); over it the chat says it is busy | `2000` |
 
 Contact details on the site: WhatsApp / phone 012-394 7200 (`https://wa.me/60123947200`), email adam.caveconsult@gmail.com.
 
@@ -54,7 +57,7 @@ Assets: no real logo or photos supplied yet. Crop the round CAVE badge and the h
 ## Accounts
 
 - Sign up with name, email, password (bcrypt). Log in with email + password. Session cookie (random token stored in DB, HttpOnly, SameSite=Lax, Secure when behind HTTPS).
-- No email verification or password reset in v1.
+- No email verification in v1. Password reset by email lives in `internal/site/reset.go` (`/lupa-kata-laluan`, `/reset-kata-laluan`).
 - `users.plan` is `free` or `paid`. Nothing sets `paid` in v1 except a direct DB update; the paid tiers and the BCL checkout come later.
 
 ## AI NLP Bots (chat)

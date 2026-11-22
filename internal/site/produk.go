@@ -68,7 +68,7 @@ func (s *Server) produk(w http.ResponseWriter, r *http.Request) {
 		cats = append(cats, produkCat{c, waLink("Salam, saya berminat dengan kategori " + c.Name + ". Boleh saya dapatkan maklumat lanjut?")})
 	}
 	s.render(w, "produk", Page{
-		Title: "Produk Digital", Nav: "produk", Crumb: "Produk Digital", CSS: []string{"produk"},
+		Title: "Produk Digital", Description: "Management game, workbook, eBook dan bahan latihan digital daripada The Cave Academy untuk pembelajaran berterusan.", Nav: "produk", Crumb: "Produk Digital", CSS: []string{"produk"},
 		Data: map[string]any{"Products": items, "Categories": cats},
 	})
 }
