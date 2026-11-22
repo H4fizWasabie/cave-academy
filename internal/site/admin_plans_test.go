@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"strings"
 	"testing"
+	"time"
 )
 
 func planForm1() url.Values {
@@ -150,6 +151,15 @@ func TestAdminPelanValidatesInput(t *testing.T) {
 	if body := authPost(t, s, "/admin/pelan", v, ck).Body.String(); !strings.Contains(body, `value="Tersimpan"`) {
 		t.Error("the rejected form lost the name")
 	}
+	// A refused edit keeps what was typed in that plan's form, not the stored values.
+	bad := planForm1()
+	bad.Set("id", "1")
+	bad.Set("name", "Nama Baharu")
+	bad.Set("price", "abc")
+	body := authPost(t, s, "/admin/pelan", bad, ck).Body.String()
+	if !strings.Contains(body, `value="Nama Baharu"`) || !strings.Contains(body, `value="abc"`) {
+		t.Error("the rejected edit lost the typed values")
+	}
 	// Editing a plan may keep its own form.
 	edit := planForm1()
 	edit.Set("id", "1")
@@ -186,6 +196,12 @@ func TestAdminPelanGrantsAnUnmatchedPayment(t *testing.T) {
 	if rec := authPost(t, g.s, "/admin/pelan", grant, ck); rec.Code != http.StatusUnprocessableEntity || g.subs("1=1") != 1 {
 		t.Errorf("granting twice: %d, %d subs", rec.Code, g.subs("1=1"))
 	}
+	// An order already granted (the row is stale) gives an error, not a silent redirect.
+	g.s.db.Exec(`INSERT INTO unmatched_payments (bcl_order, email, paid_sen, reason) VALUES ('ORD1', 'baru@example.com', 2900, 'x')`)
+	grant.Set("id", "2")
+	if rec := authPost(t, g.s, "/admin/pelan", grant, ck); rec.Code != http.StatusUnprocessableEntity || !strings.Contains(rec.Body.String(), "sudah diberi") || g.subs("1=1") != 1 {
+		t.Errorf("granting an already granted order: %d, %d subs", rec.Code, g.subs("1=1"))
+	}
 }
 
 func TestAdminUsersListShowsTheSubscription(t *testing.T) {
@@ -199,5 +215,11 @@ func TestAdminUsersListShowsTheSubscription(t *testing.T) {
 	body := request(g.s, "/admin/pengguna", c).Body.String()
 	if !strings.Contains(body, "Pro hingga 20") || !strings.Contains(body, "Langganan") {
 		t.Error("users list does not show the active subscription")
+	}
+	g.s.db.Exec(`INSERT INTO subscriptions (user_id, plan_id, starts_at, ends_at, bcl_order)
+		SELECT id, ?, datetime('now', '+9 days'), datetime('now', '+39 days'), 'B' FROM users WHERE email = 'siti@example.com'`, pid)
+	want := "Pro hingga " + time.Now().UTC().AddDate(0, 0, 39).Format("2006-01-02")
+	if body := request(g.s, "/admin/pengguna", c).Body.String(); !strings.Contains(body, want) {
+		t.Errorf("users list does not show the stacked end %q", want)
 	}
 }

@@ -103,3 +103,13 @@ func TestMailerSendsReplyTo(t *testing.T) {
 		t.Error("replyTo sent although unset")
 	}
 }
+
+func TestSendReplyToOverridesTheDefault(t *testing.T) {
+	var out bytes.Buffer
+	m := &Mailer{From: "a@example.com", ReplyTo: "admin@example.com", Out: &out}
+	m.SendReplyTo("to@example.com", "visitor@example.com", "s", "t")
+	m.Send("to@example.com", "s", "t")
+	if got := out.String(); !strings.Contains(got, "Reply-To: visitor@example.com") || !strings.Contains(got, "Reply-To: admin@example.com") {
+		t.Errorf("output = %q", got)
+	}
+}

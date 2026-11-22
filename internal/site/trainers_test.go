@@ -211,6 +211,9 @@ func TestTrainerDirectoryListsOnlyLiveTrainers(t *testing.T) {
 	if _, sm := get(t, s, "/sitemap.xml"); !strings.Contains(sm, "/trainer</loc>") {
 		t.Error("sitemap missing /trainer")
 	}
+	if _, sm := get(t, s, "/sitemap.xml"); !strings.Contains(sm, "/trainer/aminah-live</loc>") || strings.Contains(sm, "budi-tersembunyi") {
+		t.Error("sitemap should list the published Cave trainer only")
+	}
 }
 
 func TestTrainerProfileEscapesUserText(t *testing.T) {

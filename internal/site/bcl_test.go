@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"sync"
 	"testing"
@@ -334,3 +335,27 @@ func TestBCLWebhookKeyAndTokenNeverReachTheLog(t *testing.T) {
 }
 
 var testLogOut = log.Writer()
+
+func TestBCLReplayOfAnOrderGrantedByHandIsNotHeldAgain(t *testing.T) {
+	g := newBCLRig(t)
+	c := adminCookie(t, g.s, "admin@example.com")
+	ck := []*http.Cookie{c}
+	g.plan("Pro", 2900, 20, 30, proLink)
+	g.order("ORD2", "baru@example.com", nil)
+	g.hook(testBCLKey, hookBody("ORD2")) // no account: kept
+	signUp(t, g.s, "user2@example.com")
+	signUp(t, g.s, "user1@example.com")
+	grant := url.Values{"action": {"grant"}, "id": {"1"}, "email": {"user2@example.com"}, "plan_id": {"1"}}
+	if rec := authPost(t, g.s, "/admin/pelan", grant, ck); rec.Code != http.StatusSeeOther {
+		t.Fatalf("grant: %d", rec.Code)
+	}
+	if rec := g.hook(testBCLKey, hookBody("ORD2")); rec.Code != http.StatusOK {
+		t.Fatalf("replay: %d", rec.Code)
+	}
+	if n, _, _ := g.unmatched(); n != 0 {
+		t.Fatalf("replay put the granted order back in unmatched (%d)", n)
+	}
+	if g.subs("1=1") != 1 {
+		t.Errorf("%d subs", g.subs("1=1"))
+	}
+}

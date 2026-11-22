@@ -26,7 +26,6 @@ Production is https://caveacademy.my/, on the same VPS as cave LMS (ssh host `vp
    | `MAIL_FROM` | `The Cave Academy <noreply@caveacademy.my>` |
    | `ADMIN_EMAIL` | receives form submissions |
    | `BASE_URL` | `https://caveacademy.my`, required |
-
    | `BCL_WEBHOOK_KEY` | optional: a random key of at least 32 characters (`openssl rand -hex 24`) for paid tiers; see BCL checkout below |
    | `BCL_API_TOKEN` | optional: BCL API token; set together with `BCL_WEBHOOK_KEY` |
 
@@ -37,7 +36,7 @@ Production is https://caveacademy.my/, on the same VPS as cave LMS (ssh host `vp
    ssh vps 'runuser -u cave_academy -- env DB_PATH=/var/lib/cave-academy/cave-academy.db /usr/local/bin/cave-academy make-admin you@example.com'
    ```
 
-   `make-admin <email>` is being added by another change; check its usage in the README once it lands. Run it as `cave_academy` (not root) so the database file keeps its owner.
+   `make-admin <email>` (usage in the README) needs an account that already exists. Run it as `cave_academy` (not root) so the database file keeps its owner.
 6. **Restic (optional, recommended).** See Backups below.
 
 ## Operations
@@ -115,7 +114,7 @@ Edit `/etc/cave-academy/env` on the VPS, then `systemctl restart cave-academy`. 
 
 - [ ] DNS: `dig +short caveacademy.my www.caveacademy.my` both give `13.140.65.183`, not proxied.
 - [ ] Brevo: `caveacademy.my` shows Authenticated (DKIM, DMARC); `BREVO_API_KEY` is set in the env file.
-- [ ] Env file has all six keys; `BASE_URL=https://caveacademy.my`.
+- [ ] Env file has the six required keys (the two BCL keys are optional); `BASE_URL=https://caveacademy.my`.
 - [ ] `deploy/production.sh` ends with `production: https://caveacademy.my at <commit>`; `https://www.caveacademy.my/` redirects to the apex.
 - [ ] `ssh vps cat /var/lib/cave-academy/deployed` equals `git rev-parse origin/main`.
 - [ ] Sign up with a real address: the mail arrives (inbox, not spam), the link uses `https://caveacademy.my`.

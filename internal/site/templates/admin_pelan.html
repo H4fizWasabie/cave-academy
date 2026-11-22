@@ -31,14 +31,14 @@
 
     <h2 class="pl-h">Pelan sedia ada <span class="adm-count">{{len .Forms}}</span></h2>
     {{range .Forms}}
-    <div class="pl-card{{if not .Active}} pl-card--off{{end}}">
-      <p class="pl-sum"><strong>{{.Name}}</strong> &middot; {{.Price}} &middot; {{.Quota}} &middot; {{.Duration}}{{if not .Active}} <span class="adm-badge">Tidak aktif</span>{{end}}</p>
+    <div class="pl-card{{if not .Saved.Active}} pl-card--off{{end}}">
+      <p class="pl-sum"><strong>{{.Saved.Name}}</strong> &middot; {{.Saved.Price}} &middot; {{.Saved.Quota}} &middot; {{.Saved.Duration}}{{if not .Saved.Active}} <span class="adm-badge">Tidak aktif</span>{{end}}</p>
       {{template "planform" .}}
       <form method="post" action="/admin/pelan" class="pl-toggle">
         <input type="hidden" name="action" value="toggle">
         <input type="hidden" name="id" value="{{.ID}}">
-        <input type="hidden" name="active" value="{{if .Active}}0{{else}}1{{end}}">
-        <button class="adm-btn" type="submit">{{if .Active}}Nyahaktifkan{{else}}Aktifkan{{end}}</button>
+        <input type="hidden" name="active" value="{{if .Saved.Active}}0{{else}}1{{end}}">
+        <button class="adm-btn" type="submit">{{if .Saved.Active}}Nyahaktifkan{{else}}Aktifkan{{end}}</button>
       </form>
     </div>
     {{else}}<p class="adm-empty">Belum ada pelan.</p>{{end}}

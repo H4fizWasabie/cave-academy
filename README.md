@@ -11,18 +11,18 @@ set -a; . ./.env; set +a; go run .
 
 Open http://localhost:8080. Without `BREVO_API_KEY`, form emails are printed to the log. Without `OPENROUTER_API_KEY`, the bots reply that they are not configured.
 
-To give a user unlimited chat (until paid plans land): `sqlite3 cave-academy.db "UPDATE users SET plan='paid' WHERE email='...'"`.
+To give one user unlimited chat by hand (a manual override beside the paid plans): `sqlite3 cave-academy.db "UPDATE users SET plan='paid' WHERE email='...'"`.
 
 ## Admin
 
-`/admin` (overview, RFQ, trainer applications, messages, users with a free/paid switch, CSV downloads) is for accounts with `users.is_admin = 1`. Signup never sets it; only this command does, against the database in `DB_PATH`. The account must already exist (sign up on the site first):
+`/admin` has eight tabs: Ringkasan (overview), RFQ, Trainer (applications), Mesej, Pengguna (with a free/paid switch), Pelan (plans and unmatched BCL payments), Profil Trainer (moderate trainer profiles) and Pengetahuan (bot material). The lists have CSV downloads. It is for accounts with `users.is_admin = 1`. Signup never sets it; only this command does, against the database in `DB_PATH`. The account must already exist (sign up on the site first):
 
 ```bash
 DB_PATH=cave-academy.db go run . make-admin you@example.com      # locally
 DB_PATH=cave-academy.db go run . revoke-admin you@example.com
 ```
 
-On staging: `ssh vps sudo -u cave_academy_staging env DB_PATH=/var/lib/cave-academy-staging/cave-academy.db /usr/local/bin/cave-academy-staging make-admin you@example.com` (same shape for another service: its user, binary and `DB_PATH` from the unit file). It exits non-zero when there is no such account. Everyone else gets a 404 on `/admin`.
+On staging: `ssh vps sudo -u cave_academy_staging env DB_PATH=/var/lib/cave-academy-staging/cave-academy.db /usr/local/bin/cave-academy-staging make-admin you@example.com` (same shape for another service: its user, binary and `DB_PATH` from the unit file). It exits non-zero when there is no such account. Logged-out visitors are sent to the login page and other accounts get a 404 on `/admin`.
 
 ### Adding material for the bots (RAG)
 

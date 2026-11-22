@@ -1,6 +1,7 @@
 package site
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"math"
@@ -129,7 +130,8 @@ type entitlement struct {
 func (s *Server) entitlementOf(u *User) entitlement {
 	e := entitlement{Limit: freeDaily}
 	now := s.now().UTC().Format(dbTime)
-	rows, err := s.db.Query(`SELECT p.name, p.daily_questions, sub.ends_at FROM subscriptions sub JOIN plans p ON p.id = sub.plan_id
+	var bestPlan int64
+	rows, err := s.db.Query(`SELECT p.id, p.name, p.daily_questions, sub.ends_at FROM subscriptions sub JOIN plans p ON p.id = sub.plan_id
 		WHERE sub.user_id = ? AND sub.starts_at <= ? AND sub.ends_at > ?`, u.ID, now, now)
 	if err != nil {
 		log.Printf("entitlement: %v", err)
@@ -139,7 +141,8 @@ func (s *Server) entitlementOf(u *User) entitlement {
 		for rows.Next() {
 			var name, ends string
 			var daily int
-			if rows.Scan(&name, &daily, &ends) != nil {
+			var pid int64
+			if rows.Scan(&pid, &name, &daily, &ends) != nil {
 				continue
 			}
 			t, err := time.ParseInLocation(dbTime, ends, time.UTC)
@@ -151,7 +154,15 @@ func (s *Server) entitlementOf(u *User) entitlement {
 				rank, limit = math.MaxInt32, -1
 			}
 			if rank > best || rank == best && t.After(e.Ends) {
-				best, e = rank, entitlement{Limit: limit, Plan: name, Ends: t}
+				best, bestPlan, e = rank, pid, entitlement{Limit: limit, Plan: name, Ends: t}
+			}
+		}
+		rows.Close()
+		// Renewals stack: show the furthest end of that plan, not the running row's.
+		var last sql.NullString
+		if best > 0 && s.db.QueryRow(`SELECT MAX(ends_at) FROM subscriptions WHERE user_id = ? AND plan_id = ? AND ends_at > ?`, u.ID, bestPlan, now).Scan(&last) == nil {
+			if t, err := time.ParseInLocation(dbTime, last.String, time.UTC); err == nil && t.After(e.Ends) {
+				e.Ends = t
 			}
 		}
 	}

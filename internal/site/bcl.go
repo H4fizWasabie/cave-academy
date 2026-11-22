@@ -194,6 +194,14 @@ func (s *Server) bclWebhook(w http.ResponseWriter, r *http.Request) {
 // takeBCLOrder confirms the order with BCL and grants it or keeps it for an
 // admin. It says what happened, for the log. An error means try again later.
 func (s *Server) takeBCLOrder(ctx context.Context, order string) (string, error) {
+	// An order already granted (by a webhook or by hand) is done: never hold it again.
+	var done int
+	if err := s.db.QueryRow(`SELECT COUNT(*) FROM subscriptions WHERE bcl_order = ?`, order).Scan(&done); err != nil {
+		return "", err
+	}
+	if done > 0 {
+		return "already granted", nil
+	}
 	var d bclOrder
 	if err := s.bclGet(ctx, "/transactions/"+url.PathEscape(order), &d); err != nil {
 		return "", err

@@ -169,3 +169,28 @@ func TestAboutPageLinksOnward(t *testing.T) {
 		}
 	}
 }
+
+// Admin notifications reply to the submitter, not to the admin.
+func TestFormNotificationsReplyToTheSubmitter(t *testing.T) {
+	for name, tc := range map[string]struct {
+		path  string
+		form  url.Values
+		email string
+	}{
+		"contact": {"/hubungi-kami", contactForm, "aisyah@example.com"},
+		"trainer": {"/trainer-panel", trainerForm, "zul@example.com"},
+	} {
+		s := newTestServer(t)
+		mail := captureMail(s)
+		post(s, tc.path, tc.form)
+		if !strings.Contains(mail.String(), "Reply-To: "+tc.email+"\n") {
+			t.Errorf("%s: mail = %q", name, mail.String())
+		}
+	}
+	s := newTestServer(t)
+	mail := captureMail(s)
+	postRFQ(t, s, validRFQ())
+	if !strings.Contains(mail.String(), "Reply-To: aisyah@maju.example\n") {
+		t.Errorf("rfq: mail = %q", mail.String())
+	}
+}

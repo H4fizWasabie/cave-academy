@@ -39,6 +39,7 @@ type unmatchedRow struct {
 type planForm struct {
 	Plan
 	PriceText, Pre string
+	Saved          Plan // the stored plan, for the summary line when Plan holds a rejected edit
 }
 
 // adminPelanView is Page.Data for admin_pelan.html.
@@ -61,11 +62,15 @@ func (s *Server) renderAdminPelan(w http.ResponseWriter, u *User, status int, er
 		http.Error(w, "Ralat dalaman", http.StatusInternalServerError)
 		return
 	}
-	if draftRM == "" && draft.Name == "" {
-		v.New.Plan = Plan{Active: true, Days: 30}
+	if draft.ID != 0 || draftRM == "" && draft.Name == "" {
+		v.New.Plan, v.New.PriceText = Plan{Active: true, Days: 30}, ""
 	}
 	for _, p := range v.Plans {
-		v.Forms = append(v.Forms, planForm{Plan: p, PriceText: p.PriceInput(), Pre: fmt.Sprintf("p%d", p.ID)})
+		f := planForm{Plan: p, PriceText: p.PriceInput(), Pre: fmt.Sprintf("p%d", p.ID), Saved: p}
+		if p.ID == draft.ID { // a rejected edit keeps what was typed
+			f.Plan, f.PriceText = draft, draftRM
+		}
+		v.Forms = append(v.Forms, f)
 	}
 	s.renderStatus(w, status, "admin_pelan", Page{Title: "Admin: Pelan", CSS: []string{"admin", "pelan"}, User: u, Data: v})
 }
@@ -129,11 +134,7 @@ func (s *Server) adminPelanPost(w http.ResponseWriter, r *http.Request, u *User)
 	case "save":
 		p, rm, msg := s.parsePlanForm(r)
 		if msg != "" {
-			if p.ID == 0 {
-				s.renderAdminPelan(w, u, http.StatusUnprocessableEntity, msg, p, rm)
-			} else {
-				s.renderAdminPelan(w, u, http.StatusUnprocessableEntity, msg, Plan{}, "")
-			}
+			s.renderAdminPelan(w, u, http.StatusUnprocessableEntity, msg, p, rm)
 			return
 		}
 		err = s.savePlan(p)
@@ -265,6 +266,9 @@ func (s *Server) grantUnmatched(r *http.Request) (msg string, err error) {
 	case err != nil:
 		return "", err
 	}
-	_, err = s.grantSubscription(uid, *plan, order)
+	granted, err := s.grantSubscription(uid, *plan, order)
+	if err == nil && !granted {
+		return "Bayaran itu sudah diberi langganan sebelum ini, jadi tiada apa yang diubah.", nil
+	}
 	return "", err
 }

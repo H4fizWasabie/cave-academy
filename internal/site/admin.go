@@ -81,7 +81,7 @@ var adminLists = map[string]adminList{
 		Query: `SELECT name, email, plan, created_at,
 			(SELECT COUNT(*) FROM chat_messages c WHERE c.user_id = users.id AND c.role = 'user' AND c.created_at >= ?),
 			is_admin,
-			(SELECT p.name || ' hingga ' || substr(sub.ends_at, 1, 10) FROM subscriptions sub JOIN plans p ON p.id = sub.plan_id
+			(SELECT p.name || ' hingga ' || substr((SELECT MAX(x.ends_at) FROM subscriptions x WHERE x.user_id = sub.user_id AND x.plan_id = sub.plan_id AND x.ends_at > datetime('now')), 1, 10) FROM subscriptions sub JOIN plans p ON p.id = sub.plan_id
 				WHERE sub.user_id = users.id AND sub.starts_at <= datetime('now') AND sub.ends_at > datetime('now') ORDER BY sub.ends_at DESC LIMIT 1),
 			id FROM users ORDER BY id DESC`,
 	},
