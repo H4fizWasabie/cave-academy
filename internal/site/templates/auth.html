@@ -14,19 +14,19 @@
       {{else}}
       <h1 class="auth__title">{{if eq .Mode "daftar"}}Daftar Akaun{{else}}Log Masuk{{end}}</h1>
       <p class="auth__lead">{{if eq .Mode "daftar"}}Daftar percuma untuk berbual dengan AI NLP Bots.{{else}}Log masuk untuk berbual dengan AI NLP Bots.{{end}}</p>
-      {{if .Error}}<p class="auth__error" role="alert">{{.Error}}</p>{{end}}
+      {{if .Error}}<p class="auth__error" id="auth-error" role="alert">{{.Error}}</p>{{end}}
       <form method="post" action="/{{if eq .Mode "daftar"}}daftar{{else}}log-masuk{{end}}" class="auth__form">
         {{if .Next}}<input type="hidden" name="next" value="{{.Next}}">{{end}}
         {{if eq .Mode "daftar"}}
-        <label class="auth__field">Nama
-          <input type="text" name="name" value="{{.Name}}" autocomplete="name" required>
+        <label class="auth__field">Nama <span class="req" aria-hidden="true">*</span>
+          <input type="text" name="name" value="{{.Name}}" autocomplete="name" required{{if .Error}} aria-describedby="auth-error"{{end}}>
         </label>
         {{end}}
-        <label class="auth__field">Emel
-          <input type="email" name="email" value="{{.Email}}" autocomplete="email" required>
+        <label class="auth__field">Emel <span class="req" aria-hidden="true">*</span>
+          <input type="email" name="email" value="{{.Email}}" inputmode="email" autocomplete="email" required{{if .Error}} aria-describedby="auth-error"{{end}}>
         </label>
-        <label class="auth__field">Kata laluan
-          <input type="password" name="password" autocomplete="{{if eq .Mode "daftar"}}new-password{{else}}current-password{{end}}" minlength="{{if eq .Mode "daftar"}}8{{else}}1{{end}}" required>
+        <label class="auth__field">Kata laluan <span class="req" aria-hidden="true">*</span>
+          <input type="password" name="password" autocomplete="{{if eq .Mode "daftar"}}new-password{{else}}current-password{{end}}" minlength="{{if eq .Mode "daftar"}}8{{else}}1{{end}}" required{{if .Error}} aria-describedby="auth-error"{{end}}>
           {{if eq .Mode "daftar"}}<small>Sekurang-kurangnya 8 aksara.</small>{{end}}
         </label>
         <button class="btn btn--primary auth__submit" type="submit">{{if eq .Mode "daftar"}}Daftar{{else}}Log Masuk{{end}}</button>

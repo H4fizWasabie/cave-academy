@@ -11,7 +11,7 @@
       </div>
     </div>
   </div>
-  <img class="hero__img" src="/static/img/hero.jpg" alt="Jurulatih The Cave Academy di lobi pejabat" width="710" height="248">
+  <img class="hero__img" src="/static/img/hero.jpg" alt="" width="710" height="248">
 </section>
 
 <section class="container page-section">
@@ -29,38 +29,39 @@
     <h2 class="section-title">Daftar Trainer Panel</h2>
     {{if not .Data.Thanks}}
     <form class="form" method="post" action="/trainer-panel#daftar" novalidate>
+      <p class="form__note"><span class="req" aria-hidden="true">*</span> Wajib diisi</p>
       <div class="form__trap" aria-hidden="true"><label>Laman web <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
       <div class="form__grid">
         <div class="field{{if .Data.Err.name}} field--error{{end}}">
-          <label for="name">Nama</label>
+          <label for="name">Nama <span class="req" aria-hidden="true">*</span></label>
           <input id="name" name="name" type="text" autocomplete="name" maxlength="100" required value="{{.Data.V.name}}"{{if .Data.Err.name}} aria-invalid="true" aria-describedby="name-err"{{end}}>
-          {{with .Data.Err.name}}<p class="field__error" id="name-err">{{.}}</p>{{end}}
+          {{with .Data.Err.name}}<p class="field__error" role="alert" id="name-err">{{.}}</p>{{end}}
         </div>
         <div class="field{{if .Data.Err.email}} field--error{{end}}">
-          <label for="email">E-mel</label>
+          <label for="email">E-mel <span class="req" aria-hidden="true">*</span></label>
           <input id="email" name="email" type="email" autocomplete="email" maxlength="254" required value="{{.Data.V.email}}"{{if .Data.Err.email}} aria-invalid="true" aria-describedby="email-err"{{end}}>
-          {{with .Data.Err.email}}<p class="field__error" id="email-err">{{.}}</p>{{end}}
+          {{with .Data.Err.email}}<p class="field__error" role="alert" id="email-err">{{.}}</p>{{end}}
         </div>
         <div class="field{{if .Data.Err.phone}} field--error{{end}}">
-          <label for="phone">Telefon</label>
-          <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="30" required value="{{.Data.V.phone}}"{{if .Data.Err.phone}} aria-invalid="true" aria-describedby="phone-err"{{end}}>
-          {{with .Data.Err.phone}}<p class="field__error" id="phone-err">{{.}}</p>{{end}}
+          <label for="phone">Telefon <span class="req" aria-hidden="true">*</span></label>
+          <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" required value="{{.Data.V.phone}}"{{if .Data.Err.phone}} aria-invalid="true" aria-describedby="phone-err"{{end}}>
+          {{with .Data.Err.phone}}<p class="field__error" role="alert" id="phone-err">{{.}}</p>{{end}}
         </div>
         <div class="field{{if .Data.Err.years_experience}} field--error{{end}}">
-          <label for="years_experience">Tahun pengalaman melatih</label>
+          <label for="years_experience">Tahun pengalaman melatih <span class="req" aria-hidden="true">*</span></label>
           <input id="years_experience" name="years_experience" type="number" inputmode="numeric" min="0" max="60" required value="{{.Data.V.years_experience}}"{{if .Data.Err.years_experience}} aria-invalid="true" aria-describedby="years_experience-err"{{end}}>
-          {{with .Data.Err.years_experience}}<p class="field__error" id="years_experience-err">{{.}}</p>{{end}}
+          {{with .Data.Err.years_experience}}<p class="field__error" role="alert" id="years_experience-err">{{.}}</p>{{end}}
         </div>
       </div>
       <div class="field{{if .Data.Err.expertise}} field--error{{end}}">
-        <label for="expertise">Bidang kepakaran</label>
+        <label for="expertise">Bidang kepakaran <span class="req" aria-hidden="true">*</span></label>
         <input id="expertise" name="expertise" type="text" maxlength="200" placeholder="Contoh: kepimpinan, komunikasi, jualan" required value="{{.Data.V.expertise}}"{{if .Data.Err.expertise}} aria-invalid="true" aria-describedby="expertise-err"{{end}}>
-        {{with .Data.Err.expertise}}<p class="field__error" id="expertise-err">{{.}}</p>{{end}}
+        {{with .Data.Err.expertise}}<p class="field__error" role="alert" id="expertise-err">{{.}}</p>{{end}}
       </div>
       <div class="field{{if .Data.Err.bio}} field--error{{end}}">
         <label for="bio">Bio ringkas <span class="field__opt">(pilihan)</span></label>
         <textarea id="bio" name="bio" rows="5" maxlength="2000"{{if .Data.Err.bio}} aria-invalid="true" aria-describedby="bio-err"{{end}}>{{.Data.V.bio}}</textarea>
-        {{with .Data.Err.bio}}<p class="field__error" id="bio-err">{{.}}</p>{{end}}
+        {{with .Data.Err.bio}}<p class="field__error" role="alert" id="bio-err">{{.}}</p>{{end}}
       </div>
       <button class="btn btn--primary" type="submit">Hantar Permohonan {{template "arrow"}}</button>
     </form>

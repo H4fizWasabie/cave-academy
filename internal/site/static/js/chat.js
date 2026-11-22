@@ -45,8 +45,11 @@
     body.className = 'msg__body';
     if (text === null) {
       body.className += ' msg__typing';
-      body.setAttribute('aria-label', 'Bot sedang menaip');
-      for (var i = 0; i < 3; i++) body.appendChild(document.createElement('span'));
+      var hint = document.createElement('span');
+      hint.className = 'sr-only';
+      hint.textContent = 'Bot sedang menaip...';
+      body.appendChild(hint);
+      for (var i = 0; i < 3; i++) body.appendChild(document.createElement('i'));
     } else {
       fill(body, text);
     }
@@ -95,15 +98,26 @@
     if (chips) chips.hidden = true;
     var errBox = form.parentNode.querySelector('.chat__error');
     if (errBox) errBox.remove();
-    bubble('user', text);
+    Array.prototype.forEach.call(log.querySelectorAll('.msg--error'), function (el) { el.remove(); });
+    Array.prototype.forEach.call(log.querySelectorAll('.msg--failed'), function (el) { el.remove(); });
+    var mine = bubble('user', text);
     input.value = '';
     grow();
     var typing = bubble('assistant', null);
 
     function fail(msg) {
       typing.remove();
+      mine.className += ' msg--failed'; // the retry sends it again: drop this copy then
       var row = bubble('error', msg);
       row.setAttribute('role', 'alert');
+      var retry = document.createElement('button');
+      retry.type = 'button';
+      retry.className = 'msg__retry';
+      retry.textContent = 'Cuba lagi';
+      retry.addEventListener('click', function () { form.requestSubmit(); });
+      row.firstChild.appendChild(document.createElement('br'));
+      row.firstChild.appendChild(retry);
+      log.scrollTop = log.scrollHeight;
       input.value = text; // the question was not used up: let them retry
       grow();
     }

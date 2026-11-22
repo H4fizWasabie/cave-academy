@@ -12,7 +12,7 @@
           <h1 class="chat__title">NLP Bot {{.Bot.Name}}</h1>
           <p class="chat__status">Bot AI. Bukan manusia.</p>
         </div>
-        {{if .Free}}<p class="chat__count" data-count data-limit="{{.Limit}}">Baki soalan hari ini: {{.Remaining}}/{{.Limit}}</p>{{end}}
+        {{if .Free}}<p class="chat__count" role="status" aria-live="polite" aria-atomic="true" data-count data-limit="{{.Limit}}">Baki soalan hari ini: {{.Remaining}}/{{.Limit}}</p>{{end}}
       </header>
 
       <div class="chat__log" role="log" aria-live="polite" aria-label="Perbualan" data-log>

@@ -40,9 +40,10 @@
   background: var(--white); border: 1.5px solid var(--line); border-radius: var(--r-sm);
 }
 .field textarea { resize: vertical; min-height: 120px; }
-.field input:focus, .field textarea:focus { outline: none; border-color: var(--gold-deep); box-shadow: 0 0 0 3px rgba(245, 197, 24, .35); }
-.field--error input, .field--error textarea { border-color: #c0392b; }
-.field__error { font-size: 13px; font-weight: 600; color: #c0392b; }
+.field input:focus-visible, .field textarea:focus-visible { outline: 3px solid var(--navy); outline-offset: 0; border-color: var(--navy); box-shadow: 0 0 0 5px rgba(245, 197, 24, .45); }
+.field--error input, .field--error textarea { border-color: #b42318; border-width: 2px; }
+.field__error { font-size: 13px; font-weight: 600; color: #b42318; }
+.form__note { font-size: 13px; color: var(--navy-soft); }
 .form .btn { justify-self: start; }
 
 /* Hubungi: contact details */

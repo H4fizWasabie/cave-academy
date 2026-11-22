@@ -64,11 +64,12 @@
     <ul class="pprods" id="senarai-produk">
       {{range .Data.Products}}
       <li>
-        <a class="pprod" href="{{.WA}}" target="_blank" rel="noopener" aria-label="{{.Name}}: tanya di WhatsApp">
-          <span class="pprod__cover"><img src="/static/img/{{.Image}}" alt="Kulit {{.Name}}" width="124" height="146" loading="lazy"></span>
+        <a class="pprod" href="{{.WA}}" target="_blank" rel="noopener">
+          <span class="pprod__cover"><img src="/static/img/{{.Image}}" alt="" width="124" height="146" loading="lazy"></span>
           <span class="pprod__body">
             <span class="pprod__name">{{.Name}}</span>
             <span class="pprod__desc">{{.Description}}</span>
+            <span class="sr-only">Tanya di WhatsApp (tab baharu)</span>
           </span>
         </a>
       </li>
