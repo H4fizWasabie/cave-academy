@@ -56,7 +56,7 @@ func New(cfg Config) (*Server, error) {
 	s := &Server{
 		db:     db,
 		config: cfg,
-		mailer: &Mailer{APIKey: cfg.BrevoKey, From: cfg.MailFrom},
+		mailer: &Mailer{APIKey: cfg.BrevoKey, From: cfg.MailFrom, ReplyTo: cfg.AdminEmail},
 		mux:    http.NewServeMux(),
 		limits: newRateLimits(),
 		abuse:  newAbuseLimits(),
@@ -129,6 +129,17 @@ func (s *Server) routes() {
 	s.mux.HandleFunc("GET /pelan", s.pelan)
 	s.mux.HandleFunc("/admin/pelan", s.adminPelan)
 	s.mux.HandleFunc("POST /bcl/webhook/{key}", s.bclWebhook)
+
+	// Trainer profiles (trainers.go, trainer_pdf.go, admin_trainers.go).
+	s.mux.HandleFunc("GET /trainer", s.trainerList)
+	s.mux.HandleFunc("GET /trainer/profil", s.trainerEdit)
+	s.mux.HandleFunc("POST /trainer/profil", s.trainerEdit)
+	s.mux.HandleFunc("GET /trainer/{slug}", s.trainerShow)
+	s.mux.HandleFunc("GET /trainer/{slug}/pdf", s.trainerPDF)
+	s.mux.HandleFunc("/admin/trainer-profil", s.adminTrainerProfiles)
+
+	// RAG material for the bots (admin_knowledge.go); more specific than /admin/{page}.
+	s.mux.HandleFunc(knowledgePath, s.adminKnowledge)
 }
 
 // loadTemplates parses layout.html + partials.html together with each page

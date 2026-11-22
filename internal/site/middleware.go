@@ -71,7 +71,8 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if strings.HasPrefix(r.URL.Path, "/admin") {
 		h.Set("Cache-Control", "no-store") // PII pages and CSV exports
 	}
-	if r.Method != http.MethodGet && r.Method != http.MethodHead {
+	if r.Method != http.MethodGet && r.Method != http.MethodHead && r.URL.Path != knowledgePath {
+		// knowledgePath takes uploads: its handler sets its own, larger cap once the admin is known.
 		r.Body = http.MaxBytesReader(sw, r.Body, maxBody)
 	}
 	s.mux.ServeHTTP(&reqWriter{sw, r}, r) // reqWriter lets render find the logged-in user

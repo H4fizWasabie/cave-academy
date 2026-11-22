@@ -1,0 +1,23 @@
+/* /admin/pengetahuan: the add form and group headings; the lists reuse admin.css. */
+.adm-note--inline { margin: 0; }
+.adm-kform {
+  display: grid; gap: 14px; margin: 0 0 28px; padding: 20px; background: var(--white);
+  border: 1px solid #eef0f6; border-top: 4px solid var(--gold); border-radius: var(--r-md); box-shadow: var(--shadow-sm);
+}
+.adm-kform__title, .adm-group { margin: 0; font: 700 18px/1.3 var(--font-head); color: var(--navy); }
+.adm-group { margin: 24px 0 12px; }
+.adm-field { display: grid; gap: 6px; font: 600 13px var(--font-head); color: var(--navy-soft); }
+.adm-field input[type="text"], .adm-field select, .adm-field textarea {
+  width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--r-sm);
+  background: var(--white); font: 400 15px/1.5 var(--font-body); color: var(--text);
+}
+.adm-field input[type="file"] { font: 400 14px var(--font-body); max-width: 100%; }
+.adm-field textarea { resize: vertical; min-height: 140px; }
+.adm-field input:focus-visible, .adm-field select:focus-visible, .adm-field textarea:focus-visible { outline: 3px solid var(--navy); outline-offset: 0; }
+.adm-kerror { margin: 0; padding: 10px 14px; border-radius: var(--r-sm); background: #fdecea; color: #b42318; font-weight: 600; }
+.adm-kform__go { background: var(--navy); color: var(--white); }
+.adm-kform__go:hover { background: var(--navy-soft); }
+@media (min-width: 900px) {
+  .adm-kform { max-width: 760px; }
+  .adm-kform__go { justify-self: start; padding: 10px 22px; }
+}

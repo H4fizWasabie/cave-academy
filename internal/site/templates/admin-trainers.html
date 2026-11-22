@@ -1,0 +1,59 @@
+{{/* Admin: moderate trainer profiles and email trainers. Page.Data is adminTrainersView (admin_trainers.go). */}}
+{{define "head"}}<meta name="robots" content="noindex">{{end}}
+{{define "content"}}
+{{with .Data}}
+<section class="adm">
+  <div class="container">
+    {{template "adminnav" "trainer-profil"}}
+    <div class="adm-head">
+      <h1 class="adm-title">Profil Trainer <span class="adm-count">{{.Total}}</span></h1>
+    </div>
+    {{if .Rows}}
+    <ul class="atp-list">
+      {{range .Rows}}
+      <li class="atp">
+        <div class="atp__top">
+          <div>
+            <h2 class="atp__name">{{.DisplayName}}</h2>
+            <p class="atp__meta"><a href="mailto:{{.Email}}">{{.Email}}</a> &middot; templat {{.Template}} &middot; dikemas kini {{.At}}</p>
+            <p class="atp__meta"><a href="/trainer/{{.Slug}}">/trainer/{{.Slug}}</a> &middot; <a href="/trainer/{{.Slug}}/pdf" download>PDF</a></p>
+          </div>
+          <p class="atp__badges">
+            <span class="adm-badge{{if .IsCave}} adm-badge--paid{{end}}">{{if .IsCave}}Cave Trainer{{else}}Ahli{{end}}</span>
+            <span class="adm-badge{{if .Published}} adm-badge--admin{{end}}">{{if .Published}}Diterbitkan{{else}}Tersembunyi{{end}}</span>
+          </p>
+        </div>
+        <div class="atp__acts">
+          <form method="post" action="/admin/trainer-profil" class="adm-plan">
+            <input type="hidden" name="id" value="{{.ID}}">
+            <input type="hidden" name="action" value="{{if .IsCave}}demote{{else}}promote{{end}}">
+            <button class="adm-btn" type="submit">{{if .IsCave}}Turunkan kepada Ahli{{else}}Jadikan Cave Trainer{{end}}</button>
+          </form>
+          <form method="post" action="/admin/trainer-profil" class="adm-plan">
+            <input type="hidden" name="id" value="{{.ID}}">
+            <input type="hidden" name="action" value="{{if .Published}}unpublish{{else}}publish{{end}}">
+            <button class="adm-btn" type="submit">{{if .Published}}Sembunyikan{{else}}Terbitkan{{end}}</button>
+          </form>
+        </div>
+        <details class="atp__mail">
+          <summary>Hantar e-mel{{if .Msgs}} ({{len .Msgs}} terakhir){{end}}</summary>
+          <form method="post" action="/admin/trainer-profil" class="form">
+            <input type="hidden" name="id" value="{{.ID}}">
+            <input type="hidden" name="action" value="message">
+            <div class="field"><label for="subject-{{.ID}}">Subjek</label><input id="subject-{{.ID}}" name="subject" type="text" maxlength="150" required></div>
+            <div class="field"><label for="message-{{.ID}}">Mesej</label><textarea id="message-{{.ID}}" name="message" rows="4" maxlength="3000" required></textarea></div>
+            <p class="form__note">Trainer membalas e-mel ini terus kepada alamat admin.</p>
+            <button class="adm-btn" type="submit">Hantar</button>
+          </form>
+          {{range .Msgs}}
+          <div class="atp__msg"><strong>{{.Subject}}</strong> <span>{{.At}}</span><p>{{.Body}}</p></div>
+          {{end}}
+        </details>
+      </li>
+      {{end}}
+    </ul>
+    {{else}}<p class="adm-empty">Belum ada profil trainer.</p>{{end}}
+  </div>
+</section>
+{{end}}
+{{end}}

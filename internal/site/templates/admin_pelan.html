@@ -20,14 +20,7 @@
 {{with .Data}}
 <section class="adm">
   <div class="container">
-    <nav class="adm-tabs" aria-label="Menu admin">
-      <a href="/admin">Ringkasan</a>
-      <a href="/admin/rfq">RFQ</a>
-      <a href="/admin/trainer">Trainer</a>
-      <a href="/admin/mesej">Mesej</a>
-      <a href="/admin/pengguna">Pengguna</a>
-      <a href="/admin/pelan" aria-current="page">Pelan</a>
-    </nav>
+    {{template "adminnav" "pelan"}}
 
     <h1 class="adm-title">Pelan langganan</h1>
     <p class="adm-note">Pelan dipaparkan di <a href="/pelan">/pelan</a>. Pelan tidak dipadam, hanya dinyahaktifkan. Pembayar mesti guna emel yang sama dengan akaun mereka.</p>

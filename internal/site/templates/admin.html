@@ -4,14 +4,7 @@
 {{with .Data}}
 <section class="adm">
   <div class="container">
-    <nav class="adm-tabs" aria-label="Menu admin">
-      <a href="/admin"{{if eq .Key ""}} aria-current="page"{{end}}>Ringkasan</a>
-      <a href="/admin/rfq"{{if eq .Key "rfq"}} aria-current="page"{{end}}>RFQ</a>
-      <a href="/admin/trainer"{{if eq .Key "trainer"}} aria-current="page"{{end}}>Trainer</a>
-      <a href="/admin/mesej"{{if eq .Key "mesej"}} aria-current="page"{{end}}>Mesej</a>
-      <a href="/admin/pengguna"{{if eq .Key "pengguna"}} aria-current="page"{{end}}>Pengguna</a>
-      <a href="/admin/pelan">Pelan</a>
-    </nav>
+    {{template "adminnav" .Key}}
 
     {{if eq .Key ""}}
     <h1 class="adm-title">Ringkasan</h1>

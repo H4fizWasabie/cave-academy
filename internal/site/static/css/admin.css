@@ -73,7 +73,7 @@
   .adm-cards { grid-template-columns: repeat(2, 1fr); }
 }
 @media (min-width: 1100px) {
-  .adm-cards { grid-template-columns: repeat(4, 1fr); }
+  .adm-cards { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 }
 
 /* Desktop: real tables */

@@ -38,3 +38,17 @@
 </svg>{{end}}
 
 {{define "arrow"}}<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>{{end}}
+
+{{/* Admin tabs, shared by every admin page. Call with the current page key: {{template "adminnav" "pelan"}}. */}}
+{{define "adminnav"}}
+    <nav class="adm-tabs" aria-label="Menu admin">
+      <a href="/admin"{{if eq . ""}} aria-current="page"{{end}}>Ringkasan</a>
+      <a href="/admin/rfq"{{if eq . "rfq"}} aria-current="page"{{end}}>RFQ</a>
+      <a href="/admin/trainer"{{if eq . "trainer"}} aria-current="page"{{end}}>Trainer</a>
+      <a href="/admin/mesej"{{if eq . "mesej"}} aria-current="page"{{end}}>Mesej</a>
+      <a href="/admin/pengguna"{{if eq . "pengguna"}} aria-current="page"{{end}}>Pengguna</a>
+      <a href="/admin/pelan"{{if eq . "pelan"}} aria-current="page"{{end}}>Pelan</a>
+      <a href="/admin/trainer-profil"{{if eq . "trainer-profil"}} aria-current="page"{{end}}>Profil Trainer</a>
+      <a href="/admin/pengetahuan"{{if eq . "pengetahuan"}} aria-current="page"{{end}}>Pengetahuan</a>
+    </nav>
+{{end}}
