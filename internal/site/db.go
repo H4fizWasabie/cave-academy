@@ -152,4 +152,15 @@ CREATE TABLE IF NOT EXISTS trainer_messages (
 	body       TEXT NOT NULL,
 	created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+
+-- RAG material uploaded by admins (knowledge.go). bot is a bot slug or 'all'.
+CREATE TABLE IF NOT EXISTS knowledge_docs (
+	id         INTEGER PRIMARY KEY AUTOINCREMENT,
+	bot        TEXT NOT NULL,
+	title      TEXT NOT NULL,
+	content    TEXT NOT NULL,
+	created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+-- Searchable chunks of those documents; doc_id and bot are filters, not indexed text.
+CREATE VIRTUAL TABLE IF NOT EXISTS knowledge_chunks USING fts5(doc_id UNINDEXED, bot UNINDEXED, title, body, tokenize = 'unicode61 remove_diacritics 2');
 `

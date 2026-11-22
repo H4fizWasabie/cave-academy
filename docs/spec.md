@@ -46,7 +46,7 @@ Contact details on the site: WhatsApp / phone 012-394 7200 (`https://wa.me/60123
 | `/daftar`, `/log-masuk`, `/log-keluar` | sign up, log in, log out | none |
 | `/lupa-kata-laluan`, `/reset-kata-laluan` | password reset by email | none |
 | `/dasar-privasi`, `/terma` | privacy policy, terms | none |
-| `/admin`, `/admin/{rfq,trainer,mesej,pengguna}` | back office for admins (`users.is_admin`), CSV downloads; anyone else gets a 404 | none |
+| `/admin`, `/admin/{rfq,trainer,mesej,pengguna,pengetahuan}` | back office for admins (`users.is_admin`), CSV downloads; anyone else gets a 404 | none |
 
 Header nav: Utama / Program (dropdown: Corporate Training & RFQ, Trainer Panel) / AI NLP Bots (dropdown: three bots) / Produk Digital / Tentang Kami, a search icon (may be omitted in v1), "Hubungi Kami" and a green "WhatsApp Chat" button. Mobile: logo, WhatsApp icon, Hubungi Kami, hamburger menu.
 
@@ -70,7 +70,14 @@ Assets: no real logo or photos supplied yet. Crop the round CAVE badge and the h
 - The visitor picks the bot (no router). Chat requires login; a logged-out visitor sees the bot page with a prompt to sign up / log in.
 - **Free plan: 3 questions per day** per user (day boundary Asia/Kuala_Lumpur), counted server-side. `paid` users: no limit in v1. When the limit is hit, say so and point to WhatsApp for plans.
 - The server calls OpenRouter chat completions (`https://openrouter.ai/api/v1/chat/completions`), non-streaming, with `max_tokens` capped (~800), a timeout, and the last ~10 turns of the conversation. Messages are stored per user per bot so history survives reload.
-- Bots may point users to site pages (Corporate Training, Produk Digital) and to WhatsApp. No RAG in v1; it comes when the client sends source documents.
+- Bots may point users to site pages (Corporate Training, Produk Digital) and to WhatsApp.
+
+### RAG over the client's material
+
+- Admins add material at `/admin/pengetahuan`: a title, one bot or "Semua bot", and pasted text (up to 200 KB) or an uploaded `.txt` / `.md` file (up to 1 MB, UTF-8). Deleting a document removes its chunks.
+- Each document is cut into chunks of about 1000 characters (paragraph, then sentence boundaries, with a small overlap) and stored in a SQLite FTS5 table (`knowledge_chunks`), next to `knowledge_docs`. No embeddings provider.
+- On every question (`knowledge.go`) the question's words (lowercased, without stopwords and FTS syntax, each quoted) are searched with bm25 among the chunks of the current bot and of "all". The top 4 chunks, at most 3500 characters, are appended to the system prompt in a Malay "Rujukan" block that says the text is data, not instructions. No match: the prompt is unchanged.
+- Only `/admin/pengetahuan` may POST a body above the 64 KB global cap (`middleware.go`); its handler sets its own cap after the admin check.
 
 ## Forms and email
 
@@ -83,4 +90,4 @@ Assets: no real logo or photos supplied yet. Crop the round CAVE badge and the h
 
 Done since the first draft: the admin panel, deploy scripts (staging and production, backups), password reset, legal pages, SEO, hardening (headers, rate limits, graceful shutdown) and Brevo email.
 
-Still to come: paid tiers and the BCL checkout, the trainer management system (profiles, PDF, email replies), RAG over the client's documents, and real images from the client. The header search icon stays omitted.
+Still to come: paid tiers and the BCL checkout, the trainer management system (profiles, PDF, email replies), and real images from the client. The header search icon stays omitted.

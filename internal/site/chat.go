@@ -161,7 +161,7 @@ func (s *Server) chatSend(u *User, bot Bot, msg string) chatResult {
 		return res(http.StatusServiceUnavailable, "Chatbot sedang sibuk. Sila cuba lagi kemudian. Soalan anda tidak dikira dalam had harian.")
 	}
 
-	turns := append([]orMessage{{"system", systemPrompt(bot)}}, s.chatHistory(u, bot, historyTurns)...)
+	turns := append([]orMessage{{"system", systemPrompt(bot) + s.knowledgeContext(bot, msg)}}, s.chatHistory(u, bot, historyTurns)...)
 	turns = append(turns, orMessage{"user", msg})
 	reply, err := s.askModel(turns)
 	if err != nil {

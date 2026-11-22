@@ -24,6 +24,10 @@ DB_PATH=cave-academy.db go run . revoke-admin you@example.com
 
 On staging: `ssh vps sudo -u cave_academy_staging env DB_PATH=/var/lib/cave-academy-staging/cave-academy.db /usr/local/bin/cave-academy-staging make-admin you@example.com` (same shape for another service: its user, binary and `DB_PATH` from the unit file). It exits non-zero when there is no such account. Everyone else gets a 404 on `/admin`.
 
+### Adding material for the bots (RAG)
+
+Log in as an admin and open `/admin/pengetahuan` (the "Pengetahuan" tab). Give the document a title, choose one bot or "Semua bot", then paste the text (up to 200 KB) or upload a `.txt` or `.md` file (up to 1 MB, UTF-8; convert Word or PDF files to text first). The bots use it straight away: when a question matches, the best passages are added to the prompt. Delete a document on the same page to stop using it. Details: `docs/spec.md`.
+
 ## Test
 
 ```bash

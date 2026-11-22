@@ -132,6 +132,9 @@ func (s *Server) routes() {
 	s.mux.HandleFunc("GET /trainer/{slug}", s.trainerShow)
 	s.mux.HandleFunc("GET /trainer/{slug}/pdf", s.trainerPDF)
 	s.mux.HandleFunc("/admin/trainer-profil", s.adminTrainerProfiles)
+
+	// RAG material for the bots (admin_knowledge.go); more specific than /admin/{page}.
+	s.mux.HandleFunc(knowledgePath, s.adminKnowledge)
 }
 
 // loadTemplates parses layout.html + partials.html together with each page

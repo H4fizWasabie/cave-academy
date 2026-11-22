@@ -1,0 +1,71 @@
+{{/* Admin: material for the bots (RAG). Page.Data is knowledgeView (admin_knowledge.go). */}}
+{{define "head"}}<meta name="robots" content="noindex">{{end}}
+{{define "content"}}
+{{with .Data}}
+<section class="adm">
+  <div class="container">
+    <nav class="adm-tabs" aria-label="Menu admin">
+      <a href="/admin">Ringkasan</a>
+      <a href="/admin/rfq">RFQ</a>
+      <a href="/admin/trainer">Trainer</a>
+      <a href="/admin/mesej">Mesej</a>
+      <a href="/admin/pengguna">Pengguna</a>
+      <a href="/admin/pengetahuan" aria-current="page">Pengetahuan</a>
+    </nav>
+
+    <div class="adm-head">
+      <h1 class="adm-title">Pengetahuan <span class="adm-count">{{.Docs}}</span></h1>
+      <span class="adm-note adm-note--inline">{{.Chunks}} bahagian boleh dicari</span>
+    </div>
+    <p class="adm-note">Bahan di sini dirujuk oleh bot apabila menjawab soalan pengguna. Pilih satu bot, atau Semua bot.</p>
+
+    <form class="adm-kform" method="post" action="/admin/pengetahuan" enctype="multipart/form-data">
+      <h2 class="adm-kform__title">Tambah bahan</h2>
+      {{with .Error}}<p class="adm-kerror" role="alert">{{.}}</p>{{end}}
+      <label class="adm-field"><span>Tajuk</span>
+        <input type="text" name="title" value="{{.Title}}" maxlength="150" required>
+      </label>
+      <label class="adm-field"><span>Bot</span>
+        <select name="bot">
+          <option value="all"{{if eq .Bot "all"}} selected{{end}}>Semua bot</option>
+          {{$bot := .Bot}}{{range .Bots}}<option value="{{.Slug}}"{{if eq $bot .Slug}} selected{{end}}>NLP Bot {{.Name}}</option>{{end}}
+        </select>
+      </label>
+      <label class="adm-field"><span>Teks (maksimum 200 KB)</span>
+        <textarea name="content" rows="8">{{.Text}}</textarea>
+      </label>
+      <label class="adm-field"><span>Atau fail .txt / .md (maksimum 1 MB; mengatasi teks di atas)</span>
+        <input type="file" name="file" accept=".txt,.md,text/plain,text/markdown">
+      </label>
+      <button class="adm-btn adm-kform__go" type="submit">Simpan bahan</button>
+    </form>
+
+    {{range .Groups}}
+    <h2 class="adm-group">{{.Label}}</h2>
+    <div class="adm-scroll">
+    <table class="adm-table">
+      <thead><tr><th scope="col">Tajuk</th><th scope="col">Bahagian</th><th scope="col">Aksara</th><th scope="col">Ditambah</th><th scope="col">Padam</th></tr></thead>
+      <tbody>
+        {{range .Docs}}
+        <tr class="adm-row">
+          <td data-label="Tajuk">{{.Title}}</td>
+          <td data-label="Bahagian">{{.Chunks}}</td>
+          <td data-label="Aksara">{{.Size}}</td>
+          <td data-label="Ditambah" class="adm-nowrap">{{.Created}}</td>
+          <td data-label="Padam">
+            <form method="post" action="/admin/pengetahuan" class="adm-plan">
+              <input type="hidden" name="action" value="delete">
+              <input type="hidden" name="id" value="{{.ID}}">
+              <button class="adm-btn" type="submit">Padam</button>
+            </form>
+          </td>
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+    </div>
+    {{else}}<p class="adm-empty">Belum ada bahan. Tambah dokumen pertama di atas.</p>{{end}}
+  </div>
+</section>
+{{end}}
+{{end}}
