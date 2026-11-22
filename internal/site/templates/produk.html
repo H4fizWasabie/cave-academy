@@ -23,7 +23,7 @@
       </ul>
       <div class="hero__actions">
         <a class="btn btn--primary" href="#kategori"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg>Terokai Produk Digital {{template "arrow"}}</a>
-        <a class="btn btn--outline" href="/tentang-kami"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Lihat Pengenalan (2 Minit)</a>
+        {{if .IntroVideo}}<a class="btn btn--outline" href="{{.IntroVideo}}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Lihat Pengenalan (2 Minit)</a>{{end}}
       </div>
     </div>
   </div>

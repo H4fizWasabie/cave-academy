@@ -36,7 +36,7 @@ On staging: `ssh vps sudo -u cave_academy_staging env DB_PATH=/var/lib/cave-acad
 deploy/staging.sh
 ```
 
-From a clean, pushed `main`. Builds a Linux binary, installs it on the VPS as `cave-academy-staging` (systemd, port 8096) behind Caddy at https://cave-academy.13-140-65-183.sslip.io/ (the cave LMS staging login guards it, `noindex`). Secrets live only in `/etc/cave-academy/staging.env` on the VPS (`OPENROUTER_API_KEY`, `BREVO_API_KEY`, `MAIL_FROM`); after editing it, `systemctl restart cave-academy-staging`. Without `BREVO_API_KEY`, form emails go to `journalctl -u cave-academy-staging`.
+From a clean, pushed `main`. Builds a Linux binary, installs it on the VPS as `cave-academy-staging` (systemd, port 8096) behind Caddy at https://cave-academy.13-140-65-183.sslip.io/ (the cave LMS staging login guards it, `noindex`). `BASE_URL` is set in the unit file to the staging origin (canonical links and the sitemap use it). Secrets live only in `/etc/cave-academy/staging.env` on the VPS (`OPENROUTER_API_KEY`, `BREVO_API_KEY`, `MAIL_FROM`); after editing it, `systemctl restart cave-academy-staging`. Without `BREVO_API_KEY`, form emails go to `journalctl -u cave-academy-staging`.
 
 ## Production
 

@@ -56,7 +56,7 @@ func TestHomeHasKeyContent(t *testing.T) {
 	_, body := get(t, s, "/")
 	for _, want := range []string{
 		"Pembangunan Kompetensi", "AI, NLP &amp; Pengalaman Praktikal",
-		"Terokai Program Latihan", "Lihat Pengenalan (2 Minit)",
+		"Terokai Program Latihan",
 		"Penyelesaian Untuk Anda", "Corporate Training &amp; RFQ", "AI NLP Bots", "Digital Products",
 		"Berminat Menjadi Trainer Panel", `href="/trainer-panel"`,
 		`href="/corporate-training"`, `href="/ai-nlp-bots"`, `href="/produk-digital"`,
@@ -92,6 +92,38 @@ func TestHomeAssetsExist(t *testing.T) {
 	for _, m := range paths {
 		if code, _ := get(t, s, m[1]); code != http.StatusOK {
 			t.Errorf("GET %s = %d, want 200", m[1], code)
+		}
+	}
+}
+
+func TestIntroVideoButtonsFollowConfig(t *testing.T) {
+	s := newTestServer(t)
+	pages := []string{"/", "/corporate-training", "/produk-digital"}
+	for _, path := range pages {
+		if _, body := get(t, s, path); strings.Contains(body, "(2 Minit)") {
+			t.Errorf("GET %s shows a video button with no INTRO_VIDEO_URL", path)
+		}
+	}
+	if _, body := get(t, s, "/ai-nlp-bots"); strings.Contains(body, "(2 Minit)") || !strings.Contains(body, "Cuba Bot Percuma") {
+		t.Error("/ai-nlp-bots: want the Cuba Bot Percuma button and no (2 Minit)")
+	}
+
+	s.config.IntroVideoURL = "https://video.example/intro"
+	for _, path := range pages {
+		_, body := get(t, s, path)
+		if !strings.Contains(body, `href="https://video.example/intro" target="_blank" rel="noopener"`) || !strings.Contains(body, "(2 Minit)") {
+			t.Errorf("GET %s lacks the video button", path)
+		}
+	}
+}
+
+func TestFaviconAndAdminSlashRedirect(t *testing.T) {
+	s := newTestServer(t)
+	for path, want := range map[string]string{"/favicon.ico": "/static/img/favicon.png", "/admin/": "/admin"} {
+		rec := httptest.NewRecorder()
+		s.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, path, nil))
+		if rec.Code != http.StatusMovedPermanently || rec.Header().Get("Location") != want {
+			t.Errorf("GET %s = %d -> %q, want 301 -> %q", path, rec.Code, rec.Header().Get("Location"), want)
 		}
 	}
 }

@@ -146,7 +146,8 @@ func (a *abuseLimits) useClock(now func() time.Time) {
 func (s *Server) formAllowed(w http.ResponseWriter, r *http.Request) bool {
 	if s.abuse.formsIP.over(clientIP(r)) || s.abuse.formsDay.over("all") {
 		log.Printf("forms: limit hit, ip=%s", clientIP(r))
-		http.Error(w, tooManyAttempts, http.StatusTooManyRequests)
+		s.errorPage(w, r, http.StatusTooManyRequests, "Terlalu banyak penghantaran borang",
+			"Terlalu banyak penghantaran borang. Sila cuba lagi dalam sejam, atau hubungi kami di WhatsApp.")
 		return false
 	}
 	return true

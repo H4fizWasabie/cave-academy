@@ -26,6 +26,7 @@ A marketing site for The Cave Academy plus its highlight feature, the **AI NLP B
 | `ADMIN_EMAIL` | receives form submissions | `adam.caveconsult@gmail.com` |
 | `BASE_URL` | public origin for canonical links and `/sitemap.xml` | `https://caveacademy.my` |
 | `APP_ENV` | `development` or `production`. Production refuses to start without `OPENROUTER_API_KEY`, `BREVO_API_KEY`, `BASE_URL` and a valid `MAIL_FROM` | `development` |
+| `INTRO_VIDEO_URL` | intro video for the "(2 Minit)" hero buttons (home, corporate, produk); they open it in a new tab | unset: the buttons are not shown |
 | `CHAT_DAILY_CAP` | OpenRouter answers per KL day across all users (cost guard); over it the chat says it is busy | `2000` |
 
 Contact details on the site: WhatsApp / phone 012-394 7200 (`https://wa.me/60123947200`), email adam.caveconsult@gmail.com.
@@ -43,6 +44,9 @@ Contact details on the site: WhatsApp / phone 012-394 7200 (`https://wa.me/60123
 | `/hubungi-kami` | Contact form + details | none |
 | `/trainer-panel` | "Daftar Trainer Panel" signup form | none (home CTA links here) |
 | `/daftar`, `/log-masuk`, `/log-keluar` | sign up, log in, log out | none |
+| `/lupa-kata-laluan`, `/reset-kata-laluan` | password reset by email | none |
+| `/dasar-privasi`, `/terma` | privacy policy, terms | none |
+| `/admin`, `/admin/{rfq,trainer,mesej,pengguna}` | back office for admins (`users.is_admin`), CSV downloads; anyone else gets a 404 | none |
 
 Header nav: Utama / Program (dropdown: Corporate Training & RFQ, Trainer Panel) / AI NLP Bots (dropdown: three bots) / Produk Digital / Tentang Kami, a search icon (may be omitted in v1), "Hubungi Kami" and a green "WhatsApp Chat" button. Mobile: logo, WhatsApp icon, Hubungi Kami, hamburger menu.
 
@@ -50,7 +54,7 @@ Header nav: Utama / Program (dropdown: Corporate Training & RFQ, Trainer Panel) 
 
 Match the mockups: navy (~#0f1a3c) headings and dark buttons, yellow/gold (~#f5c518 to #e0a800 gradient) accent buttons, highlights and section-title dashes, white cards with soft shadows and rounded corners, WhatsApp green (#25d366). Heavy geometric sans for headings (Poppins, loaded from Google Fonts for now; self-host before launch if wanted), clean sans for body. Mobile-first, responsive to desktop.
 
-Recurring blocks: hero (title with a yellow-highlighted second line, subtitle, primary yellow CTA, outlined "Lihat ... (2 Minit)" button, hero photo); a feature strip of 4 to 5 icon+label items; section title with a yellow dash; image cards with a diagonal yellow edge; a pale-yellow CTA banner with a navy pill button.
+Recurring blocks: hero (title with a yellow-highlighted second line, subtitle, primary yellow CTA, outlined "Lihat ... (2 Minit)" video button that appears only when `INTRO_VIDEO_URL` is set, hero photo); a feature strip of 4 to 5 icon+label items; section title with a yellow dash; image cards with a diagonal yellow edge; a pale-yellow CTA banner with a navy pill button.
 
 Assets: no real logo or photos supplied yet. Crop the round CAVE badge and the hero photos from the mockups as placeholders (`internal/site/static/img/`, embedded in the binary), to be replaced by the client's files.
 
@@ -58,7 +62,7 @@ Assets: no real logo or photos supplied yet. Crop the round CAVE badge and the h
 
 - Sign up with name, email, password (bcrypt). Log in with email + password. Session cookie (random token stored in DB, HttpOnly, SameSite=Lax, Secure when behind HTTPS).
 - No email verification in v1. Password reset by email lives in `internal/site/reset.go` (`/lupa-kata-laluan`, `/reset-kata-laluan`).
-- `users.plan` is `free` or `paid`. Nothing sets `paid` in v1 except a direct DB update; the paid tiers and the BCL checkout come later.
+- `users.plan` is `free` or `paid`. Only an admin (the users list in `/admin`) or a direct DB update sets `paid` in v1; the paid tiers and the BCL checkout come later.
 
 ## AI NLP Bots (chat)
 
@@ -77,4 +81,6 @@ Assets: no real logo or photos supplied yet. Crop the round CAVE badge and the h
 
 ## Out of scope for v1
 
-Trainer management system (profiles, PDF, email replies), paid tiers and BCL checkout, RAG, admin UI, search, deploy.
+Done since the first draft: the admin panel, deploy scripts (staging and production, backups), password reset, legal pages, SEO, hardening (headers, rate limits, graceful shutdown) and Brevo email.
+
+Still to come: paid tiers and the BCL checkout, the trainer management system (profiles, PDF, email replies), RAG over the client's documents, and real images from the client. The header search icon stays omitted.

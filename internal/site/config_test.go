@@ -33,3 +33,14 @@ func TestConfigBaseURL(t *testing.T) {
 		t.Errorf("BaseURL = %q", c.BaseURL)
 	}
 }
+
+func TestConfigIntroVideoURL(t *testing.T) {
+	t.Setenv("INTRO_VIDEO_URL", "")
+	if c := ConfigFromEnv(); c.IntroVideoURL != "" {
+		t.Errorf("default IntroVideoURL = %q, want empty", c.IntroVideoURL)
+	}
+	t.Setenv("INTRO_VIDEO_URL", "https://youtu.be/x")
+	if c := ConfigFromEnv(); c.IntroVideoURL != "https://youtu.be/x" {
+		t.Errorf("IntroVideoURL = %q", c.IntroVideoURL)
+	}
+}
