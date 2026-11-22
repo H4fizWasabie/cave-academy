@@ -358,14 +358,14 @@ body.nav-locked { overflow: hidden; }
   .header__actions .btn--sm { padding: 7px 12px; }
 }
 
-/* Very narrow phones (320px): tighten the header so the menu button stays on screen. */
-@media (max-width: 359px) {
+/* Narrow phones (320 to 374px): tighten the header so the menu button stays on screen. */
+@media (max-width: 374px) {
   .site-header .container { padding-inline: 8px; }
   .header__bar, .header__actions { gap: 4px; }
   .site-header .brand { gap: 6px; }
   .site-header .brand__logo { width: 38px; height: 38px; }
   .site-header .brand__text { padding-left: 7px; }
-  .header__actions .btn--outline { padding-inline: 6px; }
+  .header__actions .btn--outline { padding-inline: 5px; max-width: 67px; }
 }
 
 /* Phones: breadcrumb and footer links get a 40px tap target without moving the layout. */

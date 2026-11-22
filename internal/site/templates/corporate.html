@@ -25,7 +25,7 @@
       </div>
       <div class="hero__actions">
         <a class="btn btn--primary" href="#rfq"><svg class="icon" aria-hidden="true"><use href="#i-calendar-check"/></svg>Mohon Program / RFQ {{template "arrow"}}</a>
-        <a class="btn btn--outline" href="/tentang-kami"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Lihat Video Pengenalan (2 Minit)</a>
+        {{if .IntroVideo}}<a class="btn btn--outline" href="{{.IntroVideo}}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Lihat Video Pengenalan (2 Minit)</a>{{end}}
       </div>
     </div>
   </div>

@@ -6,9 +6,10 @@ After=network.target
 [Service]
 User=cave_academy_staging
 Group=cave_academy_staging
-# OPENROUTER_API_KEY (and later RESEND_API_KEY, MAIL_FROM). Mode 0600, root-owned, lives only on the VPS.
+# OPENROUTER_API_KEY (BREVO_API_KEY, MAIL_FROM). Mode 0600, root-owned, lives only on the VPS.
 EnvironmentFile=/etc/cave-academy/staging.env
 Environment=ADDR=127.0.0.1:8096
+Environment=BASE_URL=https://cave-academy.13-140-65-183.sslip.io
 Environment=DB_PATH=/var/lib/cave-academy-staging/cave-academy.db
 ExecStart=/usr/local/bin/cave-academy-staging
 Restart=on-failure

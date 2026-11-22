@@ -7,7 +7,7 @@
       <p class="hero__sub">Platform latihan, jaringan trainer dan produk digital untuk meningkatkan keupayaan individu, pasukan dan organisasi.</p>
       <div class="hero__actions">
         <a class="btn btn--primary" href="/corporate-training"><svg class="icon" aria-hidden="true"><use href="#i-calendar-check"/></svg>Terokai Program Latihan {{template "arrow"}}</a>
-        <a class="btn btn--outline" href="/tentang-kami"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Lihat Pengenalan (2 Minit)</a>
+        {{if .IntroVideo}}<a class="btn btn--outline" href="{{.IntroVideo}}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Lihat Pengenalan (2 Minit)</a>{{end}}
       </div>
     </div>
   </div>

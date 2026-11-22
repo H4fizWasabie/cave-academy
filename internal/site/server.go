@@ -43,6 +43,7 @@ type Page struct {
 	Crumb       string   // breadcrumb label for {{template "breadcrumb" .}}; "" on the home page
 	User        *User    // logged-in user or nil; render fills it in, handlers leave it alone
 	SEO         seoMeta  // canonical URL and share image; render fills it in (seo.go)
+	IntroVideo  string   // Config.IntroVideoURL; render fills it in, templates hide the video button when ""
 	Data        any
 }
 
@@ -111,6 +112,8 @@ func (s *Server) routes() {
 	// Hardening (middleware.go): health check and the styled 404 for every unknown path.
 	s.mux.HandleFunc("GET /healthz", s.healthz)
 	s.mux.HandleFunc("/", s.notFound)
+	s.mux.Handle("GET /favicon.ico", http.RedirectHandler("/static/img/favicon.png", http.StatusMovedPermanently))
+	s.mux.Handle("GET /admin/{$}", http.RedirectHandler("/admin", http.StatusMovedPermanently))
 
 	// Legal pages and SEO (legal.go, seo.go).
 	s.mux.HandleFunc("GET /dasar-privasi", s.privasi)
@@ -158,6 +161,7 @@ func (s *Server) renderStatus(w http.ResponseWriter, status int, name string, p 
 		http.Error(w, "Ralat dalaman", http.StatusInternalServerError)
 		return
 	}
+	p.IntroVideo = s.config.IntroVideoURL
 	if rw, ok := w.(*reqWriter); ok && p.User == nil {
 		p.User = s.currentUser(rw.r)
 	}

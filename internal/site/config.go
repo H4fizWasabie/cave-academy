@@ -20,6 +20,7 @@ type Config struct {
 	AdminEmail      string
 	BaseURL         string // public origin for canonical links and the sitemap, no trailing slash
 	ChatDailyCap    int    // OpenRouter answers per KL day across all users; 0 = 2000
+	IntroVideoURL   string // intro video; empty hides the "(2 Minit)" video buttons
 }
 
 // ConfigFromEnv reads the environment and fills in the spec's defaults.
@@ -44,6 +45,7 @@ func ConfigFromEnv() Config {
 		MailFrom:        env("MAIL_FROM", "The Cave Academy <noreply@caveacademy.my>"),
 		AdminEmail:      env("ADMIN_EMAIL", "adam.caveconsult@gmail.com"),
 		BaseURL:         strings.TrimRight(baseURL, "/"),
+		IntroVideoURL:   os.Getenv("INTRO_VIDEO_URL"),
 	}
 }
 

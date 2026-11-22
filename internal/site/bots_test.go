@@ -15,7 +15,7 @@ func TestBotsLandingHasKeyContent(t *testing.T) {
 	}
 	for _, want := range []string{
 		"Berteraskan NLP", "Menyokong Komunikasi", "Membantu Penyelesaian Masalah", "Mudah &amp; Praktikal",
-		"Terokai AI NLP Bots", "Lihat Demonstrasi (2 Minit)", `href="#senarai-bot"`,
+		"Terokai AI NLP Bots", "Cuba Bot Percuma", `href="#senarai-bot"`,
 		"Pilihan AI NLP Bots",
 		"NLP Bot</span> Educators", "NLP Bot</span> Sales &amp; Marketing", "NLP Bot</span> HR &amp; People Management",
 		`href="/ai-nlp-bots/educators"`, `href="/ai-nlp-bots/sales-marketing"`, `href="/ai-nlp-bots/hr"`,

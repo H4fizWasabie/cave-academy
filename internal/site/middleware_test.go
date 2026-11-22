@@ -246,6 +246,8 @@ func TestFormsAreRateLimitedPerIPAndOverall(t *testing.T) {
 	sent := strings.Count(mail.String(), "--- email")
 	if rec := postFrom(s, "/hubungi-kami", contactForm, "198.51.100.1:1"); rec.Code != http.StatusTooManyRequests {
 		t.Errorf("6th form = %d, want 429", rec.Code)
+	} else if b := rec.Body.String(); !strings.Contains(b, "Terlalu banyak penghantaran borang") || !strings.Contains(b, "<html") {
+		t.Errorf("429 is not the styled error page:\n%s", b)
 	}
 	for _, path := range []string{"/trainer-panel", "/corporate-training"} { // one budget across the three forms
 		if rec := postFrom(s, path, trainerForm, "198.51.100.1:1"); rec.Code != http.StatusTooManyRequests {
