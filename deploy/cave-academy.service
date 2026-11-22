@@ -1,0 +1,35 @@
+# Installed to /etc/systemd/system/ by deploy/production.sh.
+[Unit]
+Description=The Cave Academy
+After=network.target
+
+[Service]
+User=cave_academy
+Group=cave_academy
+# OPENROUTER_API_KEY, OPENROUTER_MODEL, BREVO_API_KEY, MAIL_FROM, ADMIN_EMAIL, BASE_URL. Mode 0600, root-owned, lives only on the VPS.
+EnvironmentFile=/etc/cave-academy/env
+Environment=ADDR=127.0.0.1:8097
+Environment=DB_PATH=/var/lib/cave-academy/cave-academy.db
+ExecStart=/usr/local/bin/cave-academy
+Restart=on-failure
+RestartSec=5
+# Creates /var/lib/cave-academy owned by cave_academy; the SQLite file lives there.
+StateDirectory=cave-academy
+UMask=0077
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallFilter=@system-service
+CapabilityBoundingSet=
+
+[Install]
+WantedBy=multi-user.target
