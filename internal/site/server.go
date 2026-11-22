@@ -28,8 +28,9 @@ type Server struct {
 	mailer    *Mailer
 	templates map[string]*template.Template
 	mux       *http.ServeMux
-	chat      chatOpts    // chat.go; the zero value is production
-	limits    *rateLimits // ratelimit.go: login and signup throttling
+	chat      chatOpts     // chat.go; the zero value is production
+	limits    *rateLimits  // ratelimit.go: login and signup throttling
+	abuse     *abuseLimits // middleware.go: chat and form spam guards
 }
 
 // Page is the data every template receives as ".". Handlers fill it in;
@@ -57,7 +58,9 @@ func New(cfg Config) (*Server, error) {
 		mailer: &Mailer{APIKey: cfg.BrevoKey, From: cfg.MailFrom},
 		mux:    http.NewServeMux(),
 		limits: newRateLimits(),
+		abuse:  newAbuseLimits(),
 	}
+	s.abuse.useClock(s.now) // s.now follows chat.Now, so tests control it
 	if s.templates, err = loadTemplates(); err != nil {
 		db.Close()
 		return nil, fmt.Errorf("templates: %w", err)
@@ -67,10 +70,6 @@ func New(cfg Config) (*Server, error) {
 }
 
 func (s *Server) Close() error { return s.db.Close() }
-
-func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	s.mux.ServeHTTP(&reqWriter{w, r}, r) // reqWriter lets render find the logged-in user
-}
 
 // routes registers every v1 route. Patterns without a method accept GET and
 // POST so a page's owner can handle its form in the same handler.
@@ -108,6 +107,10 @@ func (s *Server) routes() {
 	// Admin back office (admin.go): admins only, anyone else gets a 404.
 	s.mux.HandleFunc("/admin", s.adminOverview)
 	s.mux.HandleFunc("/admin/{page}", s.adminPage)
+
+	// Hardening (middleware.go): health check and the styled 404 for every unknown path.
+	s.mux.HandleFunc("GET /healthz", s.healthz)
+	s.mux.HandleFunc("/", s.notFound)
 
 	// Legal pages and SEO (legal.go, seo.go).
 	s.mux.HandleFunc("GET /dasar-privasi", s.privasi)

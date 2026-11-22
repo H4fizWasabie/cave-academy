@@ -1,0 +1,11 @@
+/* Icon sprite tweaks. These were style="" attributes; the CSP forbids those. */
+.sprite { position: absolute; }
+.sa { stroke: var(--accent, currentColor); }
+.fc { fill: currentColor; }
+.fcn { fill: currentColor; stroke: none; }
+.fa { fill: var(--accent, currentColor); stroke: none; }
+.sfa { stroke: var(--accent, currentColor); fill: var(--accent, currentColor); }
+
+/* Error pages (404, 500) */
+.stub__code { margin-top: 24px; font: 800 64px/1 var(--font-head); color: var(--gold-deep); }
+.stub__actions { display: flex; flex-wrap: wrap; gap: 12px; }

@@ -1,10 +1,15 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/H4fizWasabie/cave-academy/internal/site"
 )
@@ -14,13 +19,56 @@ func main() {
 	if len(os.Args) > 1 {
 		os.Exit(adminCommand(cfg, os.Args[1:]))
 	}
-	s, err := site.New(cfg)
-	if err != nil {
+	if err := run(cfg); err != nil {
 		log.Fatal(err)
 	}
+}
+
+// newHTTPServer is the production http.Server. WriteTimeout leaves room for
+// the chat waiting up to 30s on OpenRouter.
+func newHTTPServer(addr string, h http.Handler) *http.Server {
+	return &http.Server{
+		Addr:              addr,
+		Handler:           h,
+		ReadHeaderTimeout: 5 * time.Second,
+		ReadTimeout:       15 * time.Second,
+		WriteTimeout:      45 * time.Second,
+		IdleTimeout:       120 * time.Second,
+		MaxHeaderBytes:    64 << 10,
+	}
+}
+
+// run serves until SIGINT/SIGTERM, then drains in-flight requests (20s at
+// most) and closes the database.
+func run(cfg site.Config) error {
+	if err := cfg.Validate(); err != nil {
+		return err
+	}
+	s, err := site.New(cfg)
+	if err != nil {
+		return err
+	}
 	defer s.Close()
-	log.Printf("listening on %s", cfg.Addr)
-	log.Fatal(http.ListenAndServe(cfg.Addr, s))
+	srv := newHTTPServer(cfg.Addr, s)
+
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+	errc := make(chan error, 1)
+	go func() { errc <- srv.ListenAndServe() }()
+	log.Printf("listening on %s (APP_ENV=%s)", cfg.Addr, cfg.Env)
+
+	select {
+	case err := <-errc:
+		return err
+	case <-ctx.Done():
+	}
+	log.Print("shutting down")
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+	if err := srv.Shutdown(shutdownCtx); err != nil && !errors.Is(err, http.ErrServerClosed) {
+		return fmt.Errorf("shutdown: %w", err)
+	}
+	return nil // deferred s.Close() closes the DB after the server has drained
 }
 
 // adminCommand runs `make-admin <email>` or `revoke-admin <email>` against

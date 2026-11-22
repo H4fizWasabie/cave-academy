@@ -78,7 +78,7 @@ type botView struct {
 func (s *Server) botPage(w http.ResponseWriter, r *http.Request) {
 	bot, ok := findBot(r.PathValue("slug"))
 	if !ok {
-		http.NotFound(w, r)
+		s.notFound(w, r)
 		return
 	}
 	switch {

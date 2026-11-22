@@ -48,7 +48,7 @@ var sitemapPaths = []string{
 
 func (s *Server) robots(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-	fmt.Fprintf(w, "User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /log-keluar\n\nSitemap: %s/sitemap.xml\n", s.baseURL())
+	fmt.Fprintf(w, "User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /log-keluar\nDisallow: /healthz\n\nSitemap: %s/sitemap.xml\n", s.baseURL())
 }
 
 func (s *Server) sitemap(w http.ResponseWriter, r *http.Request) {

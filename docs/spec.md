@@ -25,6 +25,8 @@ A marketing site for The Cave Academy plus its highlight feature, the **AI NLP B
 | `MAIL_FROM` | sender address | `The Cave Academy <noreply@caveacademy.my>` |
 | `ADMIN_EMAIL` | receives form submissions | `adam.caveconsult@gmail.com` |
 | `BASE_URL` | public origin for canonical links and `/sitemap.xml` | `https://caveacademy.my` |
+| `APP_ENV` | `development` or `production`. Production refuses to start without `OPENROUTER_API_KEY`, `BREVO_API_KEY`, `BASE_URL` and a valid `MAIL_FROM` | `development` |
+| `CHAT_DAILY_CAP` | OpenRouter answers per KL day across all users (cost guard); over it the chat says it is busy | `2000` |
 
 Contact details on the site: WhatsApp / phone 012-394 7200 (`https://wa.me/60123947200`), email adam.caveconsult@gmail.com.
 

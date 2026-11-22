@@ -90,18 +90,22 @@ const tooManyAttempts = "Terlalu banyak cubaan. Sila cuba lagi dalam beberapa mi
 
 // clientIP is the peer's IP. X-Forwarded-For is only believed when the peer is
 // loopback (a reverse proxy on this box), and then its last entry is used,
-// the one the proxy appended.
+// the one the proxy appended. IPv6 addresses are cut to their /64, since one
+// subscriber controls a whole /64 and would otherwise get unlimited "IPs".
 func clientIP(r *http.Request) string {
 	host, _, err := net.SplitHostPort(r.RemoteAddr)
 	if err != nil {
 		host = r.RemoteAddr
 	}
-	if ip := net.ParseIP(host); ip != nil && ip.IsLoopback() {
+	if fromLoopback(r) {
 		xff := r.Header.Get("X-Forwarded-For")
 		last := strings.TrimSpace(xff[strings.LastIndex(xff, ",")+1:])
 		if net.ParseIP(last) != nil {
-			return last
+			host = last
 		}
+	}
+	if ip := net.ParseIP(host); ip != nil && ip.To4() == nil {
+		return ip.Mask(net.CIDRMask(64, 128)).String()
 	}
 	return host
 }

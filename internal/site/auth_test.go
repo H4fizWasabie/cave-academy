@@ -97,7 +97,8 @@ func (s *Server) currentUserFromCookie(t *testing.T, c *http.Cookie) *User {
 
 func TestSignupCookieSecureBehindHTTPS(t *testing.T) {
 	s := newTestServer(t)
-	rec := authPost(t, s, "/daftar", signupForm("a@b.my"), nil, "X-Forwarded-Proto", "https")
+	// Caddy runs on this box, so the peer is loopback.
+	rec := postFrom(s, "/daftar", signupForm("a@b.my"), "127.0.0.1:5", "X-Forwarded-Proto", "https")
 	if c := sessionOf(rec); c == nil || !c.Secure {
 		t.Errorf("cookie = %+v, want Secure", c)
 	}

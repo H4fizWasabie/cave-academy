@@ -27,7 +27,7 @@ Production is https://caveacademy.my/, on the same VPS as cave LMS (ssh host `vp
    | `ADMIN_EMAIL` | receives form submissions |
    | `BASE_URL` | `https://caveacademy.my`, required |
 
-   Later deploys refuse to run while `OPENROUTER_API_KEY`, `BREVO_API_KEY` or `BASE_URL` is empty.
+   Later deploys refuse to run while `OPENROUTER_API_KEY`, `BREVO_API_KEY` or `BASE_URL` is empty, and the unit sets `APP_ENV=production`, so the app itself refuses to start without them (or with an unparseable `MAIL_FROM`). Optional: `CHAT_DAILY_CAP` (default 2000) caps OpenRouter answers per day across all users. `GET /healthz` returns `ok` when the database answers; the app shuts down gracefully on SIGTERM.
 5. **First deploy**, then **first admin.** After `deploy/production.sh` has run:
 
    ```bash
