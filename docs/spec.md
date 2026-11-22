@@ -57,7 +57,7 @@ Assets: no real logo or photos supplied yet. Crop the round CAVE badge and the h
 ## Accounts
 
 - Sign up with name, email, password (bcrypt). Log in with email + password. Session cookie (random token stored in DB, HttpOnly, SameSite=Lax, Secure when behind HTTPS).
-- No email verification or password reset in v1.
+- No email verification in v1. Password reset by email lives in `internal/site/reset.go` (`/lupa-kata-laluan`, `/reset-kata-laluan`).
 - `users.plan` is `free` or `paid`. Nothing sets `paid` in v1 except a direct DB update; the paid tiers and the BCL checkout come later.
 
 ## AI NLP Bots (chat)

@@ -72,6 +72,8 @@ type rateLimits struct {
 	loginEmail *limiter // failed logins per email
 	loginIP    *limiter // failed logins per client IP
 	signupIP   *limiter // accounts created per client IP
+	resetEmail *limiter // password reset requests per email (reset.go)
+	resetIP    *limiter // password reset requests per client IP
 }
 
 func newRateLimits() *rateLimits {
@@ -79,6 +81,8 @@ func newRateLimits() *rateLimits {
 		loginEmail: newLimiter(5, 15*time.Minute),
 		loginIP:    newLimiter(20, 15*time.Minute),
 		signupIP:   newLimiter(5, time.Hour),
+		resetEmail: newLimiter(3, time.Hour),
+		resetIP:    newLimiter(10, time.Hour),
 	}
 }
 

@@ -29,6 +29,7 @@
           <input type="password" name="password" autocomplete="{{if eq .Mode "daftar"}}new-password{{else}}current-password{{end}}" minlength="{{if eq .Mode "daftar"}}8{{else}}1{{end}}" required>
           {{if eq .Mode "daftar"}}<small>Sekurang-kurangnya 8 aksara.</small>{{end}}
         </label>
+        {{if eq .Mode "masuk"}}<p class="auth__alt"><a href="/lupa-kata-laluan">Lupa kata laluan?</a></p>{{end}}
         <button class="btn btn--primary auth__submit" type="submit">{{if eq .Mode "daftar"}}Daftar{{else}}Log Masuk{{end}}</button>
         {{if eq .Mode "daftar"}}<p class="auth__consent">Dengan mendaftar, anda bersetuju dengan <a href="/terma">Terma</a> dan <a href="/dasar-privasi">Dasar Privasi</a> kami.</p>{{end}}
       </form>
