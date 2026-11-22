@@ -140,6 +140,7 @@ func (s *Server) adminOverview(w http.ResponseWriter, r *http.Request) {
 		card("Permintaan RFQ", "rfq", "rfq_requests", ""),
 		card("Permohonan Trainer", "trainer", "trainer_applications", ""),
 		card("Mesej", "mesej", "contact_messages", ""),
+		card("Pengetahuan", "pengetahuan", "knowledge_docs", fmt.Sprintf("%d bahagian", s.count(`SELECT COUNT(*) FROM knowledge_chunks`))),
 	}})
 }
 

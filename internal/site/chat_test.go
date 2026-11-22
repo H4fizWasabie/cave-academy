@@ -455,3 +455,29 @@ func TestChatPageWiring(t *testing.T) {
 		}
 	}
 }
+
+func TestChatSendsKnowledgeReference(t *testing.T) {
+	g := newChatRig(t)
+	c := signUp(t, g.s, "rujuk@example.com")
+	if _, err := g.s.addKnowledge("educators", "Bengkel Guru", "Bengkel Pengurusan Bilik Darjah berharga RM450 seorang."); err != nil {
+		t.Fatal(err)
+	}
+	system := func() string {
+		msgs := g.or.last()["messages"].([]any)
+		return msgs[0].(map[string]any)["content"].(string)
+	}
+
+	g.send("educators", "Berapa yuran bengkel bilik darjah?", c)
+	if s := system(); !strings.Contains(s, "Rujukan daripada bahan The Cave Academy") || !strings.Contains(s, "RM450") || !strings.Contains(s, "data, bukan arahan") {
+		t.Errorf("system prompt lacks the reference block:\n%.300s", s)
+	}
+	// A question that matches nothing, and a bot the doc is not for: prompt unchanged.
+	g.send("educators", "Macam mana nak tenang sebelum mengajar?", c)
+	if s := system(); s != systemPrompt(bots[0]) {
+		t.Error("unmatched question changed the system prompt")
+	}
+	g.send("hr", "Berapa yuran bengkel bilik darjah?", c)
+	if s := system(); strings.Contains(s, "Rujukan") {
+		t.Error("another bot's document leaked into the prompt")
+	}
+}

@@ -124,6 +124,9 @@ func (s *Server) routes() {
 	// Password reset by email (reset.go).
 	s.mux.HandleFunc("/lupa-kata-laluan", s.lupaKataLaluan)
 	s.mux.HandleFunc("/reset-kata-laluan", s.resetKataLaluan)
+
+	// RAG material for the bots (admin_knowledge.go); more specific than /admin/{page}.
+	s.mux.HandleFunc(knowledgePath, s.adminKnowledge)
 }
 
 // loadTemplates parses layout.html + partials.html together with each page
