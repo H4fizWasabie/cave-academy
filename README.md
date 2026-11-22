@@ -13,6 +13,17 @@ Open http://localhost:8080. Without `BREVO_API_KEY`, form emails are printed to 
 
 To give a user unlimited chat (until paid plans land): `sqlite3 cave-academy.db "UPDATE users SET plan='paid' WHERE email='...'"`.
 
+## Admin
+
+`/admin` (overview, RFQ, trainer applications, messages, users with a free/paid switch, CSV downloads) is for accounts with `users.is_admin = 1`. Signup never sets it; only this command does, against the database in `DB_PATH`. The account must already exist (sign up on the site first):
+
+```bash
+DB_PATH=cave-academy.db go run . make-admin you@example.com      # locally
+DB_PATH=cave-academy.db go run . revoke-admin you@example.com
+```
+
+On staging: `ssh vps sudo -u cave_academy_staging env DB_PATH=/var/lib/cave-academy-staging/cave-academy.db /usr/local/bin/cave-academy-staging make-admin you@example.com` (same shape for another service: its user, binary and `DB_PATH` from the unit file). It exits non-zero when there is no such account. Everyone else gets a 404 on `/admin`.
+
 ## Test
 
 ```bash
