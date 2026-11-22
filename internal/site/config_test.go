@@ -22,3 +22,14 @@ func TestConfigFromEnv(t *testing.T) {
 		t.Errorf("config = %+v", c)
 	}
 }
+
+func TestConfigBaseURL(t *testing.T) {
+	t.Setenv("BASE_URL", "")
+	if c := ConfigFromEnv(); c.BaseURL != "https://caveacademy.my" {
+		t.Errorf("default BaseURL = %q", c.BaseURL)
+	}
+	t.Setenv("BASE_URL", "http://localhost:8080")
+	if c := ConfigFromEnv(); c.BaseURL != "http://localhost:8080" {
+		t.Errorf("BaseURL = %q", c.BaseURL)
+	}
+}

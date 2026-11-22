@@ -57,7 +57,7 @@ func findBot(slug string) (Bot, bool) {
 }
 
 func (s *Server) botsLanding(w http.ResponseWriter, r *http.Request) {
-	s.render(w, "bots", Page{Title: "AI NLP Bots", Nav: "bots", Crumb: "AI NLP Bots", CSS: []string{"bots"}, Data: bots})
+	s.render(w, "bots", Page{Title: "AI NLP Bots", Description: "Tiga rakan AI berasaskan NLP untuk guru, pasukan jualan dan pengurus HR. Daftar percuma dan tanya 3 soalan sehari.", Nav: "bots", Crumb: "AI NLP Bots", CSS: []string{"bots"}, Data: bots})
 }
 
 // botView is Page.Data for bot.html. Logged-out visitors only get Bot and Next.
@@ -102,5 +102,5 @@ func (s *Server) renderBot(w http.ResponseWriter, r *http.Request, status int, b
 		v.Free = u.Plan != planPaid
 		v.Remaining = s.remaining(u)
 	}
-	s.renderStatus(w, status, "bot", Page{Title: "NLP Bot " + bot.Name, Nav: "bots", Crumb: "AI NLP Bots", CSS: []string{"chat"}, User: u, Data: v})
+	s.renderStatus(w, status, "bot", Page{Title: "NLP Bot " + bot.Name, Description: bot.Desc, Nav: "bots", Crumb: "AI NLP Bots", CSS: []string{"chat"}, User: u, Data: v})
 }

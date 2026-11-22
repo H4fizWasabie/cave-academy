@@ -1,6 +1,9 @@
 package site
 
-import "os"
+import (
+	"os"
+	"strings"
+)
 
 // Config holds the runtime settings read from the environment (see docs/spec.md).
 type Config struct {
@@ -11,6 +14,7 @@ type Config struct {
 	BrevoKey        string
 	MailFrom        string
 	AdminEmail      string
+	BaseURL         string // public origin for canonical links and the sitemap, no trailing slash
 }
 
 // ConfigFromEnv reads the environment and fills in the spec's defaults.
@@ -23,6 +27,7 @@ func ConfigFromEnv() Config {
 		BrevoKey:        os.Getenv("BREVO_API_KEY"),
 		MailFrom:        env("MAIL_FROM", "The Cave Academy <noreply@caveacademy.my>"),
 		AdminEmail:      env("ADMIN_EMAIL", "adam.caveconsult@gmail.com"),
+		BaseURL:         strings.TrimRight(env("BASE_URL", "https://caveacademy.my"), "/"),
 	}
 }
 

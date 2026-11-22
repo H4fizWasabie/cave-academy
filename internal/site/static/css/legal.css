@@ -1,0 +1,26 @@
+/* Dasar Privasi and Terma Penggunaan, plus the footer legal links and the signup consent line (loaded on every page). */
+.footer__copy-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px; }
+.footer__legal { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+.footer__legal a:hover { color: var(--gold); }
+.auth__consent { font-size: 13px; color: var(--navy-soft); text-align: center; }
+.auth__consent a { color: var(--navy); font-weight: 700; text-decoration: underline; text-decoration-color: var(--gold-deep); text-underline-offset: 3px; }
+
+.legal { padding-block: 8px 56px; }
+.legal__title { margin-top: 20px; font-size: 28px; }
+.legal__updated { margin-top: 8px; display: inline-block; padding: 4px 12px; border-radius: var(--r-pill); background: var(--pale-yellow); font-size: 13px; font-weight: 600; color: var(--navy); }
+.legal__body { max-width: 70ch; margin-top: 20px; color: var(--navy-soft); line-height: 1.7; }
+.legal__body p, .legal__body ul { margin-top: 12px; }
+.legal__body ul { padding-left: 1.25em; list-style: disc; display: grid; gap: 8px; }
+.legal__body .section-title { margin-top: 32px; font-size: 20px; }
+.legal__body strong { color: var(--navy); }
+.legal__body a { color: var(--navy); font-weight: 600; text-decoration: underline; text-decoration-color: var(--gold-deep); text-underline-offset: 3px; overflow-wrap: anywhere; }
+
+@media (min-width: 1100px) {
+  .legal__title { font-size: 34px; }
+  .legal__body .section-title { font-size: 22px; }
+}
+
+/* Phones: footer legal links get a 40px tap target. */
+@media (max-width: 639px) {
+  .footer__legal a { display: inline-flex; align-items: center; min-height: 40px; }
+}

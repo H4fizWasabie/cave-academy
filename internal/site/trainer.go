@@ -7,7 +7,7 @@ import (
 )
 
 func (s *Server) trainerPanel(w http.ResponseWriter, r *http.Request) {
-	page := Page{Title: "Trainer Panel", Nav: "program", Crumb: "Trainer Panel", CSS: []string{"pages"}}
+	page := Page{Title: "Trainer Panel", Description: "Sertai rangkaian trainer profesional The Cave Academy. Daftar sebagai Trainer Panel dan kongsikan kepakaran anda.", Nav: "program", Crumb: "Trainer Panel", CSS: []string{"pages"}}
 	switch r.Method {
 	case http.MethodGet, http.MethodHead:
 		page.Data = formView{Thanks: r.URL.Query().Get("terima-kasih") == "1"}

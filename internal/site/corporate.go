@@ -58,7 +58,7 @@ func (s *Server) corporate(w http.ResponseWriter, r *http.Request) {
 func (s *Server) renderCorporate(w http.ResponseWriter, status int, d corporateData) {
 	d.Areas, d.Other = trainingAreas, areaOther
 	s.renderStatus(w, status, "corporate", Page{
-		Title: "Corporate Training & RFQ", Nav: "program", Crumb: "Corporate Training",
+		Title: "Corporate Training & RFQ", Description: "Mohon program latihan korporat untuk organisasi, jabatan dan agensi. Hantar RFQ dan kami akan hubungi anda.", Nav: "program", Crumb: "Corporate Training",
 		CSS: []string{"corporate"}, Data: d,
 	})
 }

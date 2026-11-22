@@ -9,14 +9,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{with .Title}}{{.}} | {{end}}The Cave Academy</title>
-<meta name="description" content="The Cave Academy: pembangunan kompetensi berasaskan AI, NLP dan pengalaman praktikal.">
-<link rel="icon" href="/static/img/logo.png">
+{{$title := "The Cave Academy"}}{{with .Title}}{{$title = printf "%s | The Cave Academy" .}}{{end}}
+<title>{{$title}}</title>
+<meta name="description" content="{{.SEO.Description}}">
+{{with .SEO.Canonical}}<link rel="canonical" href="{{.}}">
+<meta property="og:url" content="{{.}}">
+{{end}}<meta name="theme-color" content="#0f1a3c">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Cave Academy">
+<meta property="og:locale" content="ms_MY">
+<meta property="og:title" content="{{$title}}">
+<meta property="og:description" content="{{.SEO.Description}}">
+<meta property="og:image" content="{{.SEO.Image}}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{$title}}">
+<meta name="twitter:description" content="{{.SEO.Description}}">
+<meta name="twitter:image" content="{{.SEO.Image}}">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon.png">
+<link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&display=swap">
 <link rel="stylesheet" href="/static/css/base.css">
 <link rel="stylesheet" href="/static/css/auth.css">
+<link rel="stylesheet" href="/static/css/legal.css">
 {{range .CSS}}<link rel="stylesheet" href="/static/css/{{.}}.css">
 {{end}}{{block "head" .}}{{end}}
 <script src="/static/js/site.js" defer></script>
@@ -107,7 +125,10 @@
     </div>
   </div>
   <div class="footer__copy">
-    <div class="container">&copy; 2026 The Cave Academy. Hak cipta terpelihara.</div>
+    <div class="container footer__copy-row">
+      <span>&copy; 2026 The Cave Academy. Hak cipta terpelihara.</span>
+      <span class="footer__legal"><a href="/dasar-privasi">Dasar Privasi</a><a href="/terma">Terma Penggunaan</a></span>
+    </div>
   </div>
 </footer>
 </body>
