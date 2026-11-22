@@ -1,6 +1,6 @@
 module github.com/H4fizWasabie/cave-academy
 
-go 1.26.0
+go 1.26.11
 
 require (
 	golang.org/x/crypto v0.59.0
