@@ -72,3 +72,34 @@ func TestMailerReportsBrevoErrors(t *testing.T) {
 		t.Errorf("err = %v, want it to mention 401", err)
 	}
 }
+
+func TestMailerSendsReplyTo(t *testing.T) {
+	var got struct {
+		ReplyTo struct{ Email string }
+	}
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		json.NewDecoder(r.Body).Decode(&got)
+		w.WriteHeader(http.StatusCreated)
+	}))
+	defer srv.Close()
+	m := &Mailer{APIKey: "k", From: "The Cave Academy <noreply@example.com>", ReplyTo: "admin@example.com", Endpoint: srv.URL}
+	if err := m.Send("to@example.com", "s", "t"); err != nil {
+		t.Fatal(err)
+	}
+	if got.ReplyTo.Email != "admin@example.com" {
+		t.Errorf("replyTo = %q, want admin@example.com", got.ReplyTo.Email)
+	}
+	// Without a ReplyTo the field is left out entirely.
+	var raw map[string]any
+	srv2 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		json.NewDecoder(r.Body).Decode(&raw)
+		w.WriteHeader(http.StatusCreated)
+	}))
+	defer srv2.Close()
+	if err := (&Mailer{APIKey: "k", From: "a@example.com", Endpoint: srv2.URL}).Send("to@example.com", "s", "t"); err != nil {
+		t.Fatal(err)
+	}
+	if _, has := raw["replyTo"]; has {
+		t.Error("replyTo sent although unset")
+	}
+}

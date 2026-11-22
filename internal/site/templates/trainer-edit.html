@@ -1,0 +1,95 @@
+{{/* Create or edit the logged-in user's trainer profile with a live preview. Page.Data is trainerEditView (trainers.go); static/js/trainer-edit.js drives the preview. */}}
+{{define "head"}}<meta name="robots" content="noindex"><script src="/static/js/trainer-edit.js" defer></script>{{end}}
+{{define "content"}}
+{{with .Data}}
+<section class="container page-section">
+  {{template "breadcrumb" $}}
+  <h1 class="section-title">Profil Trainer Saya</h1>
+  {{if .Saved}}<p class="form-thanks" role="status">Profil disimpan.{{if not .P.Live}} Ia akan kelihatan kepada umum selepas admin menaik taraf anda kepada Cave Trainer dan menerbitkannya.{{end}}</p>{{end}}
+  {{if .Exists}}
+  <p class="tp-status">Status: <strong class="tp-pill{{if .P.IsCave}} tp-pill--cave{{end}}">{{if .P.IsCave}}Cave Trainer{{else}}Ahli (percuma){{end}}</strong>
+    <strong class="tp-pill">{{if .P.Published}}Diterbitkan{{else}}Belum diterbitkan{{end}}</strong></p>
+  <p class="tp-links"><a href="/trainer/{{.P.Slug}}">Lihat profil</a> <a href="/trainer/{{.P.Slug}}/pdf" download>Muat turun PDF</a></p>
+  {{end}}
+  <div class="tp-edit">
+    <form class="form panel" method="post" action="/trainer/profil" data-tp-form novalidate>
+      <p class="form__note"><span class="req" aria-hidden="true">*</span> Wajib diisi</p>
+      <fieldset class="tp-templates">
+        <legend>Templat profil</legend>
+        {{range $.Data.Templates}}
+        <label class="tp-choice"><input type="radio" name="template" value="{{.Key}}"{{if eq .Key $.Data.P.Template}} checked{{end}}><span><strong>{{.Label}}</strong> {{.Note}}</span></label>
+        {{end}}
+        {{with .Err.template}}<p class="field__error" role="alert">{{.}}</p>{{end}}
+      </fieldset>
+      <div class="field{{if .Err.display_name}} field--error{{end}}">
+        <label for="display_name">Nama paparan <span class="req" aria-hidden="true">*</span></label>
+        <input id="display_name" name="display_name" type="text" autocomplete="name" maxlength="100" required value="{{.P.DisplayName}}"{{if .Err.display_name}} aria-invalid="true" aria-describedby="display_name-err"{{end}}>
+        {{with .Err.display_name}}<p class="field__error" role="alert" id="display_name-err">{{.}}</p>{{end}}
+      </div>
+      <div class="field{{if .Err.headline}} field--error{{end}}">
+        <label for="headline">Tajuk ringkas <span class="field__opt">(pilihan)</span></label>
+        <input id="headline" name="headline" type="text" maxlength="120" placeholder="Contoh: Jurulatih kepimpinan dan komunikasi" value="{{.P.Headline}}"{{if .Err.headline}} aria-invalid="true" aria-describedby="headline-err"{{end}}>
+        {{with .Err.headline}}<p class="field__error" role="alert" id="headline-err">{{.}}</p>{{end}}
+      </div>
+      <div class="field{{if .Err.expertise}} field--error{{end}}">
+        <label for="expertise">Bidang kepakaran <span class="req" aria-hidden="true">*</span></label>
+        <input id="expertise" name="expertise" type="text" maxlength="200" placeholder="Asingkan dengan koma: kepimpinan, komunikasi, jualan" required value="{{.P.Expertise}}"{{if .Err.expertise}} aria-invalid="true" aria-describedby="expertise-err"{{end}}>
+        {{with .Err.expertise}}<p class="field__error" role="alert" id="expertise-err">{{.}}</p>{{end}}
+      </div>
+      <div class="form__grid">
+        <div class="field{{if .Err.years}} field--error{{end}}">
+          <label for="years">Tahun pengalaman <span class="req" aria-hidden="true">*</span></label>
+          <input id="years" name="years" type="number" inputmode="numeric" min="0" max="60" required value="{{.P.Years}}"{{if .Err.years}} aria-invalid="true" aria-describedby="years-err"{{end}}>
+          {{with .Err.years}}<p class="field__error" role="alert" id="years-err">{{.}}</p>{{end}}
+        </div>
+        <div class="field{{if .Err.location}} field--error{{end}}">
+          <label for="location">Lokasi <span class="field__opt">(pilihan)</span></label>
+          <input id="location" name="location" type="text" maxlength="100" autocomplete="address-level2" value="{{.P.Location}}"{{if .Err.location}} aria-invalid="true" aria-describedby="location-err"{{end}}>
+          {{with .Err.location}}<p class="field__error" role="alert" id="location-err">{{.}}</p>{{end}}
+        </div>
+        <div class="field{{if .Err.phone}} field--error{{end}}">
+          <label for="phone">Telefon <span class="field__opt">(pilihan, dipaparkan di profil)</span></label>
+          <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" value="{{.P.Phone}}"{{if .Err.phone}} aria-invalid="true" aria-describedby="phone-err"{{end}}>
+          {{with .Err.phone}}<p class="field__error" role="alert" id="phone-err">{{.}}</p>{{end}}
+        </div>
+        <div class="field{{if .Err.linkedin_url}} field--error{{end}}">
+          <label for="linkedin_url">Pautan LinkedIn <span class="field__opt">(pilihan)</span></label>
+          <input id="linkedin_url" name="linkedin_url" type="url" inputmode="url" maxlength="200" placeholder="https://www.linkedin.com/in/..." value="{{.P.LinkedIn}}"{{if .Err.linkedin_url}} aria-invalid="true" aria-describedby="linkedin_url-err"{{end}}>
+          {{with .Err.linkedin_url}}<p class="field__error" role="alert" id="linkedin_url-err">{{.}}</p>{{end}}
+        </div>
+      </div>
+      <div class="field{{if .Err.bio}} field--error{{end}}">
+        <label for="bio">Tentang saya <span class="field__opt">(pilihan)</span></label>
+        <textarea id="bio" name="bio" rows="6" maxlength="2000"{{if .Err.bio}} aria-invalid="true" aria-describedby="bio-err"{{end}}>{{.P.Bio}}</textarea>
+        {{with .Err.bio}}<p class="field__error" role="alert" id="bio-err">{{.}}</p>{{end}}
+      </div>
+      <button class="btn btn--primary" type="submit">Simpan Profil {{template "arrow"}}</button>
+    </form>
+
+    <aside class="tp-preview" aria-label="Pratonton profil">
+      <h2 class="tp-preview__title">Pratonton</h2>
+      <article class="tp tp--{{.P.Template}}" id="tp-preview">
+        <header class="tp__head">
+          <span class="tp__avatar" aria-hidden="true" data-f="initials">{{.P.Initials}}</span>
+          <div class="tp__id">
+            <p class="tp__name" data-f="name">{{.P.DisplayName}}</p>
+            <p class="tp__headline" data-f="headline"{{if not .P.Headline}} hidden{{end}}>{{.P.Headline}}</p>
+            {{if .P.IsCave}}<p class="tp__badge">Cave Trainer</p>{{end}}
+          </div>
+        </header>
+        <div class="tp__body">
+          <section class="tp__sec" data-s="bio"{{if not .P.Bio}} hidden{{end}}><h2 class="tp__h">Tentang</h2><p class="tp__bio" data-f="bio">{{.P.Bio}}</p></section>
+          <section class="tp__sec"><h2 class="tp__h">Kepakaran</h2><ul class="tp__tags" data-f="tags">{{range .P.Tags}}<li>{{.}}</li>{{end}}</ul></section>
+          <dl class="tp__facts">
+            <div><dt>Pengalaman</dt><dd data-f="years">{{.P.Years}} tahun</dd></div>
+            <div data-s="location"{{if not .P.Location}} hidden{{end}}><dt>Lokasi</dt><dd data-f="location">{{.P.Location}}</dd></div>
+            <div data-s="phone"{{if not .P.Phone}} hidden{{end}}><dt>Telefon</dt><dd><a data-f="phone" href="{{if .P.Phone}}{{.P.PhoneHref}}{{end}}">{{.P.Phone}}</a></dd></div>
+            <div data-s="linkedin"{{if not .P.LinkedIn}} hidden{{end}}><dt>LinkedIn</dt><dd><a data-f="linkedin" href="{{.P.LinkedIn}}" rel="noopener nofollow">Lihat profil</a></dd></div>
+          </dl>
+        </div>
+      </article>
+    </aside>
+  </div>
+</section>
+{{end}}
+{{end}}
