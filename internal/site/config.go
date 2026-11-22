@@ -8,7 +8,7 @@ type Config struct {
 	DBPath          string
 	OpenRouterKey   string
 	OpenRouterModel string
-	ResendKey       string
+	BrevoKey        string
 	MailFrom        string
 	AdminEmail      string
 }
@@ -20,7 +20,7 @@ func ConfigFromEnv() Config {
 		DBPath:          env("DB_PATH", "cave-academy.db"),
 		OpenRouterKey:   os.Getenv("OPENROUTER_API_KEY"),
 		OpenRouterModel: env("OPENROUTER_MODEL", "openai/gpt-6-luna"),
-		ResendKey:       os.Getenv("RESEND_API_KEY"),
+		BrevoKey:        os.Getenv("BREVO_API_KEY"),
 		MailFrom:        env("MAIL_FROM", "The Cave Academy <noreply@caveacademy.my>"),
 		AdminEmail:      env("ADMIN_EMAIL", "adam.caveconsult@gmail.com"),
 	}

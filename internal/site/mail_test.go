@@ -22,38 +22,51 @@ func TestMailerWithoutKeyLogsToOutput(t *testing.T) {
 	}
 }
 
-func TestMailerPostsToResend(t *testing.T) {
-	var gotAuth string
-	var got map[string]any
+func TestMailerPostsToBrevo(t *testing.T) {
+	var gotKey, gotAccept string
+	var got struct {
+		Sender      struct{ Name, Email string }
+		To          []struct{ Email string }
+		Subject     string
+		TextContent string
+	}
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		gotAuth = r.Header.Get("Authorization")
+		gotKey, gotAccept = r.Header.Get("api-key"), r.Header.Get("Accept")
 		if r.Method != http.MethodPost || r.Header.Get("Content-Type") != "application/json" {
 			t.Errorf("method=%s content-type=%q", r.Method, r.Header.Get("Content-Type"))
 		}
 		json.NewDecoder(r.Body).Decode(&got)
-		w.Write([]byte(`{"id":"1"}`))
+		w.WriteHeader(http.StatusCreated)
+		w.Write([]byte(`{"messageId":"<1@brevo>"}`))
 	}))
 	defer srv.Close()
 
-	m := &Mailer{APIKey: "re_test", From: "A <a@example.com>", Endpoint: srv.URL}
+	m := &Mailer{APIKey: "xkeysib-test", From: "The Cave Academy <noreply@example.com>", Endpoint: srv.URL}
 	if err := m.Send("to@example.com", "Hello", "Body text"); err != nil {
 		t.Fatal(err)
 	}
-	if gotAuth != "Bearer re_test" {
-		t.Errorf("Authorization = %q", gotAuth)
+	if gotKey != "xkeysib-test" || gotAccept != "application/json" {
+		t.Errorf("api-key = %q, Accept = %q", gotKey, gotAccept)
 	}
-	to, _ := got["to"].([]any)
-	if got["from"] != "A <a@example.com>" || got["subject"] != "Hello" || got["text"] != "Body text" || len(to) != 1 || to[0] != "to@example.com" {
-		t.Errorf("payload = %v", got)
+	if got.Sender.Name != "The Cave Academy" || got.Sender.Email != "noreply@example.com" ||
+		len(got.To) != 1 || got.To[0].Email != "to@example.com" || got.Subject != "Hello" || got.TextContent != "Body text" {
+		t.Errorf("payload = %+v", got)
 	}
 }
 
-func TestMailerReportsResendErrors(t *testing.T) {
+func TestMailerRejectsBadFrom(t *testing.T) {
+	m := &Mailer{APIKey: "k", From: "not an address", Endpoint: "http://127.0.0.1:1"}
+	if err := m.Send("to@example.com", "s", "t"); err == nil || !strings.Contains(err.Error(), "MAIL_FROM") {
+		t.Errorf("err = %v, want it to name MAIL_FROM", err)
+	}
+}
+
+func TestMailerReportsBrevoErrors(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.Error(w, `{"message":"bad key"}`, http.StatusUnauthorized)
+		http.Error(w, `{"code":"unauthorized","message":"Key not found"}`, http.StatusUnauthorized)
 	}))
 	defer srv.Close()
-	m := &Mailer{APIKey: "bad", Endpoint: srv.URL}
+	m := &Mailer{APIKey: "bad", From: "a@example.com", Endpoint: srv.URL}
 	err := m.Send("to@example.com", "s", "t")
 	if err == nil || !strings.Contains(err.Error(), "401") {
 		t.Errorf("err = %v, want it to mention 401", err)
