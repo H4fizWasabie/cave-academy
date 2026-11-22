@@ -73,6 +73,14 @@ CREATE TABLE IF NOT EXISTS sessions (
 	expires_at TEXT NOT NULL
 );
 
+-- Only the SHA-256 of a reset token is stored, so a leaked database cannot be used to reset passwords.
+CREATE TABLE IF NOT EXISTS password_resets (
+	token_hash TEXT PRIMARY KEY,
+	user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+	expires_at TEXT NOT NULL,
+	used_at    TEXT
+);
+
 CREATE TABLE IF NOT EXISTS chat_messages (
 	id         INTEGER PRIMARY KEY AUTOINCREMENT,
 	user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
