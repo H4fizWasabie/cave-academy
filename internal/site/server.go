@@ -114,6 +114,10 @@ func (s *Server) routes() {
 	s.mux.HandleFunc("GET /terma", s.terma)
 	s.mux.HandleFunc("GET /robots.txt", s.robots)
 	s.mux.HandleFunc("GET /sitemap.xml", s.sitemap)
+
+	// Password reset by email (reset.go).
+	s.mux.HandleFunc("/lupa-kata-laluan", s.lupaKataLaluan)
+	s.mux.HandleFunc("/reset-kata-laluan", s.resetKataLaluan)
 }
 
 // loadTemplates parses layout.html + partials.html together with each page

@@ -1,0 +1,43 @@
+{{/* Password reset: request form, "sent" notice, new-password form. Page.Data is resetData (reset.go). */}}
+{{define "content"}}
+<section class="auth">
+  <div class="container">
+    {{template "breadcrumb" .}}
+    <div class="auth__card">
+      {{with .Data}}
+      {{if eq .Mode "dihantar"}}
+      <h1 class="auth__title">Semak E-mel Anda</h1>
+      <p class="auth__lead" role="status">Jika e-mel itu berdaftar, kami telah menghantar pautan untuk menetapkan semula kata laluan. Pautan sah selama 1 jam.</p>
+      <p class="auth__alt"><a href="/log-masuk">Kembali ke Log Masuk</a></p>
+      {{else if eq .Mode "tidak-sah"}}
+      <h1 class="auth__title">Pautan Tidak Sah</h1>
+      <p class="auth__lead">Pautan ini tidak sah, sudah digunakan atau telah tamat tempoh.</p>
+      <p><a class="btn btn--primary auth__submit" href="/lupa-kata-laluan">Minta pautan baharu</a></p>
+      {{else if eq .Mode "baru"}}
+      <h1 class="auth__title">Kata Laluan Baharu</h1>
+      <p class="auth__lead">Pilih kata laluan baharu untuk akaun anda.</p>
+      {{if .Error}}<p class="auth__error" role="alert">{{.Error}}</p>{{end}}
+      <form method="post" action="/reset-kata-laluan" class="auth__form">
+        <input type="hidden" name="token" value="{{.Token}}">
+        <label class="auth__field">Kata laluan baharu
+          <input type="password" name="password" autocomplete="new-password" minlength="8" required>
+          <small>Sekurang-kurangnya 8 aksara.</small>
+        </label>
+        <button class="btn btn--primary auth__submit" type="submit">Simpan Kata Laluan</button>
+      </form>
+      {{else}}
+      <h1 class="auth__title">Lupa Kata Laluan</h1>
+      <p class="auth__lead">Masukkan emel akaun anda dan kami akan menghantar pautan untuk menetapkan semula kata laluan.</p>
+      <form method="post" action="/lupa-kata-laluan" class="auth__form">
+        <label class="auth__field">Emel
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+        <button class="btn btn--primary auth__submit" type="submit">Hantar Pautan</button>
+      </form>
+      <p class="auth__alt"><a href="/log-masuk">Kembali ke Log Masuk</a></p>
+      {{end}}
+      {{end}}
+    </div>
+  </div>
+</section>
+{{end}}
