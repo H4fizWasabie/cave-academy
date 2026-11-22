@@ -102,6 +102,10 @@ func (s *Server) routes() {
 	s.mux.HandleFunc("/daftar", s.daftar)
 	s.mux.HandleFunc("/log-masuk", s.logMasuk)
 	s.mux.HandleFunc("/log-keluar", s.logKeluar)
+
+	// Admin back office (admin.go): admins only, anyone else gets a 404.
+	s.mux.HandleFunc("/admin", s.adminOverview)
+	s.mux.HandleFunc("/admin/{page}", s.adminPage)
 }
 
 // loadTemplates parses layout.html + partials.html together with each page

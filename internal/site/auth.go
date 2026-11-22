@@ -22,10 +22,11 @@ const (
 
 // User is the logged-in account. Plan is "free" or "paid".
 type User struct {
-	ID    int64
-	Name  string
-	Email string
-	Plan  string
+	ID      int64
+	Name    string
+	Email   string
+	Plan    string
+	IsAdmin bool // set only by the make-admin CLI; see admin.go
 }
 
 // FirstName is the first word of the name, for the header.
@@ -42,8 +43,8 @@ func (s *Server) currentUser(r *http.Request) *User {
 		return nil
 	}
 	u := &User{}
-	err = s.db.QueryRow(`SELECT u.id, u.name, u.email, u.plan FROM sessions s JOIN users u ON u.id = s.user_id
-		WHERE s.token = ? AND s.expires_at > datetime('now')`, c.Value).Scan(&u.ID, &u.Name, &u.Email, &u.Plan)
+	err = s.db.QueryRow(`SELECT u.id, u.name, u.email, u.plan, u.is_admin FROM sessions s JOIN users u ON u.id = s.user_id
+		WHERE s.token = ? AND s.expires_at > datetime('now')`, c.Value).Scan(&u.ID, &u.Name, &u.Email, &u.Plan, &u.IsAdmin)
 	if err != nil {
 		return nil
 	}

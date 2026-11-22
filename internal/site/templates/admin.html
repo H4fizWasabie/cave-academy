@@ -1,0 +1,69 @@
+{{/* Admin back office: the overview and every list. Page.Data is adminView (admin.go). */}}
+{{define "head"}}<meta name="robots" content="noindex">{{end}}
+{{define "content"}}
+{{with .Data}}
+<section class="adm">
+  <div class="container">
+    <nav class="adm-tabs" aria-label="Menu admin">
+      <a href="/admin"{{if eq .Key ""}} aria-current="page"{{end}}>Ringkasan</a>
+      <a href="/admin/rfq"{{if eq .Key "rfq"}} aria-current="page"{{end}}>RFQ</a>
+      <a href="/admin/trainer"{{if eq .Key "trainer"}} aria-current="page"{{end}}>Trainer</a>
+      <a href="/admin/mesej"{{if eq .Key "mesej"}} aria-current="page"{{end}}>Mesej</a>
+      <a href="/admin/pengguna"{{if eq .Key "pengguna"}} aria-current="page"{{end}}>Pengguna</a>
+    </nav>
+
+    {{if eq .Key ""}}
+    <h1 class="adm-title">Ringkasan</h1>
+    <div class="adm-cards">
+      {{range .Cards}}
+      <a class="adm-card" href="{{.Href}}" data-week="{{.Week}}">
+        <span class="adm-card__label">{{.Label}}</span>
+        <span class="adm-card__num">{{.Total}}</span>
+        <span class="adm-card__sub"><strong>{{.Week}}</strong> baharu dalam 7 hari{{with .Note}} &middot; {{.}}{{end}}</span>
+      </a>
+      {{end}}
+    </div>
+    {{else}}
+    <div class="adm-head">
+      <h1 class="adm-title">{{.Title}} <span class="adm-count">{{.Total}}</span></h1>
+      <a class="btn btn--outline btn--sm" href="/admin/{{.Key}}?format=csv" download>Muat turun CSV</a>
+    </div>
+    {{if gt .Total .Limit}}<p class="adm-note">Memaparkan {{.Limit}} terkini daripada {{.Total}}. CSV mengandungi semua.</p>{{end}}
+    {{if .Rows}}
+    {{$key := .Key}}{{$heads := .Heads}}
+    <div class="adm-scroll">
+    <table class="adm-table">
+      <thead><tr>{{range .Heads}}<th scope="col">{{.}}</th>{{end}}{{if eq $key "pengguna"}}<th scope="col">Tukar pelan</th>{{end}}</tr></thead>
+      <tbody>
+        {{range .Rows}}
+        <tr class="adm-row">
+          {{range $i, $c := .Cells}}
+          <td data-label="{{index $heads $i}}"{{if eq $c.Kind "long"}} class="adm-long"{{else if eq $c.Kind "date"}} class="adm-nowrap"{{end}}>
+            {{- if eq $c.Kind "email"}}<a href="{{$c.Href}}">{{$c.V}}</a>
+            {{- else if eq $c.Kind "phone"}}{{$c.V}}{{if $c.Href}} <span class="adm-acts"><a href="{{$c.Href}}">Telefon</a><a class="adm-wa" href="{{$c.WA}}" rel="noopener">WhatsApp</a></span>{{end}}
+            {{- else if eq $c.Kind "plan"}}<span class="adm-badge adm-badge--{{$c.V}}">{{if eq $c.V "paid"}}Berbayar{{else}}Percuma{{end}}</span>
+            {{- else if eq $c.Kind "bool"}}{{if $c.V}}<span class="adm-badge adm-badge--admin">Admin</span>{{end}}
+            {{- else}}{{$c.V}}{{end -}}
+          </td>
+          {{end}}
+          {{if eq $key "pengguna"}}
+          <td data-label="Tukar pelan">
+            {{$paid := false}}{{range .Cells}}{{if and (eq .Kind "plan") (eq .V "paid")}}{{$paid = true}}{{end}}{{end}}
+            <form method="post" action="/admin/pengguna" class="adm-plan">
+              <input type="hidden" name="id" value="{{.ID}}">
+              <input type="hidden" name="plan" value="{{if $paid}}free{{else}}paid{{end}}">
+              <button class="adm-btn" type="submit">{{if $paid}}Jadikan Percuma{{else}}Jadikan Berbayar{{end}}</button>
+            </form>
+          </td>
+          {{end}}
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+    </div>
+    {{else}}<p class="adm-empty">Belum ada data.</p>{{end}}
+    {{end}}
+  </div>
+</section>
+{{end}}
+{{end}}
