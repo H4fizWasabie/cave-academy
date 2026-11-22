@@ -21,7 +21,7 @@ A marketing site for The Cave Academy plus its highlight feature, the **AI NLP B
 | `DB_PATH` | SQLite file | `cave-academy.db` |
 | `OPENROUTER_API_KEY` | chatbot answers | unset: chat replies with a "not configured" message |
 | `OPENROUTER_MODEL` | OpenRouter model id | `openai/gpt-6-luna` |
-| `RESEND_API_KEY` | sends email | unset: email is logged to stdout instead |
+| `BREVO_API_KEY` | sends email (Brevo transactional API) | unset: email is logged to stdout instead |
 | `MAIL_FROM` | sender address | `The Cave Academy <noreply@caveacademy.my>` |
 | `ADMIN_EMAIL` | receives form submissions | `adam.caveconsult@gmail.com` |
 
@@ -70,7 +70,7 @@ Assets: no real logo or photos supplied yet. Crop the round CAVE badge and the h
 - RFQ (on `/corporate-training`): organisation, contact name, email, phone, training area (select), participants, preferred date, notes.
 - Trainer panel (`/trainer-panel`): name, email, phone, expertise, years of experience, short bio.
 - Contact (`/hubungi-kami`): name, email, message.
-- Each submission is saved to SQLite and emailed to `ADMIN_EMAIL` via Resend (HTTP API). Server-side validation; a thank-you message on success. Basic spam guard: a hidden honeypot field.
+- Each submission is saved to SQLite and emailed to `ADMIN_EMAIL` via Brevo (`POST https://api.brevo.com/v3/smtp/email`). The sender domain must be authenticated in Brevo (caveacademy.my is not yet; the free plan's 300 emails a day are shared with CAVELMS). Server-side validation; a thank-you message on success. Basic spam guard: a hidden honeypot field.
 
 ## Out of scope for v1
 

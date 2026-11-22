@@ -52,7 +52,7 @@ func New(cfg Config) (*Server, error) {
 	s := &Server{
 		db:     db,
 		config: cfg,
-		mailer: &Mailer{APIKey: cfg.ResendKey, From: cfg.MailFrom},
+		mailer: &Mailer{APIKey: cfg.BrevoKey, From: cfg.MailFrom},
 		mux:    http.NewServeMux(),
 		limits: newRateLimits(),
 	}
