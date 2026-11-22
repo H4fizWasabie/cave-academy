@@ -24,6 +24,7 @@ A marketing site for The Cave Academy plus its highlight feature, the **AI NLP B
 | `BREVO_API_KEY` | sends email (Brevo transactional API) | unset: email is logged to stdout instead |
 | `MAIL_FROM` | sender address | `The Cave Academy <noreply@caveacademy.my>` |
 | `ADMIN_EMAIL` | receives form submissions | `adam.caveconsult@gmail.com` |
+| `BASE_URL` | public origin for canonical links and `/sitemap.xml` | `https://caveacademy.my` |
 
 Contact details on the site: WhatsApp / phone 012-394 7200 (`https://wa.me/60123947200`), email adam.caveconsult@gmail.com.
 

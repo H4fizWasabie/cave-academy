@@ -35,12 +35,14 @@ type Server struct {
 // Page is the data every template receives as ".". Handlers fill it in;
 // page-specific values go in Data.
 type Page struct {
-	Title string   // <title> and page heading; "" gives the plain site title
-	Nav   string   // active nav item: home, program, bots, produk, tentang ("" for none)
-	CSS   []string // extra stylesheets, e.g. "home" loads /static/css/home.css
-	Crumb string   // breadcrumb label for {{template "breadcrumb" .}}; "" on the home page
-	User  *User    // logged-in user or nil; render fills it in, handlers leave it alone
-	Data  any
+	Title       string   // <title> and page heading; "" gives the plain site title
+	Nav         string   // active nav item: home, program, bots, produk, tentang ("" for none)
+	CSS         []string // extra stylesheets, e.g. "home" loads /static/css/home.css
+	Description string   // <meta name="description">; "" gives the site default (seo.go)
+	Crumb       string   // breadcrumb label for {{template "breadcrumb" .}}; "" on the home page
+	User        *User    // logged-in user or nil; render fills it in, handlers leave it alone
+	SEO         seoMeta  // canonical URL and share image; render fills it in (seo.go)
+	Data        any
 }
 
 // New opens the database, loads the templates and registers every route.
@@ -106,6 +108,12 @@ func (s *Server) routes() {
 	// Admin back office (admin.go): admins only, anyone else gets a 404.
 	s.mux.HandleFunc("/admin", s.adminOverview)
 	s.mux.HandleFunc("/admin/{page}", s.adminPage)
+
+	// Legal pages and SEO (legal.go, seo.go).
+	s.mux.HandleFunc("GET /dasar-privasi", s.privasi)
+	s.mux.HandleFunc("GET /terma", s.terma)
+	s.mux.HandleFunc("GET /robots.txt", s.robots)
+	s.mux.HandleFunc("GET /sitemap.xml", s.sitemap)
 }
 
 // loadTemplates parses layout.html + partials.html together with each page
@@ -145,6 +153,9 @@ func (s *Server) renderStatus(w http.ResponseWriter, status int, name string, p 
 	}
 	if rw, ok := w.(*reqWriter); ok && p.User == nil {
 		p.User = s.currentUser(rw.r)
+	}
+	if rw, ok := w.(*reqWriter); ok {
+		s.fillSEO(&p, rw.r, status)
 	}
 	var buf bytes.Buffer // buffer so a template error cannot leave half a page
 	if err := t.ExecuteTemplate(&buf, "layout", p); err != nil {
