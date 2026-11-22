@@ -56,13 +56,13 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			if rec == http.ErrAbortHandler {
 				panic(rec)
 			}
-			log.Printf("panic: %s %q: %v\n%s", r.Method, r.URL.Path, rec, debug.Stack())
+			log.Printf("panic: %s %q: %v\n%s", r.Method, logPath(r), rec, debug.Stack())
 			if !sw.wrote {
 				s.serverError(sw, r)
 			}
 		}
 		// Method, path and status only: never the query string, cookies or body.
-		log.Printf("%s %q %d %s ip=%s", r.Method, r.URL.Path, sw.status, time.Since(start).Round(time.Millisecond), clientIP(r))
+		log.Printf("%s %q %d %s ip=%s", r.Method, logPath(r), sw.status, time.Since(start).Round(time.Millisecond), clientIP(r))
 	}()
 	h := sw.Header()
 	for k, v := range securityHeaders {
@@ -76,6 +76,15 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		r.Body = http.MaxBytesReader(sw, r.Body, maxBody)
 	}
 	s.mux.ServeHTTP(&reqWriter{sw, r}, r) // reqWriter lets render find the logged-in user
+}
+
+// logPath is the request path for the log: the BCL webhook's secret key is
+// part of its path, so that tail never reaches the log.
+func logPath(r *http.Request) string {
+	if strings.HasPrefix(r.URL.Path, "/bcl/webhook/") {
+		return "/bcl/webhook/…"
+	}
+	return r.URL.Path
 }
 
 // notFound renders the styled 404 page. /static/ misses stay plain.

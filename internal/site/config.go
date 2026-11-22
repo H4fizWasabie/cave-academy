@@ -21,6 +21,9 @@ type Config struct {
 	BaseURL         string // public origin for canonical links and the sitemap, no trailing slash
 	ChatDailyCap    int    // OpenRouter answers per KL day across all users; 0 = 2000
 	IntroVideoURL   string // intro video; empty hides the "(2 Minit)" video buttons
+	BCLWebhookKey   string // secret in the BCL webhook path (bcl.go); under 32 chars or unset = webhook off
+	BCLAPIToken     string // reads each order back from BCL's API; the webhook needs it too
+	BCLAPIURL       string // BCL API base; "" = https://bcl.my/api (tests point it at a fake)
 }
 
 // ConfigFromEnv reads the environment and fills in the spec's defaults.
@@ -46,6 +49,9 @@ func ConfigFromEnv() Config {
 		AdminEmail:      env("ADMIN_EMAIL", "adam.caveconsult@gmail.com"),
 		BaseURL:         strings.TrimRight(baseURL, "/"),
 		IntroVideoURL:   os.Getenv("INTRO_VIDEO_URL"),
+		BCLWebhookKey:   os.Getenv("BCL_WEBHOOK_KEY"),
+		BCLAPIToken:     os.Getenv("BCL_API_TOKEN"),
+		BCLAPIURL:       os.Getenv("BCL_API_URL"),
 	}
 }
 
@@ -78,6 +84,13 @@ func (c Config) Validate() error {
 	}
 	if _, err := mail.ParseAddress(c.MailFrom); err != nil {
 		return fmt.Errorf("MAIL_FROM %q: %w", c.MailFrom, err)
+	}
+	// BCL signs no webhook: the key guards the address and the token confirms every order, so neither works alone.
+	if (c.BCLWebhookKey == "") != (c.BCLAPIToken == "") {
+		return fmt.Errorf("APP_ENV=production: set BCL_WEBHOOK_KEY and BCL_API_TOKEN together or neither")
+	}
+	if c.BCLWebhookKey != "" && len(c.BCLWebhookKey) < minBCLKey {
+		return fmt.Errorf("BCL_WEBHOOK_KEY must be at least %d characters", minBCLKey)
 	}
 	return nil
 }

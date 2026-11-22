@@ -1,0 +1,40 @@
+{{/* Public pricing page: one card per active plan. Page.Data is pelanView (plans.go). */}}
+{{define "content"}}
+{{with .Data}}
+<section class="pelan-hero">
+  <div class="container">
+    {{template "breadcrumb" $}}
+    <h1 class="hero__title">Pelan <span class="gold">Langganan</span></h1>
+    <p class="hero__sub">Tanya lebih banyak soalan kepada AI NLP Bots The Cave Academy. Akaun percuma mendapat 3 soalan sehari.</p>
+  </div>
+</section>
+
+<section class="container pelan">
+  {{if .Plans}}
+  <p class="pelan__note">Bayar menggunakan <strong>emel yang sama dengan akaun anda</strong>{{if .LoggedIn}} ({{.Email}}){{end}}, supaya langganan diaktifkan secara automatik selepas bayaran berjaya.</p>
+  <div class="plans">
+    {{$in := .LoggedIn}}
+    {{range .Plans}}<article class="plan">
+      <h2 class="plan__name">{{.Name}}</h2>
+      <p class="plan__price">{{.Price}}<span class="plan__per"> / {{.Duration}}</span></p>
+      <ul class="plan__list">
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>{{.Quota}}</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Sah selama {{.Duration}}</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Semua tiga AI NLP Bots</li>
+      </ul>
+      {{if $in}}<a class="btn btn--primary" href="{{.BCLLink}}" rel="noopener">Langgan {{template "arrow"}}</a>
+      {{else}}<a class="btn btn--primary" href="/daftar?next=/pelan">Langgan {{template "arrow"}}</a>{{end}}
+    </article>
+    {{end}}
+  </div>
+  {{if not .LoggedIn}}<p class="pelan__note">Anda perlu akaun dahulu. <a href="/daftar?next=/pelan">Daftar percuma</a> atau <a href="/log-masuk?next=/pelan">log masuk</a>, kemudian pilih pelan.</p>{{end}}
+  {{else}}
+  <div class="pelan__soon">
+    <h2 class="plan__name">Pelan langganan akan datang</h2>
+    <p>Kami sedang menyiapkan pelan langganan. Buat masa ini, hubungi kami di WhatsApp untuk mengetahui pilihan anda.</p>
+    <a class="btn btn--wa" href="{{.WA}}"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>WhatsApp Chat</a>
+  </div>
+  {{end}}
+</section>
+{{end}}
+{{end}}

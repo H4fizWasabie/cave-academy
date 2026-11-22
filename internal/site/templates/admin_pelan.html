@@ -1,0 +1,73 @@
+{{/* Admin: plans and unmatched BCL payments. Page.Data is adminPelanView (admin_plans.go). */}}
+{{define "head"}}<meta name="robots" content="noindex">{{end}}
+{{define "planform"}}
+<form method="post" action="/admin/pelan" class="pl-form">
+  <input type="hidden" name="action" value="save">
+  <input type="hidden" name="id" value="{{.ID}}">
+  <div class="pl-grid">
+    <div class="pl-field pl-field--wide"><label for="{{.Pre}}-name">Nama pelan</label><input id="{{.Pre}}-name" name="name" value="{{.Name}}" maxlength="60" required></div>
+    <div class="pl-field"><label for="{{.Pre}}-price">Harga (RM)</label><input id="{{.Pre}}-price" name="price" value="{{.PriceText}}" inputmode="decimal" placeholder="29.90" required></div>
+    <div class="pl-field"><label for="{{.Pre}}-daily">Soalan sehari (0 = tanpa had)</label><input id="{{.Pre}}-daily" name="daily_questions" value="{{.DailyQuestions}}" inputmode="numeric" required></div>
+    <div class="pl-field"><label for="{{.Pre}}-days">Tempoh (hari)</label><input id="{{.Pre}}-days" name="days" value="{{.Days}}" inputmode="numeric" required></div>
+    <div class="pl-field"><label for="{{.Pre}}-sort">Susunan</label><input id="{{.Pre}}-sort" name="sort" value="{{.Sort}}" inputmode="numeric"></div>
+    <div class="pl-field pl-field--wide"><label for="{{.Pre}}-link">Pautan borang BCL</label><input id="{{.Pre}}-link" name="bcl_link" value="{{.BCLLink}}" type="url" placeholder="https://syarikat.bcl.my/form/nama-borang" required></div>
+  </div>
+  <label class="pl-check"><input type="checkbox" name="active" value="1"{{if .Active}} checked{{end}}> Aktif (dipaparkan di halaman Pelan)</label>
+  <button class="adm-btn" type="submit">Simpan</button>
+</form>
+{{end}}
+{{define "content"}}
+{{with .Data}}
+<section class="adm">
+  <div class="container">
+    {{template "adminnav" "pelan"}}
+
+    <h1 class="adm-title">Pelan langganan</h1>
+    <p class="adm-note">Pelan dipaparkan di <a href="/pelan">/pelan</a>. Pelan tidak dipadam, hanya dinyahaktifkan. Pembayar mesti guna emel yang sama dengan akaun mereka.</p>
+    {{if .Error}}<p class="pl-error" role="alert">{{.Error}}</p>{{end}}
+
+    <h2 class="pl-h">Pelan baharu</h2>
+    <div class="pl-card">{{template "planform" .New}}</div>
+
+    <h2 class="pl-h">Pelan sedia ada <span class="adm-count">{{len .Forms}}</span></h2>
+    {{range .Forms}}
+    <div class="pl-card{{if not .Active}} pl-card--off{{end}}">
+      <p class="pl-sum"><strong>{{.Name}}</strong> &middot; {{.Price}} &middot; {{.Quota}} &middot; {{.Duration}}{{if not .Active}} <span class="adm-badge">Tidak aktif</span>{{end}}</p>
+      {{template "planform" .}}
+      <form method="post" action="/admin/pelan" class="pl-toggle">
+        <input type="hidden" name="action" value="toggle">
+        <input type="hidden" name="id" value="{{.ID}}">
+        <input type="hidden" name="active" value="{{if .Active}}0{{else}}1{{end}}">
+        <button class="adm-btn" type="submit">{{if .Active}}Nyahaktifkan{{else}}Aktifkan{{end}}</button>
+      </form>
+    </div>
+    {{else}}<p class="adm-empty">Belum ada pelan.</p>{{end}}
+
+    <h2 class="pl-h">Bayaran BCL belum dipadankan <span class="adm-count">{{len .Unmatched}}</span></h2>
+    <p class="adm-note">Bayaran sah yang tidak memberi langganan: tiada akaun dengan emel pembayar, borang BCL bukan pelan, atau jumlah kurang. Semak di BCL, kemudian beri langganan.</p>
+    {{$plans := .Plans}}
+    {{range .Unmatched}}
+    <div class="pl-card">
+      <p class="pl-sum"><strong>{{.Order}}</strong> &middot; {{.Email}} &middot; {{.Paid}} &middot; {{.When}}</p>
+      <p class="adm-note">{{.Reason}}{{with .PlanName}} (borang: {{.}}){{end}}</p>
+      {{$pid := .PlanID}}
+      <form method="post" action="/admin/pelan" class="pl-form">
+        <input type="hidden" name="action" value="grant">
+        <input type="hidden" name="id" value="{{.ID}}">
+        <div class="pl-grid">
+          <div class="pl-field pl-field--wide"><label for="g{{.ID}}-email">Emel akaun</label><input id="g{{.ID}}-email" name="email" type="email" value="{{.Email}}" required></div>
+          <div class="pl-field pl-field--wide"><label for="g{{.ID}}-plan">Pelan</label>
+            <select id="g{{.ID}}-plan" name="plan_id" required>
+              {{if not $pid}}<option value="">Pilih pelan</option>{{end}}
+              {{range $plans}}<option value="{{.ID}}"{{if eq .ID $pid}} selected{{end}}>{{.Name}} ({{.Price}}, {{.Duration}})</option>{{end}}
+            </select>
+          </div>
+        </div>
+        <button class="adm-btn" type="submit">Beri langganan</button>
+      </form>
+    </div>
+    {{else}}<p class="adm-empty">Tiada bayaran yang menunggu.</p>{{end}}
+  </div>
+</section>
+{{end}}
+{{end}}

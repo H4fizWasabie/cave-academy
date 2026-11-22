@@ -4,14 +4,7 @@
 {{with .Data}}
 <section class="adm">
   <div class="container">
-    <nav class="adm-tabs" aria-label="Menu admin">
-      <a href="/admin">Ringkasan</a>
-      <a href="/admin/rfq">RFQ</a>
-      <a href="/admin/trainer">Trainer</a>
-      <a href="/admin/mesej">Mesej</a>
-      <a href="/admin/pengguna">Pengguna</a>
-      <a href="/admin/pengetahuan" aria-current="page">Pengetahuan</a>
-    </nav>
+    {{template "adminnav" "pengetahuan"}}
 
     <div class="adm-head">
       <h1 class="adm-title">Pengetahuan <span class="adm-count">{{.Docs}}</span></h1>

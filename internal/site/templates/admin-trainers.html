@@ -4,14 +4,7 @@
 {{with .Data}}
 <section class="adm">
   <div class="container">
-    <nav class="adm-tabs" aria-label="Menu admin">
-      <a href="/admin">Ringkasan</a>
-      <a href="/admin/rfq">RFQ</a>
-      <a href="/admin/trainer">Trainer</a>
-      <a href="/admin/mesej">Mesej</a>
-      <a href="/admin/pengguna">Pengguna</a>
-      <a href="/admin/trainer-profil" aria-current="page">Profil Trainer</a>
-    </nav>
+    {{template "adminnav" "trainer-profil"}}
     <div class="adm-head">
       <h1 class="adm-title">Profil Trainer <span class="adm-count">{{.Total}}</span></h1>
     </div>
