@@ -122,4 +122,34 @@ CREATE TABLE IF NOT EXISTS contact_messages (
 	message    TEXT NOT NULL,
 	created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+
+-- Trainer profiles (trainers.go): one per account. status moves member -> cave_trainer
+-- only by an admin; a profile is public only when published = 1 AND status = 'cave_trainer'.
+CREATE TABLE IF NOT EXISTS trainer_profiles (
+	id           INTEGER PRIMARY KEY AUTOINCREMENT,
+	user_id      INTEGER NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+	slug         TEXT NOT NULL UNIQUE,
+	display_name TEXT NOT NULL,
+	headline     TEXT NOT NULL DEFAULT '',
+	bio          TEXT NOT NULL DEFAULT '',
+	expertise    TEXT NOT NULL DEFAULT '', -- comma separated
+	years        INTEGER NOT NULL DEFAULT 0,
+	phone        TEXT NOT NULL DEFAULT '',
+	location     TEXT NOT NULL DEFAULT '',
+	linkedin_url TEXT NOT NULL DEFAULT '',
+	template     TEXT NOT NULL DEFAULT 'klasik',
+	status       TEXT NOT NULL DEFAULT 'member' CHECK (status IN ('member', 'cave_trainer')),
+	published    INTEGER NOT NULL DEFAULT 0,
+	created_at   TEXT NOT NULL DEFAULT (datetime('now')),
+	updated_at   TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- Emails an admin sent to a trainer (admin_trainers.go).
+CREATE TABLE IF NOT EXISTS trainer_messages (
+	id         INTEGER PRIMARY KEY AUTOINCREMENT,
+	profile_id INTEGER NOT NULL REFERENCES trainer_profiles(id) ON DELETE CASCADE,
+	subject    TEXT NOT NULL,
+	body       TEXT NOT NULL,
+	created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
 `

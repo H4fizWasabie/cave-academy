@@ -140,6 +140,7 @@ func (s *Server) adminOverview(w http.ResponseWriter, r *http.Request) {
 		card("Permintaan RFQ", "rfq", "rfq_requests", ""),
 		card("Permohonan Trainer", "trainer", "trainer_applications", ""),
 		card("Mesej", "mesej", "contact_messages", ""),
+		card("Profil Trainer", "trainer-profil", "trainer_profiles", fmt.Sprintf("%d Cave Trainer", s.count(`SELECT COUNT(*) FROM trainer_profiles WHERE status = 'cave_trainer'`))),
 	}})
 }
 

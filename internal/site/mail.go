@@ -18,6 +18,7 @@ const brevoEndpoint = "https://api.brevo.com/v3/smtp/email"
 type Mailer struct {
 	APIKey   string
 	From     string
+	ReplyTo  string    // optional Reply-To address: replies go to the admin, not the noreply sender
 	Endpoint string    // default brevoEndpoint; tests point it at httptest
 	Out      io.Writer // default os.Stdout
 	Client   *http.Client
@@ -29,7 +30,7 @@ func (m *Mailer) Send(to, subject, text string) error {
 		if out == nil {
 			out = os.Stdout
 		}
-		_, err := fmt.Fprintf(out, "--- email (BREVO_API_KEY not set) ---\nFrom: %s\nTo: %s\nSubject: %s\n\n%s\n---\n", m.From, to, subject, text)
+		_, err := fmt.Fprintf(out, "--- email (BREVO_API_KEY not set) ---\nFrom: %s\nTo: %s\nReply-To: %s\nSubject: %s\n\n%s\n---\n", m.From, to, m.ReplyTo, subject, text)
 		return err
 	}
 
@@ -37,12 +38,16 @@ func (m *Mailer) Send(to, subject, text string) error {
 	if err != nil {
 		return fmt.Errorf("MAIL_FROM %q: %w", m.From, err)
 	}
-	body, err := json.Marshal(map[string]any{
+	msg := map[string]any{
 		"sender":      map[string]string{"name": from.Name, "email": from.Address},
 		"to":          []map[string]string{{"email": to}},
 		"subject":     subject,
 		"textContent": text,
-	})
+	}
+	if m.ReplyTo != "" {
+		msg["replyTo"] = map[string]string{"email": m.ReplyTo}
+	}
+	body, err := json.Marshal(msg)
 	if err != nil {
 		return err
 	}

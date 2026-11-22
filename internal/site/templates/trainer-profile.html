@@ -1,0 +1,37 @@
+{{/* Public trainer profile. Page.Data is trainerView (trainers.go). The card markup is mirrored in trainer-edit.html for the live preview. */}}
+{{define "head"}}{{if .Data.Notice}}<meta name="robots" content="noindex">{{end}}{{end}}
+{{define "content"}}
+{{with .Data}}
+<section class="container page-section tp-page">
+  {{template "breadcrumb" $}}
+  {{if .Notice}}<p class="tp-notice" role="status">Pratonton: profil ini belum diterbitkan, jadi hanya anda dan admin boleh melihatnya.{{if not .P.IsCave}} Admin akan menaik taraf akaun anda kepada Cave Trainer selepas semakan.{{end}}</p>{{end}}
+  {{with .P}}
+  <article class="tp tp--{{.Template}}">
+    <header class="tp__head">
+      <span class="tp__avatar" aria-hidden="true">{{.Initials}}</span>
+      <div class="tp__id">
+        <h1 class="tp__name">{{.DisplayName}}</h1>
+        {{if .Headline}}<p class="tp__headline">{{.Headline}}</p>{{end}}
+        {{if .IsCave}}<p class="tp__badge">Cave Trainer</p>{{end}}
+      </div>
+    </header>
+    <div class="tp__body">
+      {{if .Bio}}<section class="tp__sec"><h2 class="tp__h">Tentang</h2><p class="tp__bio">{{.Bio}}</p></section>{{end}}
+      <section class="tp__sec"><h2 class="tp__h">Kepakaran</h2><ul class="tp__tags">{{range .Tags}}<li>{{.}}</li>{{end}}</ul></section>
+      <dl class="tp__facts">
+        <div><dt>Pengalaman</dt><dd>{{.Years}} tahun</dd></div>
+        {{if .Location}}<div><dt>Lokasi</dt><dd>{{.Location}}</dd></div>{{end}}
+        {{if .Phone}}<div><dt>Telefon</dt><dd><a href="{{.PhoneHref}}">{{.Phone}}</a></dd></div>{{end}}
+        {{if .LinkedIn}}<div><dt>LinkedIn</dt><dd><a href="{{.LinkedIn}}" rel="noopener nofollow">Lihat profil</a></dd></div>{{end}}
+      </dl>
+    </div>
+  </article>
+  <div class="tp-actions">
+    <a class="btn btn--primary" href="/trainer/{{.Slug}}/pdf" download>Muat turun PDF</a>
+    <a class="btn btn--outline" href="/trainer">Semua Cave Trainer</a>
+    {{if and $.User (eq $.User.ID .UserID)}}<a class="btn btn--outline" href="/trainer/profil">Edit profil</a>{{end}}
+  </div>
+  {{end}}
+</section>
+{{end}}
+{{end}}

@@ -56,7 +56,7 @@ func New(cfg Config) (*Server, error) {
 	s := &Server{
 		db:     db,
 		config: cfg,
-		mailer: &Mailer{APIKey: cfg.BrevoKey, From: cfg.MailFrom},
+		mailer: &Mailer{APIKey: cfg.BrevoKey, From: cfg.MailFrom, ReplyTo: cfg.AdminEmail},
 		mux:    http.NewServeMux(),
 		limits: newRateLimits(),
 		abuse:  newAbuseLimits(),
@@ -124,6 +124,14 @@ func (s *Server) routes() {
 	// Password reset by email (reset.go).
 	s.mux.HandleFunc("/lupa-kata-laluan", s.lupaKataLaluan)
 	s.mux.HandleFunc("/reset-kata-laluan", s.resetKataLaluan)
+
+	// Trainer profiles (trainers.go, trainer_pdf.go, admin_trainers.go).
+	s.mux.HandleFunc("GET /trainer", s.trainerList)
+	s.mux.HandleFunc("GET /trainer/profil", s.trainerEdit)
+	s.mux.HandleFunc("POST /trainer/profil", s.trainerEdit)
+	s.mux.HandleFunc("GET /trainer/{slug}", s.trainerShow)
+	s.mux.HandleFunc("GET /trainer/{slug}/pdf", s.trainerPDF)
+	s.mux.HandleFunc("/admin/trainer-profil", s.adminTrainerProfiles)
 }
 
 // loadTemplates parses layout.html + partials.html together with each page
