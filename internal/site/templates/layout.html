@@ -71,6 +71,7 @@
         </li>
         <li><a href="/produk-digital"{{if eq .Nav "produk"}} aria-current="page"{{end}}>Produk Digital</a></li>
         <li><a href="/tentang-kami"{{if eq .Nav "tentang"}} aria-current="page"{{end}}>Tentang Kami</a></li>
+        {{if and .User .User.IsAdmin}}<li><a href="/admin">Admin</a></li>{{end}}
         {{if .User}}<li class="nav__user"><span>{{.User.FirstName}}</span><form method="post" action="/log-keluar"><button class="nav__logout" type="submit">Log Keluar</button></form></li>
         {{else}}<li><a class="nav__login" href="/log-masuk">Log Masuk</a></li>{{end}}
       </ul>

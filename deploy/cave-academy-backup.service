@@ -1,0 +1,13 @@
+# Installed to /etc/systemd/system/ by deploy/production.sh.
+[Unit]
+Description=The Cave Academy daily database backup
+
+[Service]
+Type=oneshot
+# The app's own user, so the backup never leaves root-owned files beside the database.
+User=cave_academy
+Group=cave_academy
+UMask=0077
+ExecStart=/usr/local/bin/cave-academy-backup
+Nice=10
+IOSchedulingClass=idle

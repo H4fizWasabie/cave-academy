@@ -25,7 +25,35 @@ func OpenDB(path string) (*sql.DB, error) {
 		db.Close()
 		return nil, err
 	}
+	if err := migrate(db); err != nil {
+		db.Close()
+		return nil, err
+	}
 	return db, nil
+}
+
+// migrate adds columns that CREATE TABLE IF NOT EXISTS cannot add to a table
+// that already exists. Each step checks PRAGMA table_info first, so it is safe
+// on fresh and old databases and on every start.
+func migrate(db *sql.DB) error {
+	rows, err := db.Query(`SELECT name FROM pragma_table_info('users')`)
+	if err != nil {
+		return err
+	}
+	has := map[string]bool{}
+	for rows.Next() {
+		var n string
+		if err := rows.Scan(&n); err != nil {
+			rows.Close()
+			return err
+		}
+		has[n] = true
+	}
+	rows.Close()
+	if !has["is_admin"] {
+		_, err = db.Exec(`ALTER TABLE users ADD COLUMN is_admin INTEGER NOT NULL DEFAULT 0`)
+	}
+	return err
 }
 
 const schema = `
@@ -35,7 +63,8 @@ CREATE TABLE IF NOT EXISTS users (
 	email         TEXT NOT NULL UNIQUE,
 	password_hash TEXT NOT NULL,
 	plan          TEXT NOT NULL DEFAULT 'free',
-	created_at    TEXT NOT NULL DEFAULT (datetime('now'))
+	created_at    TEXT NOT NULL DEFAULT (datetime('now')),
+	is_admin      INTEGER NOT NULL DEFAULT 0 -- set only by the make-admin CLI (admin.go)
 );
 
 CREATE TABLE IF NOT EXISTS sessions (

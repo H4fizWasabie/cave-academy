@@ -1,0 +1,11 @@
+# Installed to /etc/systemd/system/ by deploy/production.sh. 03:30 VPS time (MYT), after the cave LMS backup at 03:00.
+[Unit]
+Description=Run the Cave Academy backup every day
+
+[Timer]
+OnCalendar=*-*-* 03:30:00
+# Run at boot if the VPS was off at 03:30.
+Persistent=true
+
+[Install]
+WantedBy=timers.target
