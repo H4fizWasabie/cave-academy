@@ -31,6 +31,7 @@ const (
 	orEndpoint   = "https://openrouter.ai/api/v1/chat/completions"
 	dbTime       = "2006-01-02 15:04:05"
 	waURL        = "https://wa.me/60123947200"
+	defaultCap   = 2000 // OpenRouter-backed answers per KL day, all users (Config.ChatDailyCap)
 )
 
 // chatOpts holds what tests replace. The zero value is production.
@@ -81,6 +82,25 @@ func (s *Server) remaining(u *User) int {
 	start := time.Date(n0.Year(), n0.Month(), n0.Day(), 0, 0, 0, 0, klZone).UTC().Format(dbTime)
 	s.db.QueryRow(`SELECT COUNT(*) FROM chat_messages WHERE user_id = ? AND role = 'user' AND created_at >= ?`, u.ID, start).Scan(&n)
 	return max(0, freeDaily-n)
+}
+
+// chatCap is the most answers the site buys from OpenRouter per KL day.
+func (s *Server) chatCap() int {
+	if s.config.ChatDailyCap > 0 {
+		return s.config.ChatDailyCap
+	}
+	return defaultCap
+}
+
+// chatCapReached reports whether today's answers, free and paid users alike,
+// have used up the cost guard. Counted from the stored questions, so it
+// survives restarts.
+func (s *Server) chatCapReached() bool {
+	n0 := s.now().In(klZone)
+	start := time.Date(n0.Year(), n0.Month(), n0.Day(), 0, 0, 0, 0, klZone).UTC().Format(dbTime)
+	n := 0
+	s.db.QueryRow(`SELECT COUNT(*) FROM chat_messages WHERE role = 'user' AND created_at >= ?`, start).Scan(&n)
+	return n >= s.chatCap()
 }
 
 // chatHistory returns the user's last n stored turns with this bot, oldest first.
@@ -134,6 +154,11 @@ func (s *Server) chatSend(u *User, bot Bot, msg string) chatResult {
 	defer s.chat.busy.Delete(u.ID)
 	if s.remaining(u) == 0 {
 		return res(http.StatusTooManyRequests, fmt.Sprintf("Anda sudah menggunakan had soalan percuma hari ini (%d soalan sehari). Cuba lagi esok, atau hubungi kami di WhatsApp untuk pelan langganan tanpa had: %s", freeDaily, waURL))
+	}
+
+	if s.chatCapReached() {
+		log.Printf("chat: daily cap of %d reached, not calling OpenRouter", s.chatCap())
+		return res(http.StatusServiceUnavailable, "Chatbot sedang sibuk. Sila cuba lagi kemudian. Soalan anda tidak dikira dalam had harian.")
 	}
 
 	turns := append([]orMessage{{"system", systemPrompt(bot)}}, s.chatHistory(u, bot, historyTurns)...)
@@ -242,7 +267,14 @@ func (s *Server) chatPost(w http.ResponseWriter, r *http.Request, bot Bot) {
 		return
 	}
 	msg := strings.TrimSpace(r.PostFormValue("message"))
-	res := s.chatSend(u, bot, msg)
+	var res chatResult
+	if ip := clientIP(r); s.abuse.chatIP.over(ip) {
+		log.Printf("chat: per-IP limit hit, ip=%s", ip)
+		res = chatResult{Err: tooManyAttempts, Status: http.StatusTooManyRequests, Remaining: s.remaining(u)}
+	} else {
+		s.abuse.chatIP.add(ip)
+		res = s.chatSend(u, bot, msg)
+	}
 	switch {
 	case wantJSON && res.Err != "":
 		writeJSON(w, res.Status, map[string]any{"error": res.Err, "remaining": res.Remaining})

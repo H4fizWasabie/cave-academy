@@ -64,6 +64,9 @@ func (s *Server) renderCorporate(w http.ResponseWriter, status int, d corporateD
 }
 
 func (s *Server) submitRFQ(w http.ResponseWriter, r *http.Request) {
+	if !s.formAllowed(w, r) {
+		return
+	}
 	r.Body = http.MaxBytesReader(w, r.Body, 64<<10)
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, "Permintaan tidak sah", http.StatusBadRequest)
@@ -94,6 +97,7 @@ func (s *Server) submitRFQ(w http.ResponseWriter, r *http.Request) {
 		}})
 		return
 	}
+	s.formSaved(r)
 	body := fmt.Sprintf("Permintaan sebut harga (RFQ) baharu\n\nOrganisasi: %s\nNama: %s\nE-mel: %s\nTelefon: %s\nBidang latihan: %s\nPeserta: %d\nTarikh pilihan: %s\n\nCatatan:\n%s\n",
 		f.Organisation, f.ContactName, f.Email, f.Phone, f.TrainingArea, participants, f.PreferredDate, f.Notes)
 	if err := s.mailer.Send(s.config.AdminEmail, "RFQ baharu: "+oneLine(f.Organisation), body); err != nil {

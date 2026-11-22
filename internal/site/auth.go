@@ -208,7 +208,9 @@ func (s *Server) logMasuk(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err != nil {
-		s.limits.loginEmail.add(email)
+		if validEmail(email) { // never keep attacker-sized keys in the limiter
+			s.limits.loginEmail.add(email)
+		}
 		s.limits.loginIP.add(ip)
 		s.authPage(w, http.StatusUnauthorized, "Log Masuk",
 			authData{Mode: "masuk", Email: email, Next: next, Error: "Emel atau kata laluan tidak betul."})
@@ -253,7 +255,8 @@ func (s *Server) startSession(w http.ResponseWriter, r *http.Request, userID int
 }
 
 func isHTTPS(r *http.Request) bool {
-	return r.TLS != nil || r.Header.Get("X-Forwarded-Proto") == "https"
+	// X-Forwarded-Proto is only believed from the reverse proxy on this box, like X-Forwarded-For in clientIP.
+	return r.TLS != nil || (fromLoopback(r) && r.Header.Get("X-Forwarded-Proto") == "https")
 }
 
 func orDefault(next string) string {

@@ -6,12 +6,15 @@ After=network.target
 [Service]
 User=cave_academy
 Group=cave_academy
-# OPENROUTER_API_KEY, OPENROUTER_MODEL, BREVO_API_KEY, MAIL_FROM, ADMIN_EMAIL, BASE_URL. Mode 0600, root-owned, lives only on the VPS.
+# OPENROUTER_API_KEY, OPENROUTER_MODEL, BREVO_API_KEY, MAIL_FROM, ADMIN_EMAIL, BASE_URL, CHAT_DAILY_CAP (optional). Mode 0600, root-owned, lives only on the VPS.
 EnvironmentFile=/etc/cave-academy/env
+Environment=APP_ENV=production
 Environment=ADDR=127.0.0.1:8097
 Environment=DB_PATH=/var/lib/cave-academy/cave-academy.db
 ExecStart=/usr/local/bin/cave-academy
 Restart=on-failure
+# A runaway request must not take the OOM killer to CAVELMS or Caddy.
+MemoryMax=512M
 RestartSec=5
 # Creates /var/lib/cave-academy owned by cave_academy; the SQLite file lives there.
 StateDirectory=cave-academy

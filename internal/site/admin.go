@@ -40,7 +40,7 @@ func (s *Server) requireAdmin(w http.ResponseWriter, r *http.Request) (*User, bo
 		return nil, false
 	}
 	if !u.IsAdmin {
-		http.NotFound(w, r)
+		s.notFound(w, r)
 		return nil, false
 	}
 	return u, true
@@ -151,7 +151,7 @@ func (s *Server) adminPage(w http.ResponseWriter, r *http.Request) {
 	key := r.PathValue("page")
 	l, ok := adminLists[key]
 	if !ok {
-		http.NotFound(w, r)
+		s.notFound(w, r)
 		return
 	}
 	switch r.Method {
@@ -336,7 +336,7 @@ func (s *Server) adminSetPlan(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if n, _ := res.RowsAffected(); n == 0 {
-		http.NotFound(w, r)
+		s.notFound(w, r)
 		return
 	}
 	http.Redirect(w, r, "/admin/pengguna", http.StatusSeeOther)
