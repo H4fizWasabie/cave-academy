@@ -2,7 +2,6 @@
    Mobile-first: on a phone the chat fills the screen like a messaging app with
    the input pinned at the bottom; from 640px it is a centred card. */
 
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 [hidden] { display: none !important; }
 
 .bot { padding-bottom: 40px; }
@@ -77,19 +76,25 @@
 .msg--user { justify-content: flex-end; }
 .msg--user .msg__body { background: var(--navy); color: var(--white); border-bottom-right-radius: 5px; }
 .msg--error .msg__body { background: #fdecec; border: 1px solid #f3b4b4; color: #8a1c1c; font-weight: 600; font-size: 14px; max-width: 100%; }
+.msg__retry {
+  display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; padding: 8px 18px;
+  background: var(--white); border: 2px solid var(--navy); border-radius: var(--r-pill);
+  font: 600 13px/1.2 var(--font-head); color: var(--navy); cursor: pointer;
+}
+.msg__retry:hover { background: var(--pale-yellow); }
 .msg__body a { text-decoration: underline; text-underline-offset: 2px; word-break: break-all; }
 .msg--user .msg__body a { color: var(--gold); }
 .msg__body strong { font-weight: 700; }
 
 .msg__typing { display: flex; align-items: center; gap: 4px; padding: 14px 16px; }
-.msg__typing span {
+.msg__typing i {
   width: 7px; height: 7px; border-radius: 50%; background: var(--navy-soft); opacity: .35;
   animation: typing 1.1s infinite ease-in-out;
 }
-.msg__typing span:nth-child(2) { animation-delay: .18s; }
-.msg__typing span:nth-child(3) { animation-delay: .36s; }
+.msg__typing i:nth-of-type(2) { animation-delay: .18s; }
+.msg__typing i:nth-of-type(3) { animation-delay: .36s; }
 @keyframes typing { 0%, 60%, 100% { opacity: .3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
-@media (prefers-reduced-motion: reduce) { .msg__typing span { animation: none; opacity: .6; } }
+@media (prefers-reduced-motion: reduce) { .msg__typing i { animation: none; opacity: .6; } }
 
 .chat__foot { flex: none; padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); background: var(--white); border-top: 1px solid var(--line); }
 .chat__error {
@@ -101,7 +106,7 @@
 .chat__chips { display: flex; gap: 8px; margin-bottom: 8px; padding-bottom: 2px; overflow-x: auto; scrollbar-width: none; }
 .chat__chips::-webkit-scrollbar { display: none; }
 .chip {
-  flex: none; max-width: 78%; padding: 8px 14px; background: var(--white); border: 1.5px solid var(--gold-deep);
+  flex: none; max-width: 78%; min-height: 44px; padding: 8px 14px; background: var(--white); border: 1.5px solid var(--gold-deep);
   border-radius: var(--r-pill); font: 500 13px/1.3 var(--font-body); color: var(--navy); text-align: left; cursor: pointer;
 }
 .chip:hover { background: var(--pale-yellow); }
@@ -112,7 +117,7 @@
   border: 1.5px solid var(--line); border-radius: 22px; background: var(--paper);
   font: 400 16px/1.35 var(--font-body); color: var(--text); /* 16px stops iOS zooming in on focus */
 }
-.chat__form textarea:focus-visible { outline: 3px solid var(--gold-deep); outline-offset: 0; border-color: var(--navy); background: var(--white); }
+.chat__form textarea:focus-visible { outline: 3px solid var(--navy); outline-offset: 0; border-color: var(--navy); background: var(--white); }
 .chat__send {
   display: grid; place-items: center; flex: none; width: 44px; height: 44px; padding: 0;
   background: var(--gold-grad); border: 2px solid #e6b400; border-radius: 50%; color: var(--navy);
@@ -120,7 +125,7 @@
 }
 .chat__send .icon { width: 22px; height: 22px; stroke-width: 2; }
 .chat__send:disabled { opacity: .55; cursor: default; box-shadow: none; }
-.chat__note { margin-top: 6px; font-size: 11px; line-height: 1.3; color: var(--navy-soft); text-align: center; }
+.chat__note { margin-top: 6px; font-size: 12px; line-height: 1.3; color: var(--navy-soft); text-align: center; }
 
 @media (min-width: 640px) {
   .bot { padding-bottom: 56px; }

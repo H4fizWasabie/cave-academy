@@ -24,21 +24,22 @@
     <h2 class="section-title">Hantar Mesej</h2>
     {{if not .Data.Thanks}}
     <form class="form" method="post" action="/hubungi-kami" novalidate>
+      <p class="form__note"><span class="req" aria-hidden="true">*</span> Wajib diisi</p>
       <div class="form__trap" aria-hidden="true"><label>Laman web <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
       <div class="field{{if .Data.Err.name}} field--error{{end}}">
-        <label for="name">Nama</label>
+        <label for="name">Nama <span class="req" aria-hidden="true">*</span></label>
         <input id="name" name="name" type="text" autocomplete="name" maxlength="100" required value="{{.Data.V.name}}"{{if .Data.Err.name}} aria-invalid="true" aria-describedby="name-err"{{end}}>
-        {{with .Data.Err.name}}<p class="field__error" id="name-err">{{.}}</p>{{end}}
+        {{with .Data.Err.name}}<p class="field__error" role="alert" id="name-err">{{.}}</p>{{end}}
       </div>
       <div class="field{{if .Data.Err.email}} field--error{{end}}">
-        <label for="email">E-mel</label>
+        <label for="email">E-mel <span class="req" aria-hidden="true">*</span></label>
         <input id="email" name="email" type="email" autocomplete="email" maxlength="254" required value="{{.Data.V.email}}"{{if .Data.Err.email}} aria-invalid="true" aria-describedby="email-err"{{end}}>
-        {{with .Data.Err.email}}<p class="field__error" id="email-err">{{.}}</p>{{end}}
+        {{with .Data.Err.email}}<p class="field__error" role="alert" id="email-err">{{.}}</p>{{end}}
       </div>
       <div class="field{{if .Data.Err.message}} field--error{{end}}">
-        <label for="message">Mesej</label>
+        <label for="message">Mesej <span class="req" aria-hidden="true">*</span></label>
         <textarea id="message" name="message" rows="5" maxlength="2000" required{{if .Data.Err.message}} aria-invalid="true" aria-describedby="message-err"{{end}}>{{.Data.V.message}}</textarea>
-        {{with .Data.Err.message}}<p class="field__error" id="message-err">{{.}}</p>{{end}}
+        {{with .Data.Err.message}}<p class="field__error" role="alert" id="message-err">{{.}}</p>{{end}}
       </div>
       <button class="btn btn--primary" type="submit">Hantar Mesej {{template "arrow"}}</button>
     </form>
