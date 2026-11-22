@@ -43,7 +43,7 @@ func (s *Server) fillSEO(p *Page, r *http.Request, status int) {
 var sitemapPaths = []string{
 	"/", "/corporate-training", "/ai-nlp-bots", "/ai-nlp-bots/educators", "/ai-nlp-bots/sales-marketing",
 	"/ai-nlp-bots/hr", "/produk-digital", "/tentang-kami", "/hubungi-kami", "/trainer-panel",
-	"/dasar-privasi", "/terma",
+	"/dasar-privasi", "/terma", "/pelan",
 }
 
 func (s *Server) robots(w http.ResponseWriter, r *http.Request) {

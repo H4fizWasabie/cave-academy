@@ -27,6 +27,8 @@ A marketing site for The Cave Academy plus its highlight feature, the **AI NLP B
 | `BASE_URL` | public origin for canonical links and `/sitemap.xml` | `https://caveacademy.my` |
 | `APP_ENV` | `development` or `production`. Production refuses to start without `OPENROUTER_API_KEY`, `BREVO_API_KEY`, `BASE_URL` and a valid `MAIL_FROM` | `development` |
 | `INTRO_VIDEO_URL` | intro video for the "(2 Minit)" hero buttons (home, corporate, produk); they open it in a new tab | unset: the buttons are not shown |
+| `BCL_WEBHOOK_KEY` | secret in the BCL webhook address, `/bcl/webhook/<key>`; at least 32 characters (`openssl rand -hex 24`) | unset: the webhook answers 404 |
+| `BCL_API_TOKEN` | BCL API token with Read access; every paid order is read back from BCL with it. Production refuses to start with one of the two BCL vars set and not the other | unset: the webhook answers 404 |
 | `CHAT_DAILY_CAP` | OpenRouter answers per KL day across all users (cost guard); over it the chat says it is busy | `2000` |
 
 Contact details on the site: WhatsApp / phone 012-394 7200 (`https://wa.me/60123947200`), email adam.caveconsult@gmail.com.
@@ -43,10 +45,12 @@ Contact details on the site: WhatsApp / phone 012-394 7200 (`https://wa.me/60123
 | `/tentang-kami` | About | none |
 | `/hubungi-kami` | Contact form + details | none |
 | `/trainer-panel` | "Daftar Trainer Panel" signup form | none (home CTA links here) |
+| `/pelan` | Pelan Langganan: one card per active plan with a "Langgan" button to its BCL form; "akan datang" and WhatsApp when there is no active plan | none: same visual language |
+| `POST /bcl/webhook/{key}` | BCL payment webhook (see Paid tiers) | none |
 | `/daftar`, `/log-masuk`, `/log-keluar` | sign up, log in, log out | none |
 | `/lupa-kata-laluan`, `/reset-kata-laluan` | password reset by email | none |
 | `/dasar-privasi`, `/terma` | privacy policy, terms | none |
-| `/admin`, `/admin/{rfq,trainer,mesej,pengguna}` | back office for admins (`users.is_admin`), CSV downloads; anyone else gets a 404 | none |
+| `/admin`, `/admin/{rfq,trainer,mesej,pengguna,pelan}` | back office for admins (`users.is_admin`), CSV downloads; anyone else gets a 404 | none |
 
 Header nav: Utama / Program (dropdown: Corporate Training & RFQ, Trainer Panel) / AI NLP Bots (dropdown: three bots) / Produk Digital / Tentang Kami, a search icon (may be omitted in v1), "Hubungi Kami" and a green "WhatsApp Chat" button. Mobile: logo, WhatsApp icon, Hubungi Kami, hamburger menu.
 
@@ -62,13 +66,21 @@ Assets: no real logo or photos supplied yet. Crop the round CAVE badge and the h
 
 - Sign up with name, email, password (bcrypt). Log in with email + password. Session cookie (random token stored in DB, HttpOnly, SameSite=Lax, Secure when behind HTTPS).
 - No email verification in v1. Password reset by email lives in `internal/site/reset.go` (`/lupa-kata-laluan`, `/reset-kata-laluan`).
-- `users.plan` is `free` or `paid`. Only an admin (the users list in `/admin`) or a direct DB update sets `paid` in v1; the paid tiers and the BCL checkout come later.
+- `users.plan` is `free` or `paid`. Only an admin (the users list in `/admin`) or a direct DB update sets `paid`; `paid` means unlimited questions, a manual override beside the paid tiers below.
+
+## Paid tiers and BCL checkout
+
+- Tiers are data: table `plans` (`name`, `price_sen`, `daily_questions` with 0 = unlimited, `days`, `bcl_link`, `active`, `sort`), managed by admins at `/admin/pelan` (create, edit, deactivate; never deleted). Nothing is seeded: with no active plan `/pelan` says plans are coming soon and offers WhatsApp.
+- A user's daily limit is the best subscription running now (`subscriptions`: `user_id`, `plan_id`, `starts_at`, `ends_at`, `bcl_order` UNIQUE); unlimited beats any number. No running subscription gives the free 3. The bot page shows the plan and its end date.
+- Checkout is BCL (bcl.my). A plan's `bcl_link` is its BCL payment form; `/pelan` sends logged-in users to it and logged-out users to `/daftar?next=/pelan` first. The payer must use the same email as their account.
+- BCL calls `POST /bcl/webhook/<BCL_WEBHOOK_KEY>` (Advanced > Webhook Settings, Payment Success). BCL signs nothing, so the key only keeps strangers out and the body is trusted for the order number alone: the app reads the order back from `GET https://bcl.my/api/transactions/<order>` (Bearer `BCL_API_TOKEN`, 10 s timeout) and uses BCL's payer email, amounts and form. Only status 3, paid and live counts; the form is found through `/forms` by slug and matched to the plan whose `bcl_link` ends in that slug (inactive plans included); subtotal less discount must be at least the price.
+- A paid order is granted once (`bcl_order` UNIQUE, repeats are no-ops) to the account with the payer's email, lowercased. Buying a plan the user still has runs on from its end; any other plan starts now. A paid order that cannot be granted (no account, a form that is no plan, too little paid) goes to `unmatched_payments`, shown on `/admin/pelan` where an admin can grant it by hand, and is answered 200. A wrong or unset key is 404; an order BCL does not know, has not settled or cannot be reached about is 500, so BCL retries. The access log shows `/bcl/webhook/…`, never the key.
 
 ## AI NLP Bots (chat)
 
 - Three bots: **Educators**, **Sales & Marketing**, **HR & People Management**. Each has a Malay system prompt grounded in NLP (neuro-linguistic programming) coaching for that niche, owned by the server.
 - The visitor picks the bot (no router). Chat requires login; a logged-out visitor sees the bot page with a prompt to sign up / log in.
-- **Free plan: 3 questions per day** per user (day boundary Asia/Kuala_Lumpur), counted server-side. `paid` users: no limit in v1. When the limit is hit, say so and point to WhatsApp for plans.
+- **Free plan: 3 questions per day** per user (day boundary Asia/Kuala_Lumpur), counted server-side. `paid` users and unlimited tiers: no limit; other tiers have their own daily number (see Paid tiers). When the limit is hit, say so and point to `/pelan` and WhatsApp.
 - The server calls OpenRouter chat completions (`https://openrouter.ai/api/v1/chat/completions`), non-streaming, with `max_tokens` capped (~800), a timeout, and the last ~10 turns of the conversation. Messages are stored per user per bot so history survives reload.
 - Bots may point users to site pages (Corporate Training, Produk Digital) and to WhatsApp. No RAG in v1; it comes when the client sends source documents.
 
@@ -81,6 +93,6 @@ Assets: no real logo or photos supplied yet. Crop the round CAVE badge and the h
 
 ## Out of scope for v1
 
-Done since the first draft: the admin panel, deploy scripts (staging and production, backups), password reset, legal pages, SEO, hardening (headers, rate limits, graceful shutdown) and Brevo email.
+Done since the first draft: paid tiers with BCL checkout, the admin panel, deploy scripts (staging and production, backups), password reset, legal pages, SEO, hardening (headers, rate limits, graceful shutdown) and Brevo email.
 
-Still to come: paid tiers and the BCL checkout, the trainer management system (profiles, PDF, email replies), RAG over the client's documents, and real images from the client. The header search icon stays omitted.
+Still to come: the trainer management system (profiles, PDF, email replies), RAG over the client's documents, and real images from the client. The header search icon stays omitted.

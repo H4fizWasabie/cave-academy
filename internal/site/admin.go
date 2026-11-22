@@ -76,11 +76,14 @@ var adminLists = map[string]adminList{
 	},
 	"pengguna": {
 		Title: "Pengguna",
-		Heads: []string{"Nama", "E-mel", "Pelan", "Daftar", "Soalan hari ini", "Admin"},
-		Kinds: []string{"", "email", "plan", "date", "", "bool"},
+		Heads: []string{"Nama", "E-mel", "Pelan", "Daftar", "Soalan hari ini", "Admin", "Langganan"},
+		Kinds: []string{"", "email", "plan", "date", "", "bool", ""},
 		Query: `SELECT name, email, plan, created_at,
 			(SELECT COUNT(*) FROM chat_messages c WHERE c.user_id = users.id AND c.role = 'user' AND c.created_at >= ?),
-			is_admin, id FROM users ORDER BY id DESC`,
+			is_admin,
+			(SELECT p.name || ' hingga ' || substr(sub.ends_at, 1, 10) FROM subscriptions sub JOIN plans p ON p.id = sub.plan_id
+				WHERE sub.user_id = users.id AND sub.starts_at <= datetime('now') AND sub.ends_at > datetime('now') ORDER BY sub.ends_at DESC LIMIT 1),
+			id FROM users ORDER BY id DESC`,
 	},
 }
 

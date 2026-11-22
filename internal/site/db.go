@@ -122,4 +122,38 @@ CREATE TABLE IF NOT EXISTS contact_messages (
 	message    TEXT NOT NULL,
 	created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+
+-- Paid tiers (plans.go, bcl.go). Plans are data: admins edit them at /admin/pelan and never delete one, only
+-- deactivate it, so a subscription always points at a real plan.
+CREATE TABLE IF NOT EXISTS plans (
+	id              INTEGER PRIMARY KEY AUTOINCREMENT,
+	name            TEXT NOT NULL,
+	price_sen       INTEGER NOT NULL,
+	daily_questions INTEGER NOT NULL DEFAULT 0, -- 0 = unlimited
+	days            INTEGER NOT NULL,
+	bcl_link        TEXT NOT NULL DEFAULT '',   -- the BCL payment form; its last path part (slug) identifies the plan
+	active          INTEGER NOT NULL DEFAULT 1,
+	sort            INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS subscriptions (
+	id        INTEGER PRIMARY KEY AUTOINCREMENT,
+	user_id   INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+	plan_id   INTEGER NOT NULL REFERENCES plans(id),
+	starts_at TEXT NOT NULL,
+	ends_at   TEXT NOT NULL,
+	bcl_order TEXT NOT NULL UNIQUE -- one grant per BCL order, so a webhook retry is a no-op
+);
+CREATE INDEX IF NOT EXISTS subscriptions_user ON subscriptions (user_id, ends_at);
+
+-- Paid BCL orders that gave nothing (no account with the payer's email, an unknown form, too little paid), kept for an admin.
+CREATE TABLE IF NOT EXISTS unmatched_payments (
+	id         INTEGER PRIMARY KEY AUTOINCREMENT,
+	bcl_order  TEXT NOT NULL UNIQUE,
+	email      TEXT NOT NULL,
+	plan_id    INTEGER REFERENCES plans(id), -- NULL when no plan matched the form
+	paid_sen   INTEGER NOT NULL,
+	reason     TEXT NOT NULL,
+	created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
 `

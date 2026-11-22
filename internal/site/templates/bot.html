@@ -11,6 +11,7 @@
         <div class="chat__who">
           <h1 class="chat__title">NLP Bot {{.Bot.Name}}</h1>
           <p class="chat__status">Bot AI. Bukan manusia.</p>
+          {{with .PlanNote}}<p class="chat__plan">{{.}}</p>{{end}}
         </div>
         {{if .Free}}<p class="chat__count" role="status" aria-live="polite" aria-atomic="true" data-count data-limit="{{.Limit}}">Baki soalan hari ini: {{.Remaining}}/{{.Limit}}</p>{{end}}
       </header>

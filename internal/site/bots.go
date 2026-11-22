@@ -71,6 +71,7 @@ type botView struct {
 	Limit     int
 	Error     template.HTML // message of a refused or failed send (no-JS path)
 	Draft     string        // the refused message, so the user does not lose it
+	PlanNote  string        // "Pelan Pro hingga 12/12/2026" while a subscription runs, else ""
 }
 
 // botPage is /ai-nlp-bots/{slug}: GET shows the bot (and the chat when logged
@@ -99,8 +100,9 @@ func (s *Server) renderBot(w http.ResponseWriter, r *http.Request, status int, b
 	if u != nil {
 		v.LoggedIn = true
 		v.Messages = s.pageHistory(u, bot)
-		v.Free = u.Plan != planPaid
+		e := s.entitlementOf(u)
+		v.Free, v.Limit, v.PlanNote = e.Limit >= 0, e.Limit, e.note()
 		v.Remaining = s.remaining(u)
 	}
-	s.renderStatus(w, status, "bot", Page{Title: "NLP Bot " + bot.Name, Description: bot.Desc, Nav: "bots", Crumb: "AI NLP Bots", CSS: []string{"chat"}, User: u, Data: v})
+	s.renderStatus(w, status, "bot", Page{Title: "NLP Bot " + bot.Name, Description: bot.Desc, Nav: "bots", Crumb: "AI NLP Bots", CSS: []string{"chat", "pelan"}, User: u, Data: v})
 }

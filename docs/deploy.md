@@ -27,6 +27,9 @@ Production is https://caveacademy.my/, on the same VPS as cave LMS (ssh host `vp
    | `ADMIN_EMAIL` | receives form submissions |
    | `BASE_URL` | `https://caveacademy.my`, required |
 
+   | `BCL_WEBHOOK_KEY` | optional: a random key of at least 32 characters (`openssl rand -hex 24`) for paid tiers; see BCL checkout below |
+   | `BCL_API_TOKEN` | optional: BCL API token; set together with `BCL_WEBHOOK_KEY` |
+
    Later deploys refuse to run while `OPENROUTER_API_KEY`, `BREVO_API_KEY` or `BASE_URL` is empty, and the unit sets `APP_ENV=production`, so the app itself refuses to start without them (or with an unparseable `MAIL_FROM`). Optional: `CHAT_DAILY_CAP` (default 2000) caps OpenRouter answers per day across all users; `INTRO_VIDEO_URL` (default empty) is the intro video the "(2 Minit)" hero buttons open, and with it empty those buttons are hidden. `GET /healthz` returns `ok` when the database answers; the app shuts down gracefully on SIGTERM.
 5. **First deploy**, then **first admin.** After `deploy/production.sh` has run:
 
@@ -94,9 +97,19 @@ systemctl start cave-academy
 
 From restic instead: `restic -r /var/backups/cave-lms/restic restore latest --path /var/backups/cave-academy --target /tmp/restore`, then copy the `.db` from `/tmp/restore/var/backups/cave-academy/` as above. Everything since the backup is lost.
 
+### BCL checkout (paid tiers)
+
+Plans are created at `/admin/pelan`, each with the address of its BCL payment form (`https://<merchant>.bcl.my/form/<slug>`). Set it up once:
+
+1. In BCL, Platform Setup > Integrations > Developer, create an API token with Read access, named for this site. Put it in `/etc/cave-academy/env` as `BCL_API_TOKEN`, and a random key (`openssl rand -hex 24`, at least 32 characters) as `BCL_WEBHOOK_KEY`. Set both or neither: the app refuses to start with only one. `systemctl restart cave-academy`.
+2. In BCL, open each plan's payment form, Advanced > Webhook Settings, set the webhook address to `https://caveacademy.my/bcl/webhook/<BCL_WEBHOOK_KEY>` and turn on the Payment Success event.
+3. Make the form's price equal to the plan's price. The app grants only when BCL says the order is successful, paid and live and the amount paid before BCL's fee (less any coupon) is at least the plan's price.
+
+BCL signs no webhook, so the key in the address is the only thing keeping strangers from calling it; the order itself is always read back from BCL's API. Payers must use the same email as their account. Paid orders that gave nothing (no account with that email yet, a BCL form that is no plan, too little paid) wait under "Bayaran BCL belum dipadankan" on `/admin/pelan` for an admin to grant by hand once they have checked it in BCL. An order BCL does not know or has not settled, or BCL being unreachable, makes the webhook answer 500 so BCL retries; a refused token fails every order the same way, so `journalctl -u cave-academy | grep 'BCL API token refused'` means replace `BCL_API_TOKEN`. The app's access log writes the webhook address as `/bcl/webhook/…`; Caddy's own access log, if you turn it on for this site, would show the key. Rotate the key by changing it in the env file and in each BCL form.
+
 ### Rotating keys
 
-Edit `/etc/cave-academy/env` on the VPS, then `systemctl restart cave-academy`. Create the new OpenRouter or Brevo key first, switch, check the site (a chat reply, a contact-form email), then revoke the old one. If a key leaked, revoke first.
+Edit `/etc/cave-academy/env` on the VPS, then `systemctl restart cave-academy`. Create the new OpenRouter, Brevo or BCL token first, switch, check the site (a chat reply, a contact-form email), then revoke the old one. If a key leaked, revoke first.
 
 ## Pre-launch checklist
 

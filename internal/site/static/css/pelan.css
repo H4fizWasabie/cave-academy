@@ -1,0 +1,64 @@
+/* Paid tiers: the public /pelan page, the plan line in the chat header and /admin/pelan.
+   Builds on base.css and admin.css. Mobile first. */
+
+/* Public page */
+.pelan-hero { padding-bottom: 8px; }
+.pelan-hero .hero__sub { max-width: 640px; }
+.pelan { display: grid; gap: 16px; margin-top: 20px; padding-bottom: 8px; }
+.pelan__note { color: var(--navy-soft); max-width: 720px; }
+.pelan__note a, .pelan__soon a:not(.btn) { color: var(--navy); font-weight: 600; text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 3px; }
+
+.plans { display: grid; gap: 16px; }
+.plan {
+  display: grid; align-content: start; gap: 12px; padding: 22px; background: var(--white);
+  border: 1px solid #eef0f6; border-top: 5px solid var(--gold); border-radius: var(--r-lg); box-shadow: var(--shadow-md);
+}
+.plan__name { font-size: 20px; color: var(--navy); }
+.plan__price { font: 800 38px/1.1 var(--font-head); color: var(--navy); }
+.plan__per { font: 600 15px var(--font-head); color: var(--navy-soft); }
+.plan__list { display: grid; gap: 8px; margin-block: 4px 8px; color: var(--navy-soft); }
+.plan__list li { display: flex; gap: 10px; align-items: flex-start; }
+.plan__list .icon { flex: none; width: 20px; height: 20px; margin-top: 2px; color: var(--navy); stroke-width: 2.4; }
+.plan .btn { justify-self: stretch; text-align: center; justify-content: center; }
+
+.pelan__soon {
+  display: grid; justify-items: start; gap: 12px; padding: 24px; background: var(--pale-yellow);
+  border-radius: var(--r-lg); box-shadow: var(--shadow-sm); max-width: 640px;
+}
+
+@media (min-width: 640px) {
+  .plans { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1100px) {
+  .plans { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .plan { padding: 28px; }
+}
+
+/* Chat header: the running subscription */
+.chat__plan { font: 600 12px/1.3 var(--font-head); color: var(--gold-text); }
+
+/* Admin: /admin/pelan */
+.pl-h { margin: 28px 0 12px; font: 700 18px/1.2 var(--font-head); color: var(--navy); }
+.pl-card {
+  display: grid; gap: 12px; margin-bottom: 14px; padding: 16px; background: var(--white);
+  border: 1px solid #eef0f6; border-left: 4px solid var(--gold); border-radius: var(--r-md); box-shadow: var(--shadow-sm);
+}
+.pl-card--off { border-left-color: var(--line); opacity: .85; }
+.pl-sum { overflow-wrap: anywhere; }
+.pl-error { margin: 0 0 16px; padding: 12px 14px; border-radius: var(--r-sm); background: #fdecea; border: 1.5px solid #b42318; color: #7a1a12; font-weight: 600; }
+.pl-form { display: grid; gap: 12px; }
+.pl-grid { display: grid; gap: 12px; }
+.pl-field { display: grid; gap: 4px; min-width: 0; }
+.pl-field label, .pl-check { font: 600 13px var(--font-head); color: var(--navy); }
+.pl-field input, .pl-field select {
+  width: 100%; padding: 10px 12px; font: inherit; color: var(--text); background: var(--white);
+  border: 1.5px solid var(--line); border-radius: var(--r-sm);
+}
+.pl-field input:focus-visible, .pl-field select:focus-visible { outline: 3px solid var(--navy); outline-offset: 0; }
+.pl-check { display: flex; gap: 8px; align-items: center; }
+.pl-form .adm-btn { justify-self: start; }
+.pl-toggle { margin-top: -4px; }
+@media (min-width: 640px) {
+  .pl-grid { grid-template-columns: repeat(4, 1fr); }
+  .pl-field--wide { grid-column: span 2; }
+}

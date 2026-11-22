@@ -124,6 +124,11 @@ func (s *Server) routes() {
 	// Password reset by email (reset.go).
 	s.mux.HandleFunc("/lupa-kata-laluan", s.lupaKataLaluan)
 	s.mux.HandleFunc("/reset-kata-laluan", s.resetKataLaluan)
+
+	// Paid tiers (plans.go, admin_plans.go, bcl.go).
+	s.mux.HandleFunc("GET /pelan", s.pelan)
+	s.mux.HandleFunc("/admin/pelan", s.adminPelan)
+	s.mux.HandleFunc("POST /bcl/webhook/{key}", s.bclWebhook)
 }
 
 // loadTemplates parses layout.html + partials.html together with each page

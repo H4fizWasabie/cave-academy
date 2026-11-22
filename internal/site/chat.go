@@ -74,14 +74,15 @@ var errUpstream = errors.New("openrouter")
 
 // remaining is the free questions the user has left today, -1 when unlimited.
 func (s *Server) remaining(u *User) int {
-	if u.Plan == planPaid {
+	limit := s.dailyLimit(u) // plans.go: free 3, a tier's, or -1 for unlimited
+	if limit < 0 {
 		return -1
 	}
 	n := 0
 	n0 := s.now().In(klZone)
 	start := time.Date(n0.Year(), n0.Month(), n0.Day(), 0, 0, 0, 0, klZone).UTC().Format(dbTime)
 	s.db.QueryRow(`SELECT COUNT(*) FROM chat_messages WHERE user_id = ? AND role = 'user' AND created_at >= ?`, u.ID, start).Scan(&n)
-	return max(0, freeDaily-n)
+	return max(0, limit-n)
 }
 
 // chatCap is the most answers the site buys from OpenRouter per KL day.
@@ -153,7 +154,7 @@ func (s *Server) chatSend(u *User, bot Bot, msg string) chatResult {
 	}
 	defer s.chat.busy.Delete(u.ID)
 	if s.remaining(u) == 0 {
-		return res(http.StatusTooManyRequests, fmt.Sprintf("Anda sudah menggunakan had soalan percuma hari ini (%d soalan sehari). Cuba lagi esok, atau hubungi kami di WhatsApp untuk pelan langganan tanpa had: %s", freeDaily, waURL))
+		return res(http.StatusTooManyRequests, fmt.Sprintf("Anda sudah menggunakan had soalan hari ini (%d soalan sehari). Cuba lagi esok, atau lihat pelan langganan di %s/pelan atau hubungi kami di WhatsApp: %s", s.dailyLimit(u), s.baseURL(), waURL))
 	}
 
 	if s.chatCapReached() {
