@@ -240,3 +240,16 @@ func TestConfigValidateBCL(t *testing.T) {
 		t.Errorf("env not read: %+v", c)
 	}
 }
+
+func TestEntitlementShowsTheFurthestStackedEnd(t *testing.T) {
+	g := newBCLRig(t)
+	signUp(t, g.s, "siti@example.com")
+	u := g.user("siti@example.com")
+	pid := g.plan("Pro", 2900, 20, 30, proLink)
+	g.subscribe("siti@example.com", pid, -10, 20, "A")
+	g.subscribe("siti@example.com", pid, 20, 50, "B") // renewal, not running yet
+	want := g.clock.UTC().AddDate(0, 0, 50).Format(dbTime)
+	if got := g.s.entitlementOf(u).Ends.Format(dbTime); got != want {
+		t.Errorf("ends = %s, want %s", got, want)
+	}
+}

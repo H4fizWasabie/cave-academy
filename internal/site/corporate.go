@@ -100,7 +100,7 @@ func (s *Server) submitRFQ(w http.ResponseWriter, r *http.Request) {
 	s.formSaved(r)
 	body := fmt.Sprintf("Permintaan sebut harga (RFQ) baharu\n\nOrganisasi: %s\nNama: %s\nE-mel: %s\nTelefon: %s\nBidang latihan: %s\nPeserta: %d\nTarikh pilihan: %s\n\nCatatan:\n%s\n",
 		f.Organisation, f.ContactName, f.Email, f.Phone, f.TrainingArea, participants, f.PreferredDate, f.Notes)
-	if err := s.mailer.Send(s.config.AdminEmail, "RFQ baharu: "+oneLine(f.Organisation), body); err != nil {
+	if err := s.mailer.SendReplyTo(s.config.AdminEmail, f.Email, "RFQ baharu: "+oneLine(f.Organisation), body); err != nil {
 		log.Printf("rfq: email: %v", err) // the request is saved; do not fail the visitor
 	}
 	http.Redirect(w, r, "/corporate-training?terima-kasih=1#rfq", http.StatusSeeOther)

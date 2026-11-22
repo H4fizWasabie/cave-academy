@@ -28,6 +28,7 @@ A marketing site for The Cave Academy plus its highlight feature, the **AI NLP B
 | `APP_ENV` | `development` or `production`. Production refuses to start without `OPENROUTER_API_KEY`, `BREVO_API_KEY`, `BASE_URL` and a valid `MAIL_FROM` | `development` |
 | `INTRO_VIDEO_URL` | intro video for the "(2 Minit)" hero buttons (home, corporate, produk); they open it in a new tab | unset: the buttons are not shown |
 | `BCL_WEBHOOK_KEY` | secret in the BCL webhook address, `/bcl/webhook/<key>`; at least 32 characters (`openssl rand -hex 24`) | unset: the webhook answers 404 |
+| `BCL_API_URL` | BCL API base, for tests only (they point it at a fake BCL) | `https://bcl.my/api` |
 | `BCL_API_TOKEN` | BCL API token with Read access; every paid order is read back from BCL with it. Production refuses to start with one of the two BCL vars set and not the other | unset: the webhook answers 404 |
 | `CHAT_DAILY_CAP` | OpenRouter answers per KL day across all users (cost guard); over it the chat says it is busy | `2000` |
 
@@ -45,12 +46,15 @@ Contact details on the site: WhatsApp / phone 012-394 7200 (`https://wa.me/60123
 | `/tentang-kami` | About | none |
 | `/hubungi-kami` | Contact form + details | none |
 | `/trainer-panel` | "Daftar Trainer Panel" signup form | none (home CTA links here) |
+| `/trainer` | directory of published Cave Trainers | none |
+| `/trainer/profil` | a logged-in user's own trainer profile editor (GET, POST); logged out goes to the login page | none |
+| `/trainer/{slug}`, `/trainer/{slug}/pdf` | public profile of a published Cave Trainer, and its PDF; anyone else's profile is a 404 | none |
 | `/pelan` | Pelan Langganan: one card per active plan with a "Langgan" button to its BCL form; "akan datang" and WhatsApp when there is no active plan | none: same visual language |
 | `POST /bcl/webhook/{key}` | BCL payment webhook (see Paid tiers) | none |
 | `/daftar`, `/log-masuk`, `/log-keluar` | sign up, log in, log out | none |
 | `/lupa-kata-laluan`, `/reset-kata-laluan` | password reset by email | none |
 | `/dasar-privasi`, `/terma` | privacy policy, terms | none |
-| `/admin`, `/admin/{rfq,trainer,mesej,pengguna,pelan,pengetahuan,trainer-profil}` | back office for admins (`users.is_admin`), CSV downloads; anyone else gets a 404 | none |
+| `/admin`, `/admin/{rfq,trainer,mesej,pengguna,pelan,pengetahuan,trainer-profil}` | back office for admins (`users.is_admin`), CSV downloads; logged-out visitors are redirected to the login page, other accounts get a 404 | none |
 
 Header nav: Utama / Program (dropdown: Corporate Training & RFQ, Trainer Panel) / AI NLP Bots (dropdown: three bots) / Produk Digital / Tentang Kami, a search icon (may be omitted in v1), "Hubungi Kami" and a green "WhatsApp Chat" button. Mobile: logo, WhatsApp icon, Hubungi Kami, hamburger menu.
 
@@ -96,7 +100,12 @@ Assets: no real logo or photos supplied yet. Crop the round CAVE badge and the h
 - RFQ (on `/corporate-training`): organisation, contact name, email, phone, training area (select), participants, preferred date, notes.
 - Trainer panel (`/trainer-panel`): name, email, phone, expertise, years of experience, short bio.
 - Contact (`/hubungi-kami`): name, email, message.
-- Each submission is saved to SQLite and emailed to `ADMIN_EMAIL` via Brevo (`POST https://api.brevo.com/v3/smtp/email`). The sender domain must be authenticated in Brevo (caveacademy.my is not yet; the free plan's 300 emails a day are shared with CAVELMS). Server-side validation; a thank-you message on success. Basic spam guard: a hidden honeypot field.
+- Each submission is saved to SQLite and emailed to `ADMIN_EMAIL` via Brevo (`POST https://api.brevo.com/v3/smtp/email`).  The notification's Reply-To is the submitter's email; mail to users carries Reply-To `ADMIN_EMAIL`. The sender domain must be authenticated in Brevo (caveacademy.my is not yet; the free plan's 300 emails a day are shared with CAVELMS). Server-side validation; a thank-you message on success. Basic spam guard: a hidden honeypot field.
+
+## Trainer profiles
+
+- Every account may have one profile at `/trainer/profil`: display name, headline, bio, expertise tags, years, phone, location, LinkedIn URL and one of three layouts (`klasik`, `moden`, `ringkas`), with a live preview. A new profile is a `member` and hidden.
+- An admin promotes a profile to `cave_trainer` and publishes it at `/admin/trainer-profil`, and can email the trainer from there. Only a published Cave Trainer is public: listed on `/trainer`, shown at `/trainer/{slug}` with a PDF, and in `/sitemap.xml`. Any other slug is a 404.
 
 ## Out of scope for v1
 

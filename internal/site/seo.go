@@ -2,6 +2,7 @@ package site
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -54,7 +55,19 @@ func (s *Server) robots(w http.ResponseWriter, r *http.Request) {
 func (s *Server) sitemap(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/xml; charset=utf-8")
 	fmt.Fprint(w, `<?xml version="1.0" encoding="UTF-8"?>`+"\n"+`<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`+"\n")
-	for _, p := range sitemapPaths {
+	paths := sitemapPaths
+	if rows, err := s.db.Query(`SELECT slug FROM trainer_profiles WHERE published = 1 AND status = ? ORDER BY slug`, statusCaveTrainer); err != nil {
+		log.Printf("sitemap: %v", err)
+	} else {
+		defer rows.Close()
+		for rows.Next() {
+			var slug string
+			if rows.Scan(&slug) == nil {
+				paths = append(paths[:len(paths):len(paths)], "/trainer/"+slug)
+			}
+		}
+	}
+	for _, p := range paths {
 		fmt.Fprintf(w, "  <url><loc>%s%s</loc></url>\n", s.baseURL(), p)
 	}
 	fmt.Fprint(w, "</urlset>\n")

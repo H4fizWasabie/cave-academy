@@ -59,14 +59,14 @@ func require(errs map[string]string, v map[string]string, field string, max int,
 	}
 }
 
-// notifyAdmin emails the submission to ADMIN_EMAIL. The row is already saved,
+// notifyAdmin emails the submission to ADMIN_EMAIL, Reply-To the submitter. The row is already saved,
 // so a mail failure is only logged.
 func (s *Server) notifyAdmin(subject string, v map[string]string, fields [][2]string) {
 	var b strings.Builder
 	for _, f := range fields {
 		fmt.Fprintf(&b, "%s: %s\n", f[1], v[f[0]])
 	}
-	if err := s.mailer.Send(s.config.AdminEmail, subject, b.String()); err != nil {
+	if err := s.mailer.SendReplyTo(s.config.AdminEmail, v["email"], subject, b.String()); err != nil {
 		log.Printf("mail %q: %v", subject, err)
 	}
 }
