@@ -481,3 +481,18 @@ func TestChatSendsKnowledgeReference(t *testing.T) {
 		t.Error("another bot's document leaked into the prompt")
 	}
 }
+
+func TestFormatBodyItalics(t *testing.T) {
+	for in, want := range map[string]string{
+		"**Bina rapport melalui *pacing then leading*.**": "<strong>Bina rapport melalui <em>pacing then leading</em>.</strong>",
+		"*Pacing* bermaksud":                              "<em>Pacing</em> bermaksud",
+		"**a** dan **b**":                                 "<strong>a</strong> dan <strong>b</strong>",
+		"* item\n* item":                                  "* item\n* item",
+		"2 * 3 * 4":                                       "2 * 3 * 4",
+		"*<b>x</b>*":                                      "<em>&lt;b&gt;x&lt;/b&gt;</em>",
+	} {
+		if got := string(formatBody(in)); got != want {
+			t.Errorf("formatBody(%q) = %q, want %q", in, got, want)
+		}
+	}
+}

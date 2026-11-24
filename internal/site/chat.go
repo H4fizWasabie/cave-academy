@@ -296,9 +296,14 @@ func writeJSON(w http.ResponseWriter, status int, v any) {
 }
 
 // Reply text is shown escaped, with its line breaks kept (CSS white-space:
-// pre-wrap), **bold** and bare http(s) links. chat.js does the same in the
-// browser with textContent, so keep the two regexps in step.
-var inlineRe = regexp.MustCompile(`\*\*[^*\n]+\*\*|https?://[^\s<>"'*]+`)
+// pre-wrap), **bold** (which may hold *italic*), *italic* and bare http(s)
+// links. An italic needs a non-space after the opening * and before the
+// closing one, so "* item" bullets and "2 * 3" stay plain. chat.js does the
+// same in the browser with textContent, so keep the regexps in step.
+var (
+	inlineRe = regexp.MustCompile(`\*\*(?:[^*\n]|\*[^*\s][^*\n]*\*)+\*\*|\*[^*\s](?:[^*\n]*[^*\s])?\*|https?://[^\s<>"'*]+`)
+	emRe     = regexp.MustCompile(`\*([^*\n]+)\*`)
+)
 
 func formatBody(text string) template.HTML {
 	var b strings.Builder
@@ -308,7 +313,12 @@ func formatBody(text string) template.HTML {
 		tok := text[m[0]:m[1]]
 		last = m[1]
 		if strings.HasPrefix(tok, "**") {
-			b.WriteString("<strong>" + html.EscapeString(tok[2:len(tok)-2]) + "</strong>")
+			// Escaping leaves * alone, so italics are matched after it.
+			b.WriteString("<strong>" + emRe.ReplaceAllString(html.EscapeString(tok[2:len(tok)-2]), "<em>$1</em>") + "</strong>")
+			continue
+		}
+		if tok[0] == '*' {
+			b.WriteString("<em>" + html.EscapeString(tok[1:len(tok)-1]) + "</em>")
 			continue
 		}
 		link := strings.TrimRight(tok, ".,;:!?)]")

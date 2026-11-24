@@ -11,8 +11,14 @@
   var count = document.querySelector('[data-count]');
   var busy = false;
 
-  // Same rules as formatBody in chat.go: **bold** and bare http(s) links.
-  var inline = /\*\*[^*\n]+\*\*|https?:\/\/[^\s<>"'*]+/g;
+  // Same rules as formatBody in chat.go: **bold** (which may hold *italic*),
+  // *italic* and bare http(s) links.
+  var inline = /\*\*(?:[^*\n]|\*[^*\s][^*\n]*\*)+\*\*|\*[^*\s](?:[^*\n]*[^*\s])?\*|https?:\/\/[^\s<>"'*]+/g;
+  function em(text) {
+    var e = document.createElement('em');
+    e.textContent = text;
+    return e;
+  }
   function fill(el, text) {
     var last = 0, m;
     inline.lastIndex = 0;
@@ -22,8 +28,12 @@
       last = m.index + tok.length;
       if (tok.slice(0, 2) === '**') {
         var b = document.createElement('strong');
-        b.textContent = tok.slice(2, -2);
+        tok.slice(2, -2).split(/\*([^*\n]+)\*/).forEach(function (part, i) {
+          b.appendChild(i % 2 ? em(part) : document.createTextNode(part));
+        });
         el.appendChild(b);
+      } else if (tok[0] === '*') {
+        el.appendChild(em(tok.slice(1, -1)));
       } else {
         var link = tok.replace(/[.,;:!?)\]]+$/, '');
         last = m.index + link.length;
