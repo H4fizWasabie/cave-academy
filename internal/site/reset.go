@@ -29,7 +29,10 @@ func hashToken(token string) string {
 }
 
 func (s *Server) resetPage(w http.ResponseWriter, status int, title string, d resetData) {
-	w.Header().Set("Referrer-Policy", "no-referrer") // the token is in the URL: keep it out of Referer
+	// same-origin, not no-referrer: the token is in the URL, so keep it out of
+	// cross-origin Referers, but no-referrer makes browsers send "Origin: null"
+	// on the form POST and sameOrigin rejects it.
+	w.Header().Set("Referrer-Policy", "same-origin")
 	s.renderStatus(w, status, "lupa", Page{Title: title, Crumb: title, Data: d})
 }
 
