@@ -1,6 +1,5 @@
 /* Tentang Kami, Hubungi Kami and Trainer Panel. Builds on base.css components. */
-.page-section { position: relative; margin-top: 28px; }
-.hero--plain { min-height: 0; padding-bottom: 8px; }
+.hero--plain { min-height: 0; }
 
 /* Thank-you notice (shown after a form is submitted) */
 .form-thanks {
@@ -9,60 +8,59 @@
 }
 
 /* Tentang: who we are */
-.about { display: grid; gap: 16px; margin-top: 14px; align-items: center; }
+.about { display: grid; gap: 16px; align-items: center; }
 .about__logo { width: 96px; height: 96px; border-radius: 50%; box-shadow: var(--shadow-md); }
-.about__text { display: grid; gap: 12px; color: var(--navy-soft); }
+.about__text { display: grid; gap: 12px; max-width: 60em; color: var(--navy-soft); }
 
 /* Trainer: benefit points */
-.benefits { display: grid; gap: 12px; margin-top: 14px; }
+.benefits { display: grid; gap: 16px; }
 .benefit {
   display: flex; gap: 14px; align-items: flex-start; padding: 16px;
-  background: var(--white); border: 1px solid #eef0f6; border-radius: var(--r-md); box-shadow: var(--shadow-sm);
+  background: var(--white); border: 1px solid var(--line-soft); border-radius: var(--r-md); box-shadow: var(--shadow-md);
 }
 .benefit .icon { width: 34px; height: 34px; color: var(--navy); margin-top: 2px; }
 .benefit h3 { font-size: 16px; margin-bottom: 4px; }
-.benefit p { font-size: 14px; color: var(--navy-soft); }
+.benefit p { font-size: 15px; color: var(--navy-soft); }
 
 /* Panels and forms */
 .panel {
-  padding: 18px; background: var(--white); border: 1px solid #eef0f6;
+  padding: 20px; background: var(--white); border: 1px solid var(--line-soft);
   border-radius: var(--r-lg); box-shadow: var(--shadow-md);
 }
 .panel > .btn { margin-top: 16px; }
-.form { display: grid; gap: 14px; margin-top: 16px; }
+.form { display: grid; gap: 16px; }
 .form__grid { display: grid; gap: 14px; }
 .form__trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .field { display: grid; gap: 6px; min-width: 0; }
-.field label { font: 600 14px var(--font-head); color: var(--navy); }
+.field label { font: 600 15px var(--font-head); color: var(--navy); }
 .field__opt { font-weight: 400; color: var(--navy-soft); }
 .field input, .field textarea {
-  width: 100%; padding: 12px 14px; font: inherit; color: var(--text);
+  width: 100%; min-height: var(--tap); padding: 12px 14px; font: inherit; color: var(--text);
   background: var(--white); border: 1.5px solid var(--line); border-radius: var(--r-sm);
 }
 .field textarea { resize: vertical; min-height: 120px; }
 .field input:focus-visible, .field textarea:focus-visible { outline: 3px solid var(--navy); outline-offset: 0; border-color: var(--navy); box-shadow: 0 0 0 5px rgba(245, 197, 24, .45); }
 .field--error input, .field--error textarea { border-color: #b42318; border-width: 2px; }
-.field__error { font-size: 13px; font-weight: 600; color: #b42318; }
-.form__note { font-size: 13px; color: var(--navy-soft); }
+.field__error { font-size: 14px; font-weight: 600; color: #b42318; }
+.form__note { font-size: 14px; color: var(--navy-soft); }
 .form .btn { justify-self: start; }
 
 /* Hubungi: contact details */
 .contact { display: grid; gap: 16px; }
-.contact__list { display: grid; gap: 16px; margin-top: 16px; }
+.contact__list { display: grid; gap: 16px; margin-bottom: 20px; }
 .contact__list li { display: flex; gap: 12px; align-items: flex-start; }
 .contact__list .icon { width: 28px; height: 28px; color: var(--navy); margin-top: 2px; }
-.contact__list a { color: var(--navy); font-weight: 600; text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 3px; overflow-wrap: anywhere; }
+.contact__list a { color: var(--navy); font-weight: 600; text-decoration: underline; text-decoration-color: var(--gold); overflow-wrap: anywhere; }
 .contact__sep { color: var(--navy-soft); }
 
 @media (min-width: 640px) {
   .about { grid-template-columns: auto 1fr; gap: 24px; }
   .about__logo { width: 120px; height: 120px; }
   .benefits, .form__grid { grid-template-columns: 1fr 1fr; }
-  .panel { padding: 26px; }
+  .panel { padding: 28px; }
 }
 
 @media (min-width: 1100px) {
-  .page-section { margin-top: 36px; }
   .benefits { grid-template-columns: repeat(4, 1fr); }
   .benefit { flex-direction: column; }
   .contact { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); align-items: start; gap: 24px; }

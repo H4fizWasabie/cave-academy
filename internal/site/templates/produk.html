@@ -7,7 +7,6 @@
 </svg>
 
 <section class="hero produk-hero">
-  <img class="produk-hero__img" src="/static/img/produk-hero.jpg" alt="Jurulatih The Cave Academy dengan komputer riba dan timbunan eBook" width="770" height="524">
   <div class="container hero__inner">
     {{template "breadcrumb" .}}
     <div class="produk-hero__grid">
@@ -15,7 +14,7 @@
         <h1 class="hero__title">Produk <span class="gold">Digital</span></h1>
         <p class="hero__sub">Management game, workbook, eBook dan bahan latihan digital untuk pembelajaran berterusan, praktikal dan berimpak.</p>
       </div>
-      <ul class="checklist">
+      <ul class="chips">
         <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Praktikal &amp; Berteraskan Pengalaman</li>
         <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Sedia Guna Untuk Latihan / Bengkel</li>
         <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Boleh Diubah Suai Mengikut Keperluan</li>
@@ -27,36 +26,35 @@
       </div>
     </div>
   </div>
+  <img class="hero__img" src="/static/img/produk-hero.jpg" alt="Jurulatih The Cave Academy dengan komputer riba dan timbunan eBook" width="770" height="524">
 </section>
 
-<section class="container produk-strip">
+<section class="container">
   <ul class="features">
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-gamepad"/></svg><span>Management<br>Game / Simulasi</span></li>
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>Workbook &amp;<br>Modul</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-gamepad"/></svg><span>Management <br>Game / Simulasi</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>Workbook &amp; <br>Modul</span></li>
     <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-ebook"/></svg><span>eBook</span></li>
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-laptop"/></svg><span>Bahan Latihan<br>Digital</span></li>
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-gear"/></svg><span>Sedia Guna &amp;<br>Boleh Diubah Suai</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-laptop"/></svg><span>Bahan Latihan <br>Digital</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-gear"/></svg><span>Sedia Guna &amp; <br>Boleh Diubah Suai</span></li>
   </ul>
 </section>
 
-<div class="container produk-main">
-  <section id="kategori" class="produk-cats">
+<div class="container">
+  <section id="kategori" class="produk-cats section">
     <h2 class="section-title">Kategori Produk Digital</h2>
-    <div class="pcats">
+    <div class="cards">
       {{range .Data.Categories}}
-      <article class="pcat">
-        <div class="pcat__media"><img src="/static/img/{{.Image}}" alt="" width="267" height="127" loading="lazy"></div>
-        <div class="pcat__body">
-          <h3 class="pcat__title"><svg class="icon" aria-hidden="true"><use href="#{{.Icon}}"/></svg>{{.Name}}</h3>
-          <p class="pcat__text">{{.Description}}</p>
-          <a class="pcat__btn" href="{{.WA}}" target="_blank" rel="noopener"><span>{{.Button}}</span> {{template "arrow"}}</a>
-        </div>
+      <article class="card">
+        <div class="card__media"><img src="/static/img/{{.Image}}" alt="" width="267" height="127" loading="lazy"></div>
+        <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#{{.Icon}}"/></svg><h3>{{.Name}}</h3></div>
+        <p class="card__text">{{.Description}}</p>
+        <a class="card__cta" href="{{.WA}}" target="_blank" rel="noopener"><span>{{.Button}}</span> {{template "arrow"}}</a>
       </article>
       {{end}}
     </div>
   </section>
 
-  <section id="produk-pilihan" class="produk-picks">
+  <section id="produk-pilihan" class="produk-picks section">
     <div class="produk-picks__head">
       <h2 class="section-title">Produk Pilihan</h2>
       <a class="produk-picks__all" href="#senarai-produk">Lihat Semua Produk {{template "arrow"}}</a>
@@ -78,18 +76,18 @@
   </section>
 </div>
 
-<section class="container produk-why">
+<section class="container section">
   <h2 class="section-title">Kenapa Pilih Produk Digital TCA?</h2>
-  <ul class="why">
-    <li><svg class="icon" aria-hidden="true"><use href="#i-clipboard"/></svg><span>Berasaskan<br>Pengalaman Sebenar</span></li>
-    <li><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg><span>Praktikal &amp;<br>Mudah Diaplikasi</span></li>
-    <li><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><span>Sesuai untuk<br>Individu &amp; Pasukan</span></li>
-    <li><svg class="icon" aria-hidden="true"><use href="#i-laptop"/></svg><span>Akses Digital<br>Bila-bila Masa</span></li>
-    <li><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg><span>Berkualiti &amp;<br>Berimpak Tinggi</span></li>
+  <ul class="features features--plain">
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-clipboard"/></svg><span>Berasaskan <br>Pengalaman Sebenar</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg><span>Praktikal &amp; <br>Mudah Diaplikasi</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><span>Sesuai untuk <br>Individu &amp; Pasukan</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-laptop"/></svg><span>Akses Digital <br>Bila-bila Masa</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg><span>Berkualiti &amp; <br>Berimpak Tinggi</span></li>
   </ul>
 </section>
 
-<section class="container produk-cta">
+<section class="container section">
   <div class="cta-banner">
     <svg class="icon cta-banner__icon" aria-hidden="true"><use href="#i-laptop"/></svg>
     <h2 class="cta-banner__title">Terokai Koleksi Produk Digital</h2>
