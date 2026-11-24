@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"testing"
 )
@@ -11,8 +12,8 @@ import (
 func TestLegalPagesRender(t *testing.T) {
 	s := newTestServer(t)
 	for path, wants := range map[string][]string{
-		"/dasar-privasi": {"Dasar Privasi", "Akta Perlindungan Data Peribadi 2010", "OpenRouter", "Brevo", "adam.caveconsult@gmail.com", "Kemas kini terakhir: 22 November 2026"},
-		"/terma":         {"Terma Penggunaan", "3 soalan sehari", "bukan nasihat profesional", "undang-undang Malaysia", "Kemas kini terakhir: 22 November 2026"},
+		"/dasar-privasi": {"Dasar Privasi", "Akta Perlindungan Data Peribadi 2010", "OpenRouter", "Brevo", "adam.caveconsult@gmail.com", "Kemas kini terakhir: 24 November 2026", "PG0512993-H"},
+		"/terma":         {"Terma Penggunaan", "3 soalan sehari", "bukan nasihat profesional", "undang-undang Malaysia", "Kemas kini terakhir: 24 November 2026", "Idea Niaga Ventures"},
 	} {
 		code, body := get(t, s, path)
 		if code != http.StatusOK {
@@ -116,6 +117,24 @@ func TestSEOImagesExist(t *testing.T) {
 	for _, p := range []string{"/static/img/favicon.png", "/static/img/apple-touch-icon.png", "/static/img/og-image.jpg"} {
 		if code, _ := get(t, s, p); code != http.StatusOK {
 			t.Errorf("GET %s = %d", p, code)
+		}
+	}
+}
+
+func TestTentangShowsFounderAndFooterAddress(t *testing.T) {
+	s := newTestServer(t)
+	code, body := get(t, s, "/tentang-kami")
+	if code != http.StatusOK {
+		t.Fatalf("GET /tentang-kami = %d, want 200", code)
+	}
+	for _, want := range []string{"Coach Adam Daniel", "Pengiktirafan", "Sesi Latihan Kami", "Lot 11B Bazar Enggang Keramat", "Dikuasakan oleh The Cave Consult", "facebook.com/share/1CKDRGWmXg"} {
+		if !strings.Contains(body, want) {
+			t.Errorf("GET /tentang-kami missing %q", want)
+		}
+	}
+	for _, img := range regexp.MustCompile(`src="(/static/img/[^"]+)"`).FindAllStringSubmatch(body, -1) {
+		if code, _ := get(t, s, img[1]); code != http.StatusOK {
+			t.Errorf("GET %s = %d, want 200", img[1], code)
 		}
 	}
 }

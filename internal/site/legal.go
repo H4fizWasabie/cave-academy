@@ -4,7 +4,7 @@ import "net/http"
 
 // Both pages are static Malay text in templates/privasi.html and terma.html.
 // Keep legalUpdated in step with the "Kemas kini terakhir" line when the text changes.
-const legalUpdated = "22 November 2026"
+const legalUpdated = "24 November 2026"
 
 func (s *Server) privasi(w http.ResponseWriter, r *http.Request) {
 	s.render(w, "privasi", Page{
