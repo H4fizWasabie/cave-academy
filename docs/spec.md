@@ -1,6 +1,6 @@
 # The Cave Academy website: v1 spec
 
-Client: The Cave Academy (caveacademy.my). Target: 10 Dec 2026. All public copy is Malay.
+Client: The Cave Academy (thecaveacademy.com). Target: 10 Dec 2026. All public copy is Malay.
 
 ## Goal
 
@@ -22,9 +22,9 @@ A marketing site for The Cave Academy plus its highlight feature, the **AI NLP B
 | `OPENROUTER_API_KEY` | chatbot answers | unset: chat replies with a "not configured" message |
 | `OPENROUTER_MODEL` | OpenRouter model id | `openai/gpt-6-luna` |
 | `BREVO_API_KEY` | sends email (Brevo transactional API) | unset: email is logged to stdout instead |
-| `MAIL_FROM` | sender address | `The Cave Academy <noreply@caveacademy.my>` |
+| `MAIL_FROM` | sender address | `The Cave Academy <noreply@thecaveacademy.com>` |
 | `ADMIN_EMAIL` | receives form submissions | `adam.caveconsult@gmail.com` |
-| `BASE_URL` | public origin for canonical links and `/sitemap.xml` | `https://caveacademy.my` |
+| `BASE_URL` | public origin for canonical links and `/sitemap.xml` | `https://thecaveacademy.com` |
 | `APP_ENV` | `development` or `production`. Production refuses to start without `OPENROUTER_API_KEY`, `BREVO_API_KEY`, `BASE_URL` and a valid `MAIL_FROM` | `development` |
 | `INTRO_VIDEO_URL` | intro video for the "(2 Minit)" hero buttons (home, corporate, produk); they open it in a new tab | unset: the buttons are not shown |
 | `BCL_WEBHOOK_KEY` | secret in the BCL webhook address, `/bcl/webhook/<key>`; at least 32 characters (`openssl rand -hex 24`) | unset: the webhook answers 404 |
@@ -100,7 +100,7 @@ Assets: no real logo or photos supplied yet. Crop the round CAVE badge and the h
 - RFQ (on `/corporate-training`): organisation, contact name, email, phone, training area (select), participants, preferred date, notes.
 - Trainer panel (`/trainer-panel`): name, email, phone, expertise, years of experience, short bio.
 - Contact (`/hubungi-kami`): name, email, message.
-- Each submission is saved to SQLite and emailed to `ADMIN_EMAIL` via Brevo (`POST https://api.brevo.com/v3/smtp/email`).  The notification's Reply-To is the submitter's email; mail to users carries Reply-To `ADMIN_EMAIL`. The sender domain must be authenticated in Brevo (caveacademy.my is not yet; the free plan's 300 emails a day are shared with CAVELMS). Server-side validation; a thank-you message on success. Basic spam guard: a hidden honeypot field.
+- Each submission is saved to SQLite and emailed to `ADMIN_EMAIL` via Brevo (`POST https://api.brevo.com/v3/smtp/email`).  The notification's Reply-To is the submitter's email; mail to users carries Reply-To `ADMIN_EMAIL`. The sender domain must be authenticated in Brevo (thecaveacademy.com is not yet; the free plan's 300 emails a day are shared with CAVELMS). Server-side validation; a thank-you message on success. Basic spam guard: a hidden honeypot field.
 
 ## Trainer profiles
 

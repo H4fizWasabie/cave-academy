@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	defaultBaseURL     = "https://caveacademy.my"
+	defaultBaseURL     = "https://thecaveacademy.com"
 	defaultDescription = "The Cave Academy: pembangunan kompetensi berasaskan AI, NLP dan pengalaman praktikal untuk individu, pasukan dan organisasi."
 )
 

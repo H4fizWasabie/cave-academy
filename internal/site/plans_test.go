@@ -99,7 +99,7 @@ func TestChatUsesTheTierLimitAndPointsToPelan(t *testing.T) {
 	}
 	code, out := g.sendJSON("hr", "Keenam", c)
 	msg, _ := out["error"].(string)
-	if code != http.StatusTooManyRequests || !strings.Contains(msg, "5 soalan sehari") || !strings.Contains(msg, "https://caveacademy.my/pelan") || !strings.Contains(msg, "https://wa.me/60123947200") {
+	if code != http.StatusTooManyRequests || !strings.Contains(msg, "5 soalan sehari") || !strings.Contains(msg, "https://thecaveacademy.com/pelan") || !strings.Contains(msg, "https://wa.me/60123947200") {
 		t.Errorf("6th question: %d %q", code, msg)
 	}
 

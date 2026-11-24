@@ -216,7 +216,7 @@ func (s *Server) askModel(messages []orMessage) (string, error) {
 	}
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+s.config.OpenRouterKey)
-	req.Header.Set("HTTP-Referer", "https://caveacademy.my")
+	req.Header.Set("HTTP-Referer", "https://thecaveacademy.com")
 	req.Header.Set("X-Title", "The Cave Academy")
 	resp, err := orClient.Do(req)
 	if err != nil {

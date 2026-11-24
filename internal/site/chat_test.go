@@ -211,7 +211,7 @@ func TestRequestSentToOpenRouter(t *testing.T) {
 	if rec := g.send("educators", "Soalan baharu", c); rec.Code != http.StatusSeeOther {
 		t.Fatalf("send = %d", rec.Code)
 	}
-	if h := g.or.header; h.Get("Authorization") != "Bearer sk-test-key" || h.Get("HTTP-Referer") != "https://caveacademy.my" ||
+	if h := g.or.header; h.Get("Authorization") != "Bearer sk-test-key" || h.Get("HTTP-Referer") != "https://thecaveacademy.com" ||
 		h.Get("X-Title") != "The Cave Academy" || h.Get("Content-Type") != "application/json" {
 		t.Errorf("headers = %v", h)
 	}

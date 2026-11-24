@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Deploys origin/main to production on the VPS (ssh host "vps", root): https://caveacademy.my/. See docs/deploy.md.
+# Deploys origin/main to production on the VPS (ssh host "vps", root): https://thecaveacademy.com/. See docs/deploy.md.
 # Usage: deploy/production.sh            (from a clean checkout at origin/main's HEAD)
 #        deploy/production.sh rollback   (put the previous binary back)
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 bin=/usr/local/bin/cave-academy
-url=https://caveacademy.my
+url=https://thecaveacademy.com
 
 rollback() {
 	ssh vps bash -s -- "$bin" <<'REMOTE'
@@ -45,9 +45,9 @@ if [ ! -f /etc/cave-academy/env ]; then
 OPENROUTER_API_KEY=
 OPENROUTER_MODEL=openai/gpt-6-luna
 BREVO_API_KEY=
-MAIL_FROM=The Cave Academy <noreply@caveacademy.my>
+MAIL_FROM=The Cave Academy <noreply@thecaveacademy.com>
 ADMIN_EMAIL=adam.caveconsult@gmail.com
-BASE_URL=https://caveacademy.my
+BASE_URL=https://thecaveacademy.com
 ENV
 	exit 3
 fi
