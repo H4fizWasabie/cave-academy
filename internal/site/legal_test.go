@@ -138,3 +138,14 @@ func TestTentangShowsFounderAndFooterAddress(t *testing.T) {
 		}
 	}
 }
+
+func TestMenuOffersDaftarWhenLoggedOut(t *testing.T) {
+	s := newTestServer(t)
+	if body := request(s, "/").Body.String(); !strings.Contains(body, `<li class="nav__signup"><a href="/daftar">Daftar</a></li>`) {
+		t.Error("logged-out menu has no Daftar link")
+	}
+	c := signUp(t, s, "ali@example.com")
+	if body := request(s, "/", c).Body.String(); strings.Contains(body, "nav__signup") {
+		t.Error("logged-in menu still offers Daftar")
+	}
+}

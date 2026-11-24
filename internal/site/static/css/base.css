@@ -372,6 +372,7 @@ body.nav-locked { overflow: hidden; }
   .brand__tagline { font-size: 10px; max-width: none; white-space: nowrap; }
 
   .burger, .header__actions .icon-btn { display: none; }
+  .nav__signup { display: none; } /* desktop header has room for Log Masuk only; Daftar is a mobile-menu shortcut */
   .header__actions { margin-left: 0; gap: 10px; }
   .header__actions .btn--wa { display: inline-flex; }
 
