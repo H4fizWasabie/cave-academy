@@ -38,10 +38,10 @@
 <section class="container bots-list section" id="senarai-bot">
   <div class="bots-list__head">
     <h2 class="section-title">Pilihan AI NLP Bots</h2>
-    <p class="bots-note">Akaun percuma mendapat 3 soalan sehari. <a href="/daftar">Daftar akaun percuma</a>.</p>
+    {{if not .User}}<p class="bots-note">Akaun percuma mendapat 3 soalan sehari. <a href="/daftar">Daftar akaun percuma</a>.</p>{{end}}
   </div>
   <div class="cards">
-    {{range .Data}}<article class="card">
+    {{range .Data.Bots}}<article class="card">
       <div class="card__media"><img src="/static/img/{{.Image}}" alt="" loading="lazy"></div>
       <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#{{.Icon}}"/></svg><h3><span class="card__pre">NLP Bot</span> {{.Name}}</h3></div>
       <p class="card__text">{{.Desc}}</p>
@@ -65,9 +65,11 @@
 <section class="container section">
   <div class="cta-banner">
     <svg class="icon cta-banner__icon" aria-hidden="true"><use href="#i-ai-screen"/></svg>
-    <h2 class="cta-banner__title">Langgan Sekarang<br>AI NLP Bots The Cave Academy</h2>
-    <p class="cta-banner__text">Dapatkan akses kepada rangkaian AI NLP Bots yang praktikal, mudah digunakan dan relevan dengan keperluan anda.</p>
-    <a class="btn btn--navy" href="/pelan">Lihat Pelan Langganan {{template "arrow"}}</a>
+    <h2 class="cta-banner__title">Cuba AI NLP Bots<br>Percuma</h2>
+    {{if .User}}<p class="cta-banner__text">Akaun percuma mendapat 3 soalan sehari. Mahu lebih? Tanya kami tentang pelan di WhatsApp.</p>
+    <a class="btn btn--navy" href="{{.Data.WA}}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>Tanya Pelan di WhatsApp</a>
+    {{else}}<p class="cta-banner__text">Daftar akaun percuma dan tanya 3 soalan sehari kepada AI NLP Bots yang praktikal dan mudah digunakan. Perlukan lebih? Tanya kami di WhatsApp.</p>
+    <a class="btn btn--navy" href="/daftar?next=/ai-nlp-bots">Daftar Akaun Percuma {{template "arrow"}}</a>{{end}}
   </div>
 </section>
 {{end}}

@@ -3,6 +3,8 @@
 {{define "breadcrumb"}}{{if .Crumb}}<nav class="breadcrumb" aria-label="Breadcrumb">
   <a href="/"><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg> Utama</a>
   <span class="breadcrumb__sep" aria-hidden="true">&gt;</span>
+{{with .CrumbParent}} <a href="{{$.CrumbParentURL}}">{{.}}</a>
+  <span class="breadcrumb__sep" aria-hidden="true">&gt;</span>{{end}}
  <strong>{{.Crumb}}</strong>
 </nav>{{end}}{{end}}
 

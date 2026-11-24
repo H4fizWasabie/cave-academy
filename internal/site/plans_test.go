@@ -170,11 +170,16 @@ func TestPelanPageShowsActivePlans(t *testing.T) {
 	}
 }
 
-func TestBotsBannerLinksToPelan(t *testing.T) {
+func TestBotsBannerDoesNotPromiseASubscription(t *testing.T) {
 	s := newTestServer(t)
 	_, body := get(t, s, "/ai-nlp-bots")
-	if !strings.Contains(body, `href="/pelan"`) || strings.Contains(body, "Boleh%20berikan%20maklumat") {
-		t.Error("the Lihat Pelan Langganan banner does not go to /pelan")
+	if strings.Contains(body, `href="/pelan"`) || !strings.Contains(body, "Daftar Akaun Percuma") {
+		t.Error("logged-out banner should point to free sign-up, not /pelan")
+	}
+	c := signUp(t, s, "siti@example.com")
+	body = request(s, "/ai-nlp-bots", c).Body.String()
+	if !strings.Contains(body, "Tanya Pelan di WhatsApp") || strings.Contains(body, `href="/pelan"`) || strings.Contains(body, "Daftar akaun percuma") {
+		t.Error("logged-in banner should point to WhatsApp and hide the sign-up note")
 	}
 }
 

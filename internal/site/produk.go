@@ -32,11 +32,11 @@ type Category struct {
 
 var produkCategories = []Category{
 	{"Management Game / Simulasi Pengurusan", "management-game", "category-management-game.jpg", "i-gamepad",
-		"Program simulasi interaktif untuk membangunkan kemahiran pengurusan, kepimpinan, penyelesaian masalah dan membuat keputusan.", "Terokai Management Game"},
+		"Program simulasi interaktif untuk membangunkan kemahiran pengurusan, kepimpinan, penyelesaian masalah dan membuat keputusan.", "Tanya tentang Management Game"},
 	{"Workbook & Modul", "workbook", "category-workbook.jpg", "i-book",
-		"Bahan latihan lengkap, terstruktur dan mudah digunakan untuk program latihan, bengkel dan pembangunan pasukan.", "Lihat Workbook & Modul"},
+		"Bahan latihan lengkap, terstruktur dan mudah digunakan untuk program latihan, bengkel dan pembangunan pasukan.", "Tanya tentang Workbook & Modul"},
 	{"eBook", "ebook", "category-ebook.jpg", "i-ebook",
-		"Bahan rujukan digital yang padat, praktikal dan relevan dengan keperluan kepimpinan, NLP, AI dan pengurusan organisasi.", "Lihat Koleksi eBook"},
+		"Bahan rujukan digital yang padat, praktikal dan relevan dengan keperluan kepimpinan, NLP, AI dan pengurusan organisasi.", "Tanya tentang eBook"},
 }
 
 var produkList = []Product{
@@ -69,6 +69,6 @@ func (s *Server) produk(w http.ResponseWriter, r *http.Request) {
 	}
 	s.render(w, "produk", Page{
 		Title: "Produk Digital", Description: "Management game, workbook, eBook dan bahan latihan digital daripada The Cave Academy untuk pembelajaran berterusan.", Nav: "produk", Crumb: "Produk Digital", CSS: []string{"produk"},
-		Data: map[string]any{"Products": items, "Categories": cats},
+		Data: map[string]any{"Products": items, "Categories": cats, "WA": waLink("Salam, saya ingin tahu tentang produk digital The Cave Academy.")},
 	})
 }

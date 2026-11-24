@@ -199,11 +199,17 @@ func TestTrainerVisibility(t *testing.T) {
 
 func TestTrainerDirectoryListsOnlyLiveTrainers(t *testing.T) {
 	s := newTestServer(t)
+	if strings.Contains(pageBody(t, s, "/trainer"), `<li><a href="/trainer">`) {
+		t.Error("nav should hide Cave Trainer when none is live")
+	}
 	a, b := signUp(t, s, "a@example.com"), signUp(t, s, "b@example.com")
 	tpSave(t, s, a, tpForm("display_name", "Aminah Live"))
 	tpSave(t, s, b, tpForm("display_name", "Budi Tersembunyi"))
 	tpSet(t, s, "aminah-live", "cave_trainer", true)
 	tpSet(t, s, "budi-tersembunyi", "cave_trainer", false)
+	if !strings.Contains(pageBody(t, s, "/trainer"), `<li><a href="/trainer">`) {
+		t.Error("nav should link Cave Trainer while a live trainer exists")
+	}
 	body := pageBody(t, s, "/trainer")
 	if !strings.Contains(body, "Aminah Live") || strings.Contains(body, "Budi Tersembunyi") {
 		t.Errorf("directory shows wrong trainers")

@@ -36,15 +36,17 @@ type Server struct {
 // Page is the data every template receives as ".". Handlers fill it in;
 // page-specific values go in Data.
 type Page struct {
-	Title       string   // <title> and page heading; "" gives the plain site title
-	Nav         string   // active nav item: home, program, bots, produk, tentang ("" for none)
-	CSS         []string // extra stylesheets, e.g. "home" loads /static/css/home.css
-	Description string   // <meta name="description">; "" gives the site default (seo.go)
-	Crumb       string   // breadcrumb label for {{template "breadcrumb" .}}; "" on the home page
-	User        *User    // logged-in user or nil; render fills it in, handlers leave it alone
-	SEO         seoMeta  // canonical URL and share image; render fills it in (seo.go)
-	IntroVideo  string   // Config.IntroVideoURL; render fills it in, templates hide the video button when ""
-	Data        any
+	Title                       string   // <title> and page heading; "" gives the plain site title
+	Nav                         string   // active nav item: home, program, bots, produk, tentang ("" for none)
+	CSS                         []string // extra stylesheets, e.g. "home" loads /static/css/home.css
+	Description                 string   // <meta name="description">; "" gives the site default (seo.go)
+	Crumb                       string   // breadcrumb label for {{template "breadcrumb" .}}; "" on the home page
+	CrumbParent, CrumbParentURL string   // optional middle crumb, linked, before Crumb
+	User                        *User    // logged-in user or nil; render fills it in, handlers leave it alone
+	SEO                         seoMeta  // canonical URL and share image; render fills it in (seo.go)
+	IntroVideo                  string   // Config.IntroVideoURL; render fills it in, templates hide the video button when ""
+	Data                        any
+	HasTrainers                 bool // at least one live Cave Trainer; render fills it in, the nav hides /trainer when false
 }
 
 // New opens the database, loads the templates and registers every route.
@@ -178,6 +180,7 @@ func (s *Server) renderStatus(w http.ResponseWriter, status int, name string, p 
 		return
 	}
 	p.IntroVideo = s.config.IntroVideoURL
+	s.db.QueryRow(`SELECT EXISTS(SELECT 1 FROM trainer_profiles WHERE published = 1 AND status = 'cave_trainer')`).Scan(&p.HasTrainers)
 	if rw, ok := w.(*reqWriter); ok && p.User == nil {
 		p.User = s.currentUser(rw.r)
 	}

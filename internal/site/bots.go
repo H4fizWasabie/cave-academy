@@ -57,7 +57,8 @@ func findBot(slug string) (Bot, bool) {
 }
 
 func (s *Server) botsLanding(w http.ResponseWriter, r *http.Request) {
-	s.render(w, "bots", Page{Title: "AI NLP Bots", Description: "Tiga rakan AI berasaskan NLP untuk guru, pasukan jualan dan pengurus HR. Daftar percuma dan tanya 3 soalan sehari.", Nav: "bots", Crumb: "AI NLP Bots", CSS: []string{"bots"}, Data: bots})
+	s.render(w, "bots", Page{Title: "AI NLP Bots", Description: "Tiga rakan AI berasaskan NLP untuk guru, pasukan jualan dan pengurus HR. Daftar percuma dan tanya 3 soalan sehari.", Nav: "bots", Crumb: "AI NLP Bots", CSS: []string{"bots"},
+		Data: map[string]any{"Bots": bots, "WA": waLink("Salam, saya ingin tahu tentang pelan AI NLP Bots The Cave Academy.")}})
 }
 
 // botView is Page.Data for bot.html. Logged-out visitors only get Bot and Next.
@@ -104,5 +105,5 @@ func (s *Server) renderBot(w http.ResponseWriter, r *http.Request, status int, b
 		v.Free, v.Limit, v.PlanNote = e.Limit >= 0, e.Limit, e.note()
 		v.Remaining = s.remaining(u)
 	}
-	s.renderStatus(w, status, "bot", Page{Title: "NLP Bot " + bot.Name, Description: bot.Desc, Nav: "bots", Crumb: "AI NLP Bots", CSS: []string{"chat", "pelan"}, User: u, Data: v})
+	s.renderStatus(w, status, "bot", Page{Title: "NLP Bot " + bot.Name, Description: bot.Desc, Nav: "bots", Crumb: bot.Name, CrumbParent: "AI NLP Bots", CrumbParentURL: "/ai-nlp-bots", CSS: []string{"chat", "pelan"}, User: u, Data: v})
 }
