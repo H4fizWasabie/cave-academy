@@ -48,7 +48,7 @@
         <div class="card__media"><img src="/static/img/{{.Image}}" alt="" width="267" height="127" loading="lazy"></div>
         <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#{{.Icon}}"/></svg><h3>{{.Name}}</h3></div>
         <p class="card__text">{{.Description}}</p>
-        <a class="card__cta" href="{{.WA}}" target="_blank" rel="noopener"><span>{{.Button}}</span> {{template "arrow"}}</a>
+        <a class="card__cta" href="{{.WA}}" target="_blank" rel="noopener"><span>{{.Button}}</span> <svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
       </article>
       {{end}}
     </div>
@@ -57,7 +57,6 @@
   <section id="produk-pilihan" class="produk-picks section">
     <div class="produk-picks__head">
       <h2 class="section-title">Produk Pilihan</h2>
-      <a class="produk-picks__all" href="#senarai-produk">Lihat Semua Produk {{template "arrow"}}</a>
     </div>
     <ul class="pprods" id="senarai-produk">
       {{range .Data.Products}}
@@ -67,7 +66,7 @@
           <span class="pprod__body">
             <span class="pprod__name">{{.Name}}</span>
             <span class="pprod__desc">{{.Description}}</span>
-            <span class="sr-only">Tanya di WhatsApp (tab baharu)</span>
+            <span class="pprod__cta"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>Tanya di WhatsApp<span class="sr-only"> (tab baharu)</span></span>
           </span>
         </a>
       </li>
@@ -92,7 +91,7 @@
     <svg class="icon cta-banner__icon" aria-hidden="true"><use href="#i-laptop"/></svg>
     <h2 class="cta-banner__title">Terokai Koleksi Produk Digital</h2>
     <p class="cta-banner__text">Dapatkan management game, workbook, eBook dan bahan latihan digital terbaik untuk anda dan organisasi.</p>
-    <a class="btn btn--navy" href="#senarai-produk">Lihat Semua Produk {{template "arrow"}}</a>
+    <a class="btn btn--navy" href="{{.Data.WA}}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg>Tanya di WhatsApp</a>
   </div>
 </section>
 {{end}}

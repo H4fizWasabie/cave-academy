@@ -51,7 +51,7 @@
       </li>
       {{end}}
     </ul>
-    <a class="btn btn--outline btn--sm corp-all" href="#rfq">Lihat Semua Program Latihan {{template "arrow"}}</a>
+    <a class="btn btn--outline btn--sm corp-all" href="#rfq">Mohon Sebut Harga {{template "arrow"}}</a>
   </section>
 
   <section class="corp-process section" aria-labelledby="process-title">
@@ -88,28 +88,29 @@
     <p class="rfq__intro">Isi butiran di bawah dan kami akan menghubungi anda dengan cadangan program dan sebut harga.</p>
     {{if $e}}<p class="rfq__summary" role="alert">{{with $e.form}}{{.}}{{else}}Sila semak ruangan yang bertanda di bawah.{{end}}</p>{{end}}
     <form class="rfq__form" method="post" action="/corporate-training#rfq">
+      <p class="rfq__note rfq__field--wide"><span class="req" aria-hidden="true">*</span> Wajib diisi</p>
       <div class="rfq__field">
-        <label for="f-organisation">Nama organisasi</label>
+        <label for="f-organisation">Nama organisasi <span class="req" aria-hidden="true">*</span></label>
         <input id="f-organisation" name="organisation" type="text" required maxlength="200" autocomplete="organization" value="{{.Data.Form.Organisation}}"{{if $e.organisation}} aria-invalid="true"{{end}}>
         {{template "rfq-error" $e.organisation}}
       </div>
       <div class="rfq__field">
-        <label for="f-contact">Nama untuk dihubungi</label>
+        <label for="f-contact">Nama untuk dihubungi <span class="req" aria-hidden="true">*</span></label>
         <input id="f-contact" name="contact_name" type="text" required maxlength="200" autocomplete="name" value="{{.Data.Form.ContactName}}"{{if $e.contact_name}} aria-invalid="true"{{end}}>
         {{template "rfq-error" $e.contact_name}}
       </div>
       <div class="rfq__field">
-        <label for="f-email">E-mel</label>
+        <label for="f-email">E-mel <span class="req" aria-hidden="true">*</span></label>
         <input id="f-email" name="email" type="email" required maxlength="200" autocomplete="email" value="{{.Data.Form.Email}}"{{if $e.email}} aria-invalid="true"{{end}}>
         {{template "rfq-error" $e.email}}
       </div>
       <div class="rfq__field">
-        <label for="f-phone">Nombor telefon</label>
+        <label for="f-phone">Nombor telefon <span class="req" aria-hidden="true">*</span></label>
         <input id="f-phone" name="phone" type="tel" required maxlength="30" autocomplete="tel" value="{{.Data.Form.Phone}}"{{if $e.phone}} aria-invalid="true"{{end}}>
         {{template "rfq-error" $e.phone}}
       </div>
       <div class="rfq__field">
-        <label for="f-area">Bidang latihan</label>
+        <label for="f-area">Bidang latihan <span class="req" aria-hidden="true">*</span></label>
         {{$sel := .Data.Form.TrainingArea}}
         <select id="f-area" name="training_area" required{{if $e.training_area}} aria-invalid="true"{{end}}>
           <option value="">Pilih bidang latihan</option>
@@ -125,7 +126,7 @@
       </div>
       <div class="rfq__field">
         <label for="f-date">Tarikh pilihan</label>
-        <input id="f-date" name="preferred_date" type="date" value="{{.Data.Form.PreferredDate}}"{{if $e.preferred_date}} aria-invalid="true"{{end}}>
+        <input id="f-date" name="preferred_date" type="date" min="{{.Data.Today}}" value="{{.Data.Form.PreferredDate}}"{{if $e.preferred_date}} aria-invalid="true"{{end}}>
         {{template "rfq-error" $e.preferred_date}}
       </div>
       <div class="rfq__field rfq__field--wide">

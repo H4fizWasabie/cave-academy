@@ -41,6 +41,7 @@ type corporateData struct {
 	Form   rfqForm
 	Errors map[string]string // field name -> Malay message
 	Sent   bool
+	Today  string // YYYY-MM-DD in Kuala Lumpur: the earliest preferred date
 }
 
 func (s *Server) corporate(w http.ResponseWriter, r *http.Request) {
@@ -57,6 +58,7 @@ func (s *Server) corporate(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) renderCorporate(w http.ResponseWriter, status int, d corporateData) {
 	d.Areas, d.Other = trainingAreas, areaOther
+	d.Today = s.now().In(klZone).Format("2006-01-02")
 	s.renderStatus(w, status, "corporate", Page{
 		Title: "Corporate Training & RFQ", Description: "Mohon program latihan korporat untuk organisasi, jabatan dan agensi. Hantar RFQ dan kami akan hubungi anda.", Nav: "program", Crumb: "Corporate Training",
 		CSS: []string{"corporate"}, Data: d,
@@ -83,7 +85,7 @@ func (s *Server) submitRFQ(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/corporate-training?terima-kasih=1#rfq", http.StatusSeeOther)
 		return
 	}
-	errs, participants := f.validate()
+	errs, participants := f.validate(s.now().In(klZone).Format("2006-01-02"))
 	if len(errs) > 0 {
 		s.renderCorporate(w, http.StatusUnprocessableEntity, corporateData{Form: f, Errors: errs})
 		return
@@ -110,8 +112,8 @@ func (s *Server) submitRFQ(w http.ResponseWriter, r *http.Request) {
 func oneLine(s string) string { return strings.Join(strings.Fields(s), " ") }
 
 // validate returns a Malay message per invalid field (keyed by form field
-// name) and the parsed participant count (0 when left empty).
-func (f rfqForm) validate() (errs map[string]string, participants int) {
+// name; today is YYYY-MM-DD) and the parsed participant count (0 when left empty).
+func (f rfqForm) validate(today string) (errs map[string]string, participants int) {
 	errs = map[string]string{}
 	long := func(field, v string, max int) {
 		if utf8.RuneCountInString(v) > max {
@@ -153,6 +155,8 @@ func (f rfqForm) validate() (errs map[string]string, participants int) {
 	if f.PreferredDate != "" {
 		if _, err := time.Parse("2006-01-02", f.PreferredDate); err != nil {
 			errs["preferred_date"] = "Tarikh tidak sah."
+		} else if f.PreferredDate < today {
+			errs["preferred_date"] = "Tarikh pilihan tidak boleh pada masa lalu."
 		}
 	}
 	if utf8.RuneCountInString(f.Notes) > 2000 {

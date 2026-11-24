@@ -61,7 +61,7 @@
           <ul class="nav__sub">
             <li><a href="/corporate-training">Corporate Training &amp; RFQ</a></li>
             <li><a href="/trainer-panel">Trainer Panel</a></li>
-            <li><a href="/trainer">Cave Trainer</a></li>
+            {{if .HasTrainers}}<li><a href="/trainer">Cave Trainer</a></li>{{end}}
           </ul>
         </li>
         <li class="has-sub">
@@ -81,9 +81,9 @@
     </nav>
 
     <div class="header__actions">
-      <a class="icon-btn icon-btn--wa" href="https://wa.me/60123947200" aria-label="WhatsApp Chat"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+      <a class="icon-btn icon-btn--wa" href="https://wa.me/60123947200" target="_blank" rel="noopener" aria-label="WhatsApp Chat"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
       <a class="btn btn--outline btn--sm" href="/hubungi-kami"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg><span>Hubungi Kami</span></a>
-      <a class="btn btn--wa btn--sm" href="https://wa.me/60123947200"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg><span>WhatsApp Chat</span></a>
+      <a class="btn btn--wa btn--sm" href="https://wa.me/60123947200" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg><span>WhatsApp Chat</span></a>
       <button class="burger" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
         <svg class="icon icon--menu" aria-hidden="true"><use href="#i-menu"/></svg>
         <svg class="icon icon--close" aria-hidden="true"><use href="#i-close"/></svg>
@@ -110,7 +110,7 @@
     <div>
       <h2 class="footer__title">Hubungi Kami</h2>
       <ul class="footer__list">
-        <li><a href="https://wa.me/60123947200">012-394 7200</a></li>
+        <li><a href="https://wa.me/60123947200" target="_blank" rel="noopener">012-394 7200</a></li>
         <li><a href="mailto:adam.caveconsult@gmail.com">adam.caveconsult@gmail.com</a></li>
       </ul>
     </div>

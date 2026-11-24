@@ -20,8 +20,7 @@ func TestBotsLandingHasKeyContent(t *testing.T) {
 		"NLP Bot</span> Educators", "NLP Bot</span> Sales &amp; Marketing", "NLP Bot</span> HR &amp; People Management",
 		`href="/ai-nlp-bots/educators"`, `href="/ai-nlp-bots/sales-marketing"`, `href="/ai-nlp-bots/hr"`,
 		"3 soalan sehari", `href="/daftar"`,
-		"Bagaimana Ia Membantu Anda?", "Produktiviti", "Langgan Sekarang", "AI NLP Bots The Cave Academy",
-		"Lihat Pelan Langganan", `href="/pelan"`,
+		"Bagaimana Ia Membantu Anda?", "Produktiviti", "Cuba AI NLP Bots", "Daftar Akaun Percuma", `href="/daftar?next=/ai-nlp-bots"`,
 	} {
 		if !strings.Contains(body, want) {
 			t.Errorf("bots landing missing %q", want)

@@ -55,7 +55,12 @@
     }
     row.appendChild(body);
     log.appendChild(row);
-    log.scrollTop = log.scrollHeight;
+    if (kind === 'assistant' && text !== null) {
+      // A reply: show its top, so the reader starts at the first line.
+      log.scrollTop += row.getBoundingClientRect().top - log.getBoundingClientRect().top;
+    } else {
+      log.scrollTop = log.scrollHeight;
+    }
     return row;
   }
 
@@ -74,9 +79,10 @@
     chips.addEventListener('click', function (e) {
       var b = e.target.closest('[data-example]');
       if (!b) return;
+      if (busy || send.disabled) return;
       input.value = b.textContent;
       grow();
-      input.focus();
+      form.requestSubmit();
     });
   }
 

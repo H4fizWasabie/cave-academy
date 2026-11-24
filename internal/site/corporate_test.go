@@ -27,7 +27,7 @@ func validRFQ() url.Values {
 		"phone":          {"012-345 6789"},
 		"training_area":  {"Pembangunan Pasukan"},
 		"participants":   {"25"},
-		"preferred_date": {"2026-12-15"},
+		"preferred_date": {"2099-12-15"},
 		"notes":          {"Latihan dua hari di Kuala Lumpur."},
 	}
 }
@@ -87,11 +87,11 @@ func TestRFQSubmitSavesAndEmailsAdmin(t *testing.T) {
 	if err != nil {
 		t.Fatalf("no saved row: %v", err)
 	}
-	if org != "Syarikat Maju Sdn Bhd" || email != "aisyah@maju.example" || area != "Pembangunan Pasukan" || participants != 25 || date != "2026-12-15" {
+	if org != "Syarikat Maju Sdn Bhd" || email != "aisyah@maju.example" || area != "Pembangunan Pasukan" || participants != 25 || date != "2099-12-15" {
 		t.Errorf("saved row = %q %q %q %d %q", org, email, area, participants, date)
 	}
 	mail := out.String()
-	for _, want := range []string{"To: admin@example.com", "Syarikat Maju Sdn Bhd", "Aisyah Rahman", "aisyah@maju.example", "012-345 6789", "Pembangunan Pasukan", "25", "2026-12-15", "Latihan dua hari"} {
+	for _, want := range []string{"To: admin@example.com", "Syarikat Maju Sdn Bhd", "Aisyah Rahman", "aisyah@maju.example", "012-345 6789", "Pembangunan Pasukan", "25", "2099-12-15", "Latihan dua hari"} {
 		if !strings.Contains(mail, want) {
 			t.Errorf("admin email missing %q:\n%s", want, mail)
 		}
@@ -115,6 +115,7 @@ func TestRFQInvalidSubmitRerendersFormWithMalayErrors(t *testing.T) {
 		{"zero participants", "participants", "0", "Bilangan peserta mesti nombor 1 atau lebih."},
 		{"text participants", "participants", "ramai", "Bilangan peserta mesti nombor 1 atau lebih."},
 		{"bad date", "preferred_date", "15/12/2026", "Tarikh tidak sah."},
+		{"past date", "preferred_date", "2020-01-01", "Tarikh pilihan tidak boleh pada masa lalu."},
 		{"long notes", "notes", strings.Repeat("a", 2001), "Catatan terlalu panjang"},
 	}
 	for _, c := range cases {
@@ -150,7 +151,7 @@ func TestRFQInvalidSubmitKeepsValues(t *testing.T) {
 
 	for _, want := range []string{
 		`value="Syarikat Maju Sdn Bhd"`, `value="Aisyah Rahman"`, `value="salah"`, `value="012-345 6789"`,
-		`value="Pembangunan Pasukan" selected`, `value="25"`, `value="2026-12-15"`,
+		`value="Pembangunan Pasukan" selected`, `value="25"`, `value="2099-12-15"`,
 		`Nota &lt;b&gt;penting&lt;/b&gt; &amp; &#34;khas&#34;`,
 	} {
 		if !strings.Contains(body, want) {
