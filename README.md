@@ -1,6 +1,6 @@
 # The Cave Academy
 
-Website for The Cave Academy (caveacademy.my): marketing pages, accounts, and the AI NLP Bots chat. Spec: `docs/spec.md`.
+Website for The Cave Academy (thecaveacademy.com): marketing pages, accounts, and the AI NLP Bots chat. Spec: `docs/spec.md`.
 
 ## Run locally
 
@@ -49,4 +49,4 @@ deploy/production.sh            # from a clean checkout at origin/main's HEAD
 deploy/production.sh rollback   # previous binary
 ```
 
-Runs the tests, builds, installs on the VPS behind Caddy at https://caveacademy.my/ and checks it; a failed smoke test rolls back. Daily SQLite backups run from a systemd timer. One-time setup (DNS, Brevo, env file, first admin), backups, restore and the pre-launch checklist: `docs/deploy.md`.
+Runs the tests, builds, installs on the VPS behind Caddy at https://thecaveacademy.com/ and checks it; a failed smoke test rolls back. Daily SQLite backups run from a systemd timer. One-time setup (DNS, Brevo, env file, first admin), backups, restore and the pre-launch checklist: `docs/deploy.md`.

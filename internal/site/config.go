@@ -31,7 +31,7 @@ func ConfigFromEnv() Config {
 	appEnv := env("APP_ENV", "development")
 	baseURL := os.Getenv("BASE_URL")
 	if baseURL == "" && appEnv != "production" {
-		baseURL = "https://caveacademy.my" // production must set it: Validate refuses an empty one
+		baseURL = "https://thecaveacademy.com" // production must set it: Validate refuses an empty one
 	}
 	capN, _ := strconv.Atoi(os.Getenv("CHAT_DAILY_CAP"))
 	if capN <= 0 {
@@ -45,7 +45,7 @@ func ConfigFromEnv() Config {
 		OpenRouterKey:   os.Getenv("OPENROUTER_API_KEY"),
 		OpenRouterModel: env("OPENROUTER_MODEL", "openai/gpt-6-luna"),
 		BrevoKey:        os.Getenv("BREVO_API_KEY"),
-		MailFrom:        env("MAIL_FROM", "The Cave Academy <noreply@caveacademy.my>"),
+		MailFrom:        env("MAIL_FROM", "The Cave Academy <noreply@thecaveacademy.com>"),
 		AdminEmail:      env("ADMIN_EMAIL", "adam.caveconsult@gmail.com"),
 		BaseURL:         strings.TrimRight(baseURL, "/"),
 		IntroVideoURL:   os.Getenv("INTRO_VIDEO_URL"),

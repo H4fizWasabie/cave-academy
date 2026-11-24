@@ -52,7 +52,7 @@ func TestRobotsTxt(t *testing.T) {
 	if code != http.StatusOK {
 		t.Fatalf("code = %d", code)
 	}
-	for _, want := range []string{"User-agent: *", "Allow: /", "Disallow: /admin", "Disallow: /log-keluar", "Sitemap: https://caveacademy.my/sitemap.xml"} {
+	for _, want := range []string{"User-agent: *", "Allow: /", "Disallow: /admin", "Disallow: /log-keluar", "Sitemap: https://thecaveacademy.com/sitemap.xml"} {
 		if !strings.Contains(body, want) {
 			t.Errorf("robots.txt missing %q:\n%s", want, body)
 		}
@@ -91,9 +91,9 @@ func TestPageMetaTags(t *testing.T) {
 	_, body := get(t, s, "/tentang-kami")
 	for _, want := range []string{
 		`<meta name="description" content="The Cave Academy ialah`,
-		`<link rel="canonical" href="https://caveacademy.my/tentang-kami">`,
-		`<meta property="og:url" content="https://caveacademy.my/tentang-kami">`,
-		`<meta property="og:image" content="https://caveacademy.my/static/img/og-image.jpg">`,
+		`<link rel="canonical" href="https://thecaveacademy.com/tentang-kami">`,
+		`<meta property="og:url" content="https://thecaveacademy.com/tentang-kami">`,
+		`<meta property="og:image" content="https://thecaveacademy.com/static/img/og-image.jpg">`,
 		`<meta property="og:title" content="Tentang Kami | The Cave Academy">`,
 		`<meta name="twitter:card" content="summary_large_image">`,
 		`<meta name="theme-color" content="#0f1a3c">`,

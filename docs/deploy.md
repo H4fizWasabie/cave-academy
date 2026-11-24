@@ -1,6 +1,6 @@
 # Deploy runbook
 
-Production is https://caveacademy.my/, on the same VPS as cave LMS (ssh host `vps`, root): one Go binary `/usr/local/bin/cave-academy` under systemd (`cave-academy`, port 8097), Caddy in front, SQLite at `/var/lib/cave-academy/cave-academy.db`. Staging is separate (`deploy/staging.sh`, see README).
+Production is https://thecaveacademy.com/, on the same VPS as cave LMS (ssh host `vps`, root): one Go binary `/usr/local/bin/cave-academy` under systemd (`cave-academy`, port 8097), Caddy in front, SQLite at `/var/lib/cave-academy/cave-academy.db`. Staging is separate (`deploy/staging.sh`, see README).
 
 | What | Where |
 | --- | --- |
@@ -13,8 +13,8 @@ Production is https://caveacademy.my/, on the same VPS as cave LMS (ssh host `vp
 
 ## One-time setup
 
-1. **DNS.** A records for `caveacademy.my` and `www.caveacademy.my` to `13.140.65.183`, at whoever hosts the DNS. In Cloudflare set them to DNS only (grey cloud): Caddy gets its certificates from Let's Encrypt and needs to reach the VPS directly. Do this before the first deploy; without it Caddy cannot get a certificate and the smoke test fails.
-2. **Brevo domain authentication** (so mail from `noreply@caveacademy.my` is not marked as spam). In Brevo, Senders, Domains & Dedicated IPs, add `caveacademy.my` and create the records it shows: the `brevo-code` TXT, the two DKIM CNAMEs (`brevo1._domainkey`, `brevo2._domainkey`) and the DMARC TXT, with the proxy off (DNS only). Click Authenticate until it is green. Create a transactional API key (Settings, SMTP & API) for `BREVO_API_KEY`.
+1. **DNS.** A records for `thecaveacademy.com` and `www.thecaveacademy.com` to `13.140.65.183`, at whoever hosts the DNS. In Cloudflare set them to DNS only (grey cloud): Caddy gets its certificates from Let's Encrypt and needs to reach the VPS directly. Do this before the first deploy; without it Caddy cannot get a certificate and the smoke test fails.
+2. **Brevo domain authentication** (so mail from `noreply@thecaveacademy.com` is not marked as spam). In Brevo, Senders, Domains & Dedicated IPs, add `thecaveacademy.com` and create the records it shows: the `brevo-code` TXT, the two DKIM CNAMEs (`brevo1._domainkey`, `brevo2._domainkey`) and the DMARC TXT, with the proxy off (DNS only). Click Authenticate until it is green. Create a transactional API key (Settings, SMTP & API) for `BREVO_API_KEY`.
 3. **`sqlite3` and `restic`** are already on the VPS (`which sqlite3 restic`); nothing to install.
 4. **Env file.** The first `deploy/production.sh` creates `/etc/cave-academy/env` (mode 600), prints a reminder and stops. Edit it on the VPS (`ssh vps`, `nano /etc/cave-academy/env`) and fill in:
 
@@ -23,9 +23,9 @@ Production is https://caveacademy.my/, on the same VPS as cave LMS (ssh host `vp
    | `OPENROUTER_API_KEY` | from openrouter.ai, required |
    | `OPENROUTER_MODEL` | model id, e.g. `openai/gpt-6-luna` |
    | `BREVO_API_KEY` | the Brevo key from step 2, required (empty means email only goes to the log) |
-   | `MAIL_FROM` | `The Cave Academy <noreply@caveacademy.my>` |
+   | `MAIL_FROM` | `The Cave Academy <noreply@thecaveacademy.com>` |
    | `ADMIN_EMAIL` | receives form submissions |
-   | `BASE_URL` | `https://caveacademy.my`, required |
+   | `BASE_URL` | `https://thecaveacademy.com`, required |
    | `BCL_WEBHOOK_KEY` | optional: a random key of at least 32 characters (`openssl rand -hex 24`) for paid tiers; see BCL checkout below |
    | `BCL_API_TOKEN` | optional: BCL API token; set together with `BCL_WEBHOOK_KEY` |
 
@@ -48,7 +48,7 @@ git checkout main && git pull --ff-only
 deploy/production.sh
 ```
 
-It refuses a dirty tree and anything that is not `origin/main`'s HEAD, runs `./test.sh`, builds a linux/amd64 binary, keeps the old one as `cave-academy.prev`, installs the binary, systemd units and Caddy site, validates Caddy before reloading it, then checks `https://caveacademy.my/` and `/static/css/base.css` for 200. If the install or the smoke test fails it puts `.prev` back and exits non-zero. On success it writes the commit to `/var/lib/cave-academy/deployed`.
+It refuses a dirty tree and anything that is not `origin/main`'s HEAD, runs `./test.sh`, builds a linux/amd64 binary, keeps the old one as `cave-academy.prev`, installs the binary, systemd units and Caddy site, validates Caddy before reloading it, then checks `https://thecaveacademy.com/` and `/static/css/base.css` for 200. If the install or the smoke test fails it puts `.prev` back and exits non-zero. On success it writes the commit to `/var/lib/cave-academy/deployed`.
 
 Deploy to staging first (`deploy/staging.sh`) when a change needs a real run.
 
@@ -101,7 +101,7 @@ From restic instead: `restic -r /var/backups/cave-lms/restic restore latest --pa
 Plans are created at `/admin/pelan`, each with the address of its BCL payment form (`https://<merchant>.bcl.my/form/<slug>`). Set it up once:
 
 1. In BCL, Platform Setup > Integrations > Developer, create an API token with Read access, named for this site. Put it in `/etc/cave-academy/env` as `BCL_API_TOKEN`, and a random key (`openssl rand -hex 24`, at least 32 characters) as `BCL_WEBHOOK_KEY`. Set both or neither: the app refuses to start with only one. `systemctl restart cave-academy`.
-2. In BCL, open each plan's payment form, Advanced > Webhook Settings, set the webhook address to `https://caveacademy.my/bcl/webhook/<BCL_WEBHOOK_KEY>` and turn on the Payment Success event.
+2. In BCL, open each plan's payment form, Advanced > Webhook Settings, set the webhook address to `https://thecaveacademy.com/bcl/webhook/<BCL_WEBHOOK_KEY>` and turn on the Payment Success event.
 3. Make the form's price equal to the plan's price. The app grants only when BCL says the order is successful, paid and live and the amount paid before BCL's fee (less any coupon) is at least the plan's price.
 
 BCL signs no webhook, so the key in the address is the only thing keeping strangers from calling it; the order itself is always read back from BCL's API. Payers must use the same email as their account. Paid orders that gave nothing (no account with that email yet, a BCL form that is no plan, too little paid) wait under "Bayaran BCL belum dipadankan" on `/admin/pelan` for an admin to grant by hand once they have checked it in BCL. An order BCL does not know or has not settled, or BCL being unreachable, makes the webhook answer 500 so BCL retries; a refused token fails every order the same way, so `journalctl -u cave-academy | grep 'BCL API token refused'` means replace `BCL_API_TOKEN`. The app's access log writes the webhook address as `/bcl/webhook/…`; Caddy's own access log, if you turn it on for this site, would show the key. Rotate the key by changing it in the env file and in each BCL form.
@@ -112,12 +112,12 @@ Edit `/etc/cave-academy/env` on the VPS, then `systemctl restart cave-academy`. 
 
 ## Pre-launch checklist
 
-- [ ] DNS: `dig +short caveacademy.my www.caveacademy.my` both give `13.140.65.183`, not proxied.
-- [ ] Brevo: `caveacademy.my` shows Authenticated (DKIM, DMARC); `BREVO_API_KEY` is set in the env file.
-- [ ] Env file has the six required keys (the two BCL keys are optional); `BASE_URL=https://caveacademy.my`.
-- [ ] `deploy/production.sh` ends with `production: https://caveacademy.my at <commit>`; `https://www.caveacademy.my/` redirects to the apex.
+- [ ] DNS: `dig +short thecaveacademy.com www.thecaveacademy.com` both give `13.140.65.183`, not proxied.
+- [ ] Brevo: `thecaveacademy.com` shows Authenticated (DKIM, DMARC); `BREVO_API_KEY` is set in the env file.
+- [ ] Env file has the six required keys (the two BCL keys are optional); `BASE_URL=https://thecaveacademy.com`.
+- [ ] `deploy/production.sh` ends with `production: https://thecaveacademy.com at <commit>`; `https://www.thecaveacademy.com/` redirects to the apex.
 - [ ] `ssh vps cat /var/lib/cave-academy/deployed` equals `git rev-parse origin/main`.
-- [ ] Sign up with a real address: the mail arrives (inbox, not spam), the link uses `https://caveacademy.my`.
+- [ ] Sign up with a real address: the mail arrives (inbox, not spam), the link uses `https://thecaveacademy.com`.
 - [ ] First admin created with `make-admin`; admin pages load.
 - [ ] Submit the contact and RFQ forms: `ADMIN_EMAIL` receives both.
 - [ ] Chat with each bot once: replies come from the real model, not the "not configured" message.

@@ -8,7 +8,7 @@ func TestConfigDefaults(t *testing.T) {
 	}
 	c := ConfigFromEnv()
 	if c.Addr != ":8080" || c.DBPath != "cave-academy.db" || c.OpenRouterModel != "openai/gpt-6-luna" ||
-		c.MailFrom != "The Cave Academy <noreply@caveacademy.my>" || c.AdminEmail != "adam.caveconsult@gmail.com" ||
+		c.MailFrom != "The Cave Academy <noreply@thecaveacademy.com>" || c.AdminEmail != "adam.caveconsult@gmail.com" ||
 		c.OpenRouterKey != "" || c.BrevoKey != "" {
 		t.Errorf("defaults = %+v", c)
 	}
@@ -25,7 +25,7 @@ func TestConfigFromEnv(t *testing.T) {
 
 func TestConfigBaseURL(t *testing.T) {
 	t.Setenv("BASE_URL", "")
-	if c := ConfigFromEnv(); c.BaseURL != "https://caveacademy.my" {
+	if c := ConfigFromEnv(); c.BaseURL != "https://thecaveacademy.com" {
 		t.Errorf("default BaseURL = %q", c.BaseURL)
 	}
 	t.Setenv("BASE_URL", "http://localhost:8080")

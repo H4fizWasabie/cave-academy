@@ -1,5 +1,5 @@
 # Installed to /etc/caddy/sites/ by deploy/staging.sh.
-# ponytail: sslip.io hostname until caveacademy.my has DNS; then switch to staging.caveacademy.my.
+# ponytail: sslip.io hostname until thecaveacademy.com has DNS; then switch to staging.thecaveacademy.com.
 cave-academy.13-140-65-183.sslip.io {
 	bind 13.140.65.183
 	header {

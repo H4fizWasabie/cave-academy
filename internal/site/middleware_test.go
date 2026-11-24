@@ -362,7 +362,7 @@ func TestChatCapDefaultsTo2000(t *testing.T) {
 }
 
 func TestProductionConfigValidation(t *testing.T) {
-	ok := Config{Env: "production", OpenRouterKey: "k", BrevoKey: "b", BaseURL: "https://caveacademy.my", MailFrom: "The Cave Academy <noreply@caveacademy.my>"}
+	ok := Config{Env: "production", OpenRouterKey: "k", BrevoKey: "b", BaseURL: "https://thecaveacademy.com", MailFrom: "The Cave Academy <noreply@thecaveacademy.com>"}
 	if err := ok.Validate(); err != nil {
 		t.Fatalf("valid production config refused: %v", err)
 	}
@@ -391,7 +391,7 @@ func TestConfigEnvFromEnvironment(t *testing.T) {
 	for _, k := range []string{"APP_ENV", "BASE_URL", "OPENROUTER_API_KEY", "BREVO_API_KEY", "MAIL_FROM"} {
 		t.Setenv(k, "")
 	}
-	if c := ConfigFromEnv(); c.Env != "development" || c.BaseURL != "https://caveacademy.my" || c.Validate() != nil {
+	if c := ConfigFromEnv(); c.Env != "development" || c.BaseURL != "https://thecaveacademy.com" || c.Validate() != nil {
 		t.Errorf("development defaults = %+v", c)
 	}
 	t.Setenv("APP_ENV", "production")

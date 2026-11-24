@@ -6,7 +6,7 @@ No client assets exist yet. Every image here is cropped from the mockups in
 
 | File | Source mockup | Use |
 | --- | --- | --- |
-| `logo.png` | home-desktop (CAVE badge on the wall), circular, transparent corners | header, footer, favicon |
+| `logo.png`, `favicon.png`, `apple-touch-icon.png`, `og-image.jpg` | client logo file (no longer a placeholder), white badge, transparent corners | header, footer, favicons, social preview |
 | `hero.jpg` | home-desktop hero, right side | home hero (man + wall badge) |
 | `solution-corporate.jpg`, `solution-bots.jpg`, `solution-products.jpg` | home-desktop solution cards | home cards |
 | `bot-educators.jpg`, `bot-sales-marketing.jpg`, `bot-hr.jpg` | bots-desktop bot cards | AI NLP Bots cards |

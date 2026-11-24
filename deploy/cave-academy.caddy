@@ -1,6 +1,6 @@
 # Installed to /etc/caddy/sites/ by deploy/production.sh. DNS: A records for the apex and www at the VPS before the first
 # deploy, or Caddy cannot get its certificates (docs/deploy.md, One-time setup).
-caveacademy.my {
+thecaveacademy.com {
 	bind 13.140.65.183
 	header {
 		Strict-Transport-Security "max-age=31536000"
@@ -11,7 +11,7 @@ caveacademy.my {
 	reverse_proxy 127.0.0.1:8097
 }
 
-www.caveacademy.my {
+www.thecaveacademy.com {
 	bind 13.140.65.183
-	redir https://caveacademy.my{uri} 308
+	redir https://thecaveacademy.com{uri} 308
 }
