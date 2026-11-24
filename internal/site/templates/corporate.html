@@ -12,10 +12,6 @@
 {{template "corp-icons"}}
 {{$e := .Data.Errors}}
 <section class="hero corp-hero">
-  <picture>
-    <source media="(min-width: 640px)" srcset="/static/img/corp-hero-d.jpg" width="705" height="271">
-    <img class="hero__img" src="/static/img/corp-hero-m.jpg" alt="Jurulatih The Cave Academy di bilik latihan" width="361" height="334">
-  </picture>
   <div class="container hero__inner">
     <div class="hero__text">
       {{template "breadcrumb" .}}
@@ -29,10 +25,14 @@
       </div>
     </div>
   </div>
+  <picture>
+    <source media="(min-width: 640px)" srcset="/static/img/corp-hero-d.jpg" width="705" height="271">
+    <img class="hero__img" src="/static/img/corp-hero-m.jpg" alt="Jurulatih The Cave Academy di bilik latihan" width="361" height="334">
+  </picture>
 </section>
 
-<section class="container corp-wrap">
-  <ul class="features corp-features">
+<section class="container">
+  <ul class="features">
     <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg><span><b>Trainer</b> <br>Profesional</span></li>
     <li class="feature"><svg class="icon" aria-hidden="true"><use href="#c-target"/></svg><span><b>Kandungan</b> <br>Praktikal &amp; Relevan</span></li>
     <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><span><b>Boleh Disesuaikan</b> <br>(Customized)</span></li>
@@ -40,8 +40,8 @@
   </ul>
 </section>
 
-<div class="container corp-wrap corp-cols">
-  <section class="corp-areas" aria-labelledby="areas-title">
+<div class="container">
+  <section class="corp-areas section" aria-labelledby="areas-title">
     <h2 class="section-title" id="areas-title">Bidang Latihan Popular</h2>
     <ul class="areas">
       {{range .Data.Areas}}
@@ -54,7 +54,7 @@
     <a class="btn btn--outline btn--sm corp-all" href="#rfq">Lihat Semua Program Latihan {{template "arrow"}}</a>
   </section>
 
-  <section class="corp-process" aria-labelledby="process-title">
+  <section class="corp-process section" aria-labelledby="process-title">
     <h2 class="section-title" id="process-title">Proses Pelaksanaan Latihan</h2>
     <ol class="steps">
       <li class="step"><svg class="icon" aria-hidden="true"><use href="#c-chat"/></svg><span>1.&nbsp;Perbincangan <br>Keperluan</span></li>
@@ -65,7 +65,7 @@
   </section>
 </div>
 
-<section class="container corp-wrap corp-cta">
+<section class="container section">
   <div class="cta-banner">
     <svg class="icon cta-banner__icon" aria-hidden="true"><use href="#c-clipboard"/></svg>
     <h2 class="cta-banner__title">Mohon Sebut Harga (RFQ)</h2>
@@ -74,7 +74,7 @@
   </div>
 </section>
 
-<section class="container rfq" id="rfq" aria-labelledby="rfq-title">
+<section class="container rfq section" id="rfq" aria-labelledby="rfq-title">
   <div class="rfq__card">
     <h2 class="section-title" id="rfq-title">Borang Permohonan Program / RFQ</h2>
     {{if .Data.Sent}}
