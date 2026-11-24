@@ -12,6 +12,28 @@
 .about__logo { width: 96px; height: 96px; border-radius: 50%; box-shadow: var(--shadow-md); }
 .about__text { display: grid; gap: 12px; max-width: 60em; color: var(--navy-soft); }
 
+/* Tentang: founder */
+.founder { display: grid; gap: 20px; }
+.founder__photo { width: 100%; max-width: 280px; height: auto; border-radius: var(--r-md); box-shadow: var(--shadow-md); }
+.founder__text { display: grid; gap: 12px; align-content: start; max-width: 60em; color: var(--navy-soft); }
+.founder__role { font-weight: 600; color: var(--navy); }
+.founder__creds { display: grid; gap: 8px; }
+.founder__creds li { display: flex; gap: 10px; align-items: flex-start; }
+.founder__creds .icon { width: 20px; height: 20px; margin-top: 2px; color: var(--navy); flex: none; stroke-width: 2.4; }
+.founder__quote { margin: 4px 0 0; padding: 4px 0 4px 16px; border-left: 4px solid var(--gold); font-size: 17px; color: var(--navy); }
+.founder__quote cite { display: block; margin-top: 8px; font: 600 14px var(--font-head); font-style: normal; color: var(--navy-soft); }
+
+/* Tentang: accreditation strip and training gallery */
+.accred {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 16px 32px; padding: 20px;
+  background: var(--paper); border-radius: var(--r-md); box-shadow: var(--shadow-sm);
+}
+.accred__item { display: grid; justify-items: center; align-content: start; gap: 10px; flex: 1 1 200px; max-width: 280px; text-align: center; }
+.accred__item img { height: 64px; width: auto; max-width: 150px; object-fit: contain; }
+.accred__item span { font: 600 14px/1.3 var(--font-head); color: var(--navy); text-wrap: balance; }
+.gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.gallery img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--r-md); box-shadow: var(--shadow-sm); }
+
 /* Trainer: benefit points */
 .benefits { display: grid; gap: 16px; }
 .benefit {
@@ -54,10 +76,16 @@
 .contact__sep { color: var(--navy-soft); }
 
 @media (min-width: 640px) {
+  .gallery { gap: 16px; }
   .about { grid-template-columns: auto 1fr; gap: 24px; }
   .about__logo { width: 120px; height: 120px; }
   .benefits, .form__grid { grid-template-columns: 1fr 1fr; }
   .panel { padding: 28px; }
+}
+
+@media (min-width: 768px) {
+  .founder { grid-template-columns: 280px minmax(0, 1fr); gap: 32px; align-items: start; }
+  .gallery { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (min-width: 1100px) {
