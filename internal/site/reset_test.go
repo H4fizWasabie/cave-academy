@@ -71,7 +71,7 @@ func TestResetLinkWorksOnce(t *testing.T) {
 	token := tokenFrom(t, out)
 
 	rec := request(s, "/reset-kata-laluan?token="+token)
-	if rec.Code != 200 || rec.Header().Get("Referrer-Policy") != "no-referrer" ||
+	if rec.Code != 200 || rec.Header().Get("Referrer-Policy") != "same-origin" ||
 		!strings.Contains(rec.Body.String(), `name="token" value="`+token+`"`) {
 		t.Fatalf("form: %d %q", rec.Code, rec.Header())
 	}
