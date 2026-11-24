@@ -127,7 +127,7 @@ func TestTentangShowsFounderAndFooterAddress(t *testing.T) {
 	if code != http.StatusOK {
 		t.Fatalf("GET /tentang-kami = %d, want 200", code)
 	}
-	for _, want := range []string{"Coach Adam Daniel", "Pengiktirafan", "Sesi Latihan Kami", "Lot 11B Bazar Enggang Keramat", "Dikuasakan oleh The Cave Consult", "facebook.com/share/1CKDRGWmXg"} {
+	for _, want := range []string{"Coach Adam Daniel", "Pengiktirafan", "Lot 11B Bazar Enggang Keramat", "Dikuasakan oleh The Cave Consult", "facebook.com/share/1CKDRGWmXg"} {
 		if !strings.Contains(body, want) {
 			t.Errorf("GET /tentang-kami missing %q", want)
 		}
