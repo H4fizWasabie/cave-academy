@@ -154,6 +154,7 @@ body.nav-locked { overflow: hidden; }
 .nav__sub { padding: 4px 0 6px 16px; }
 .nav__sub a { display: block; padding: 8px 4px; font-size: 15px; color: var(--navy-soft); }
 .icon--chevron { width: 16px; height: 16px; stroke-width: 2.4; }
+.nav .icon--chevron { display: none; } /* mobile menu always shows sub-links, so a chevron would promise a toggle that isn't there */
 
 /* ---------- Breadcrumb ---------- */
 .breadcrumb { display: flex; align-items: center; gap: 8px; padding: 12px 0 8px; font-size: 14px; color: var(--navy); }
@@ -384,6 +385,7 @@ body.nav-locked { overflow: hidden; }
   .nav__list { display: flex; align-items: center; gap: 22px; }
   .nav__list > li { position: relative; }
   .nav__list > li > a { padding: 10px 0; border: 0; font-size: 14px; font-weight: 600; position: relative; }
+  .nav .icon--chevron { display: inline-block; }
   .nav__list a[aria-current="page"] { box-shadow: none; padding-left: 0; }
   .nav__list > li > a[aria-current="page"]::after {
     content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; border-radius: 2px; background: var(--gold-grad);
