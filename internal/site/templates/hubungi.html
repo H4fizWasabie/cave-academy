@@ -1,12 +1,10 @@
 {{define "content"}}
 {{if .Data.Thanks}}<div class="container"><p class="form-thanks" role="status">Terima kasih! Mesej anda telah dihantar. Kami akan menghubungi anda secepat mungkin.</p></div>{{end}}
-<section class="hero hero--plain">
-  <div class="container hero__inner">
+<section class="page-hero">
+  <div class="container">
     {{template "breadcrumb" .}}
-    <div class="hero__text">
-      <h1 class="hero__title">Hubungi <span class="gold">Kami</span></h1>
-      <p class="hero__sub">Ada soalan tentang program, produk atau kerjasama? Hantar mesej atau hubungi kami terus.</p>
-    </div>
+    <h1 class="page-hero__title">Hubungi <span class="gold">Kami</span></h1>
+    <p class="page-hero__lead">Ada soalan tentang program, produk atau kerjasama? Hantar mesej atau hubungi kami terus.</p>
   </div>
 </section>
 

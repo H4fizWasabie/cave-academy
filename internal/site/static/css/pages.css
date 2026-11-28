@@ -1,5 +1,4 @@
 /* Tentang Kami, Hubungi Kami and Trainer Panel. Builds on base.css components. */
-.hero--plain { min-height: 0; }
 
 /* Thank-you notice (shown after a form is submitted) */
 .form-thanks {
@@ -13,10 +12,12 @@
 .about__text { display: grid; gap: 12px; max-width: 60em; color: var(--navy-soft); }
 
 /* Tentang: founder */
-.founder { display: grid; gap: 20px; }
-.founder__photo { width: 100%; max-width: 280px; height: auto; border-radius: var(--r-md); box-shadow: var(--shadow-md); }
+.founder { display: grid; gap: 16px; }
+.founder__id { display: flex; align-items: center; gap: 16px; }
+.founder__id h3 { margin-bottom: 4px; font-size: 20px; }
+.founder__photo { flex: none; width: 104px; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; border-radius: var(--r-md); box-shadow: var(--shadow-md); }
 .founder__text { display: grid; gap: 12px; align-content: start; max-width: 60em; color: var(--navy-soft); }
-.founder__role { font-weight: 600; color: var(--navy); }
+.founder__role { font-size: 15px; font-weight: 600; color: var(--navy); }
 .founder__creds { display: grid; gap: 8px; }
 .founder__creds li { display: flex; gap: 10px; align-items: flex-start; }
 .founder__creds .icon { width: 20px; height: 20px; margin-top: 2px; color: var(--navy); flex: none; stroke-width: 2.4; }
@@ -81,7 +82,11 @@
 }
 
 @media (min-width: 768px) {
-  .founder { grid-template-columns: 280px minmax(0, 1fr); gap: 32px; align-items: start; }
+  .founder { grid-template-columns: 260px minmax(0, 1fr); gap: 16px 32px; grid-template-rows: auto 1fr; align-items: start; }
+  .founder__id { display: contents; }
+  .founder__photo { grid-row: 1 / span 2; width: 100%; }
+  .founder__id > div { grid-column: 2; grid-row: 1; }
+  .founder__text { grid-column: 2; grid-row: 2; }
 }
 
 @media (min-width: 1100px) {

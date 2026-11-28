@@ -1,11 +1,5 @@
-/* Produk Digital page only. Reuses hero, chips, features, cards and cta-banner from base.css.
+/* Produk Digital page only. Reuses page-hero, features, cards and cta-banner from base.css.
    Mobile first; tablet at 640px/768px, desktop at 1100px. */
-
-/* ---------- Hero: text, then the checklist, buttons first on phones ---------- */
-.produk-hero__grid { display: grid; gap: 0; }
-.produk-hero__grid > .hero__actions { order: 2; }
-.produk-hero .chips { order: 3; }
-.produk-hero .hero__img { object-position: 60% 30%; }
 
 .produk-cats, .produk-picks { scroll-margin-top: calc(var(--header-h) + 12px); }
 #senarai-produk { scroll-margin-top: calc(var(--header-h) + 12px); }
@@ -46,12 +40,5 @@
 }
 
 @media (min-width: 1100px) {
-  .produk-hero__grid { grid-template-columns: minmax(0, 470px) minmax(0, 330px); column-gap: 28px; align-items: start; }
-  .produk-hero__grid > .hero__actions { order: 0; grid-column: 1; }
-  .produk-hero__grid > .hero__text { grid-column: 1; }
-  .produk-hero .chips { grid-column: 2; grid-row: 1 / span 2; margin-top: 8px; }
-  .produk-hero .hero__text { border-left: 4px solid var(--gold); padding-left: 18px; }
-  .produk-hero .hero__title { border-left: 0; padding-left: 0; max-width: none; }
-  .produk-hero .hero__img { width: 46%; object-position: 60% 20%; }
   .pprods li { flex-basis: calc((100% - 4 * 16px) / 5); }
 }

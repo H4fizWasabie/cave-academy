@@ -1,16 +1,10 @@
 {{define "content"}}
-<section class="hero">
-  <div class="container hero__inner">
+<section class="page-hero">
+  <div class="container">
     {{template "breadcrumb" .}}
-    <div class="hero__text">
-      <h1 class="hero__title">Tentang <span class="gold">The Cave Academy</span></h1>
-      <p class="hero__sub">Empower Minds. Shape Leaders. Kami membantu individu, pasukan dan organisasi membina kompetensi melalui AI, NLP dan pengalaman praktikal.</p>
-    </div>
+    <h1 class="page-hero__title">Tentang <span class="gold">The Cave Academy</span></h1>
+    <p class="page-hero__lead">Empower Minds. Shape Leaders. Kami membantu individu, pasukan dan organisasi membina kompetensi melalui AI, NLP dan pengalaman praktikal.</p>
   </div>
-  <picture>
-    <source media="(min-width: 1100px)" srcset="/static/img/hero.jpg" width="710" height="248">
-    <img class="hero__img" src="/static/img/home-hero-phone.jpg" alt="Jurulatih The Cave Academy di lobi pejabat" width="409" height="420">
-  </picture>
 </section>
 
 <section class="container section">
@@ -28,10 +22,14 @@
 <section class="container section" aria-labelledby="pengasas-title">
   <h2 class="section-title" id="pengasas-title">Pengasas &amp; Jurulatih Utama</h2>
   <div class="founder">
-    <img class="founder__photo" src="/static/img/coach-adam.jpg" alt="Coach Adam Daniel berucap di podium" width="480" height="600" loading="lazy">
+    <div class="founder__id">
+      <img class="founder__photo" src="/static/img/coach-adam.jpg" alt="Coach Adam Daniel berucap di podium" width="480" height="600" loading="lazy">
+      <div>
+        <h3>Coach Adam Daniel</h3>
+        <p class="founder__role">Strategic Intelligence Architect, Pengasas &amp; Ketua Perunding The Cave Consult</p>
+      </div>
+    </div>
     <div class="founder__text">
-      <h3>Coach Adam Daniel</h3>
-      <p class="founder__role">Strategic Intelligence Architect, Pengasas &amp; Ketua Perunding The Cave Consult</p>
       <p>Jurulatih NLP Bertauliah dan Jurulatih Hipnoterapi Bertauliah dengan lebih 25 tahun pengalaman dalam keusahawanan, pengurusan perniagaan dan kepimpinan.</p>
       <ul class="founder__creds">
         <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Executive Master in Business Management (Kepujian), UMPSA</li>

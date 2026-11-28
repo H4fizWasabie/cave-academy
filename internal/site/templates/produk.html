@@ -6,37 +6,16 @@
   <symbol id="i-ebook" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 19h3"/><path d="M9 9.5l3-3 3 3" class="sa"/></symbol>
 </svg>
 
-<section class="hero produk-hero">
-  <div class="container hero__inner">
+<section class="page-hero">
+  <div class="container">
     {{template "breadcrumb" .}}
-    <div class="produk-hero__grid">
-      <div class="hero__text">
-        <h1 class="hero__title">Produk <span class="gold">Digital</span></h1>
-        <p class="hero__sub">Management game, workbook, eBook dan bahan latihan digital untuk pembelajaran berterusan, praktikal dan berimpak.</p>
-      </div>
-      <ul class="chips">
-        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Praktikal &amp; Berteraskan Pengalaman</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Sedia Guna Untuk Latihan / Bengkel</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Boleh Diubah Suai Mengikut Keperluan</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Menepati Keperluan Individu, Pasukan &amp; Organisasi</li>
-      </ul>
-      <div class="hero__actions">
-        <a class="btn btn--primary" href="#kategori"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg>Terokai Produk Digital {{template "arrow"}}</a>
-        {{if .IntroVideo}}<a class="btn btn--outline" href="{{.IntroVideo}}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Lihat Pengenalan (2 Minit)</a>{{end}}
-      </div>
+    <h1 class="page-hero__title">Produk <span class="gold">Digital</span></h1>
+    <p class="page-hero__lead">Management game, workbook, eBook dan bahan latihan digital untuk pembelajaran berterusan, praktikal dan berimpak.</p>
+    <div class="page-hero__actions">
+      <a class="btn btn--primary" href="#kategori"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg>Terokai Produk Digital {{template "arrow"}}</a>
+      {{if .IntroVideo}}<a class="btn btn--outline" href="{{.IntroVideo}}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Lihat Pengenalan (2 Minit)</a>{{end}}
     </div>
   </div>
-  <img class="hero__img" src="/static/img/produk-hero.jpg" alt="Jurulatih The Cave Academy dengan komputer riba dan timbunan eBook" width="770" height="524">
-</section>
-
-<section class="container">
-  <ul class="features">
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-gamepad"/></svg><span>Management <br>Game / Simulasi</span></li>
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg><span>Workbook &amp; <br>Modul</span></li>
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-ebook"/></svg><span>eBook</span></li>
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-laptop"/></svg><span>Bahan Latihan <br>Digital</span></li>
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-gear"/></svg><span>Sedia Guna &amp; <br>Boleh Diubah Suai</span></li>
-  </ul>
 </section>
 
 <div class="container">

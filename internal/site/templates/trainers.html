@@ -1,9 +1,14 @@
 {{/* Directory of live Cave Trainers. Page.Data is []trainerProfile (trainers.go). */}}
 {{define "content"}}
-<section class="container page-section">
-  {{template "breadcrumb" .}}
-  <h1 class="section-title">Cave Trainer</h1>
-  <p class="tp-lead">Trainer The Cave Academy yang telah disahkan. Ingin menyertai? <a href="/trainer-panel">Jadi Trainer Panel</a> atau <a href="/trainer/profil">cipta profil anda</a>.</p>
+<section class="page-hero">
+  <div class="container">
+    {{template "breadcrumb" .}}
+    <h1 class="page-hero__title">Cave <span class="gold">Trainer</span></h1>
+    <p class="page-hero__lead">Trainer The Cave Academy yang telah disahkan. Ingin menyertai? <a class="tp-link" href="/trainer-panel">Jadi Trainer Panel</a> atau <a class="tp-link" href="/trainer/profil">cipta profil anda</a>.</p>
+  </div>
+</section>
+
+<section class="container section">
   {{if .Data}}
   <ul class="tp-grid">
     {{range .Data}}
