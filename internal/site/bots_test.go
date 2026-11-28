@@ -14,7 +14,7 @@ func TestBotsLandingHasKeyContent(t *testing.T) {
 		t.Fatalf("GET /ai-nlp-bots = %d, want 200", code)
 	}
 	for _, want := range []string{
-		"Berteraskan NLP", "Menyokong Komunikasi", "Membantu Penyelesaian Masalah", "Mudah &amp; Praktikal",
+		`class="page-hero"`, "Berpandukan",
 		"Terokai AI NLP Bots", "Cuba Bot Percuma", `href="#senarai-bot"`,
 		"Pilihan AI NLP Bots",
 		"NLP Bot</span> Educators", "NLP Bot</span> Sales &amp; Marketing", "NLP Bot</span> HR &amp; People Management", "NLP Bot</span> Pengurusan Stres",

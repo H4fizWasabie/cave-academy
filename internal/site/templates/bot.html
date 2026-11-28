@@ -35,17 +35,17 @@
             <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M21 3 10.5 13.5M21 3l-6.5 18-4-7.5L3 9.5z"/></svg>
           </button>
         </form>
-        {{with .Bot.Notice}}<p class="chat__note">{{.}}</p>{{end}}
+        {{with .Bot.Notice}}<p class="chat__note chat__note--notice"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg><span>{{.}}</span></p>{{end}}
         <p class="chat__note">Jawapan AI mungkin tidak tepat dan bukan nasihat perubatan, undang-undang atau kewangan.</p>
       </div>
     </div>
     {{else}}
     <div class="bot__intro">
-      <div class="bot__media"><img src="/static/img/{{.Bot.Image}}" alt="" width="320" height="200"></div>
+      <div class="bot-art bot-art--{{.Bot.Slug}}" aria-hidden="true"><svg class="icon"><use href="#{{.Bot.Icon}}"/></svg></div>
       <div class="bot__about">
-        <h1 class="bot__title"><svg class="icon" aria-hidden="true"><use href="#{{.Bot.Icon}}"/></svg>NLP Bot {{.Bot.Name}}</h1>
+        <h1 class="bot__title">NLP Bot {{.Bot.Name}}</h1>
         <p class="bot__desc">{{.Bot.Desc}}</p>
-        {{with .Bot.Notice}}<p class="chat__note">{{.}}</p>{{end}}
+        {{with .Bot.Notice}}<p class="bot-notice" role="note"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg><span>{{.}}</span></p>{{end}}
       </div>
     </div>
 
