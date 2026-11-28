@@ -16,8 +16,8 @@ const maxBody = 64 << 10
 // securityHeaders are set on every response. HSTS is Caddy's job. The CSP has
 // no 'unsafe-inline': scripts are files and SVG icons are styled by icons.css.
 var securityHeaders = map[string]string{
-	"Content-Security-Policy": "default-src 'self'; img-src 'self' data:; style-src 'self' https://fonts.googleapis.com; " +
-		"font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; form-action 'self' https://wa.me; " +
+	"Content-Security-Policy": "default-src 'self'; img-src 'self' data:; style-src 'self'; " +
+		"font-src 'self'; script-src 'self'; connect-src 'self'; form-action 'self' https://wa.me; " +
 		"frame-ancestors 'none'; base-uri 'self'; object-src 'none'",
 	"X-Content-Type-Options": "nosniff",
 	"Referrer-Policy":        "strict-origin-when-cross-origin",

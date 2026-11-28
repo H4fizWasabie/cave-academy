@@ -2,6 +2,13 @@
    Mobile-first; one desktop breakpoint at 1100px. Page-specific rules go in
    static/css/<page>.css, never here. */
 
+/* Self-hosted fonts (SIL OFL, licences in static/fonts/), latin subset. */
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 600; font-display: swap; src: url("../fonts/poppins-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 700; font-display: swap; src: url("../fonts/poppins-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 800; font-display: swap; src: url("../fonts/poppins-latin-800-normal.woff2") format("woff2"); }
+@font-face { font-family: "Noto Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/noto-sans-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Noto Sans"; font-style: normal; font-weight: 600; font-display: swap; src: url("../fonts/noto-sans-latin-600-normal.woff2") format("woff2"); }
+
 :root {
   --navy: #0f1a3c;
   --navy-soft: #27315a;
@@ -33,7 +40,7 @@
   --r-pill: 999px;
 
   --font-head: "Poppins", "Montserrat", system-ui, sans-serif;
-  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   --header-h: 72px;
 }
@@ -129,7 +136,6 @@ body.nav-locked { overflow: hidden; }
 
 .header__actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
 .header__actions .btn--wa { display: none; white-space: nowrap; }
-.header__actions .btn--outline { white-space: nowrap; }
 
 .burger {
   display: inline-grid; place-items: center; width: var(--tap); height: var(--tap); padding: 0;
@@ -156,6 +162,27 @@ body.nav-locked { overflow: hidden; }
 .icon--chevron { width: 16px; height: 16px; stroke-width: 2.4; }
 .nav .icon--chevron { display: none; } /* mobile menu always shows sub-links, so a chevron would promise a toggle that isn't there */
 
+/* ---------- Page hero: plain text-only header for inner pages ----------
+   Markup (the breadcrumb partial needs the page's Crumb set):
+     <section class="page-hero">
+       <div class="container">
+         {{template "breadcrumb" .}}
+         <h1 class="page-hero__title">Title <span class="gold">highlight</span></h1>
+         <p class="page-hero__lead">One or two sentences.</p>
+         <div class="page-hero__actions"><a class="btn btn--primary" href="...">Action</a></div>  <!-- optional -->
+       </div>
+     </section>
+   Compact on phones so the content starts above the fold. */
+.page-hero { background: linear-gradient(180deg, var(--paper) 0%, var(--white) 100%); border-bottom: 1px solid var(--line-soft); padding-bottom: 20px; }
+.page-hero__title {
+  margin-top: 4px; border-left: 4px solid var(--gold); padding-left: 14px;
+  font: 700 clamp(26px, 5.2vw, 40px)/1.15 var(--font-head); letter-spacing: -.01em; text-wrap: balance;
+}
+.page-hero__lead { margin-top: 12px; max-width: 40em; font-size: 16px; color: var(--navy-soft); }
+.page-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+@media (max-width: 639px) { .page-hero__actions .btn { flex: 1 1 100%; } }
+@media (min-width: 1100px) { .page-hero { padding-bottom: 32px; } .page-hero__lead { font-size: 18px; } }
+
 /* ---------- Breadcrumb ---------- */
 .breadcrumb { display: flex; align-items: center; gap: 8px; padding: 12px 0 8px; font-size: 14px; color: var(--navy); }
 .breadcrumb a { display: inline-flex; align-items: center; gap: 6px; }
@@ -167,7 +194,7 @@ body.nav-locked { overflow: hidden; }
 .hero__inner { padding-bottom: 4px; }
 .hero__title {
   border-left: 4px solid var(--gold); padding-left: 14px;
-  font: italic 800 clamp(26px, 7.4vw, 34px)/1.16 var(--font-head);
+  font: 700 clamp(30px, 4.2vw, 50px)/1.12 var(--font-head); letter-spacing: -.01em;
 }
 .hero__sub { margin-top: 14px; max-width: 36em; font-size: 16px; color: var(--navy); font-weight: 500; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
@@ -272,13 +299,8 @@ body.nav-locked { overflow: hidden; }
 
 /* ---------- Phones only (below 640px) ---------- */
 @media (max-width: 639px) {
-  /* header: brand name only, "Hubungi Kami" as an icon button (its text stays for screen readers) */
+  /* header: brand name only; Hubungi Kami lives in the menu */
   .site-header .brand__tagline { display: none; }
-  .header__actions .btn--outline { width: var(--tap); padding: 0; border-radius: 12px; }
-  .header__actions .btn--outline span {
-    position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
-  }
-  .header__actions .btn--outline .icon { width: 24px; height: 24px; font-size: 24px; stroke-width: 1.6; }
 
   .features > .feature:last-child:nth-child(odd) { grid-column: 1 / -1; }
   .feature { gap: 10px; padding: 10px 8px; }
@@ -299,7 +321,6 @@ body.nav-locked { overflow: hidden; }
   .hero__sub { font-size: 17px; }
   .features { grid-template-columns: repeat(3, 1fr); }
   .features--plain { grid-template-columns: repeat(3, 1fr); }
-  .header__actions .btn--outline .icon { display: inline-flex; }
   .card__media { height: 190px; }
   .cta-banner { grid-template-columns: auto 1fr auto; grid-template-areas: "icon title btn" "icon text btn"; padding: 24px 28px; }
   .cta-banner__icon { width: 56px; height: 56px; }
@@ -333,8 +354,8 @@ body.nav-locked { overflow: hidden; }
 
   .hero { min-height: 300px; }
   .hero__inner { position: relative; z-index: 1; padding-bottom: 36px; }
-  .hero__text { max-width: 580px; }
-  .hero__title { font-size: 40px; max-width: 15em; }
+  .hero__text { max-width: 720px; }
+  .hero__title { max-width: 14em; }
   .hero__sub { font-size: 18px; max-width: 32em; }
   .hero__img {
     position: absolute; top: 0; right: 0; bottom: 0; width: 60%; height: 100%; margin: 0; aspect-ratio: auto;
@@ -399,17 +420,19 @@ body.nav-locked { overflow: hidden; }
   .nav__sub a:hover { background: var(--pale-yellow); color: var(--navy); }
 }
 
-/* Narrow desktop (1280-1439px): shrink the brand, nav gaps and buttons to fit. */
-@media (min-width: 1280px) and (max-width: 1439px) {
+/* Desktop header sizing. The container stops growing at 1280px, so this has to fit 1217px (a 1280px
+   viewport) and 1232px of content with the Admin item and the account item showing. */
+@media (min-width: 1280px) {
   .brand__logo { width: 52px; height: 52px; }
   .brand__text { padding-left: 10px; }
   .brand__name { font-size: 17px; }
   .brand__tagline { font-size: 9px; }
-  .header__bar { gap: 12px; }
-  .nav__list { gap: 16px; }
+  .header__bar { gap: 10px; }
+  .nav__list { gap: 12px; }
   .header__actions { gap: 8px; }
   .header__actions .btn--sm { padding: 6px 14px; }
 }
+@media (min-width: 1280px) and (max-width: 1319px) { .nav__list { gap: 9px; } }
 
 /* Narrow phones (320 to 374px): tighten the header so the menu button stays on screen. */
 @media (max-width: 374px) {

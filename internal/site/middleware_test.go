@@ -38,7 +38,7 @@ func TestSecurityHeadersOnEveryResponse(t *testing.T) {
 			t.Errorf("GET %s: Permissions-Policy = %q", path, pp)
 		}
 		csp := rec.Header().Get("Content-Security-Policy")
-		for _, d := range []string{"default-src 'self'", "script-src 'self'", "style-src 'self' https://fonts.googleapis.com", "font-src https://fonts.gstatic.com",
+		for _, d := range []string{"default-src 'self'", "script-src 'self'", "style-src 'self'", "font-src 'self'",
 			"img-src 'self' data:", "connect-src 'self'", "form-action 'self' https://wa.me", "frame-ancestors 'none'", "base-uri 'self'", "object-src 'none'"} {
 			if !strings.Contains(csp, d) {
 				t.Errorf("GET %s: CSP lacks %q: %s", path, d, csp)

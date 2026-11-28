@@ -17,7 +17,7 @@
   .bots-list .cards { grid-template-columns: repeat(2, 1fr); } /* four bots: 2x2, not 3 + 1 */
   .bots-hero__grid { display: grid; grid-template-columns: minmax(0, 520px) minmax(0, 300px); gap: 24px; align-items: start; }
   .bots-hero .chips { margin-top: 24px; }
-  .bots-hero .hero__title { font-size: 52px; line-height: 1.1; max-width: none; white-space: nowrap; }
+  .bots-hero .hero__title { max-width: none; white-space: nowrap; }
   .bots-hero .hero__sub { max-width: 22em; }
   .bots-hero .hero__img { width: 52%; object-position: 30% center; }
   .card__pre { display: block; }

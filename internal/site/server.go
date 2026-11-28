@@ -16,6 +16,7 @@ import (
 	"log"
 	"net/http"
 	"path"
+	"strings"
 )
 
 //go:embed templates static
@@ -79,7 +80,16 @@ func (s *Server) Close() error { return s.db.Close() }
 // POST so a page's owner can handle its form in the same handler.
 func (s *Server) routes() {
 	staticFS, _ := fs.Sub(assets, "static")
-	s.mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServerFS(staticFS)))
+	static := http.StripPrefix("/static/", http.FileServerFS(staticFS))
+	s.mux.Handle("GET /static/", static)
+	// Fonts: the stdlib has no woff2 type on every OS, and they change about never.
+	s.mux.HandleFunc("GET /static/fonts/", func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasSuffix(r.URL.Path, ".woff2") {
+			w.Header().Set("Content-Type", "font/woff2")
+			w.Header().Set("Cache-Control", "public, max-age=2592000")
+		}
+		static.ServeHTTP(w, r)
+	})
 
 	// Home.
 	s.mux.HandleFunc("GET /{$}", s.home)

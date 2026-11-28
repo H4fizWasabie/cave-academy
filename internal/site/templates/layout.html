@@ -2,7 +2,7 @@
   Page shell. A page template (templates/<name>.html) only defines "content"
   and, optionally, "head" (extra <head> markup). Title, active nav item and
   extra CSS come from the Page struct filled in by the handler:
-    Page{Title: "...", Nav: "home|program|bots|produk|tentang", CSS: []string{"<page>"}, Crumb: "..."}
+    Page{Title: "...", Nav: "home|program|bots|produk|tentang|hubungi", CSS: []string{"<page>"}, Crumb: "..."}
 */}}
 {{define "layout"}}<!doctype html>
 <html lang="ms">
@@ -29,9 +29,8 @@
 <meta name="twitter:image" content="{{.SEO.Image}}">
 <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon.png">
 <link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800&display=swap">
+<link rel="preload" href="/static/fonts/poppins-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/static/fonts/noto-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/static/css/base.css">
 <link rel="stylesheet" href="/static/css/icons.css">
 <link rel="stylesheet" href="/static/css/auth.css">
@@ -75,6 +74,7 @@
         </li>
         <li><a href="/produk-digital"{{if eq .Nav "produk"}} aria-current="page"{{end}}>Produk Digital</a></li>
         <li><a href="/tentang-kami"{{if eq .Nav "tentang"}} aria-current="page"{{end}}>Tentang Kami</a></li>
+        <li><a href="/hubungi-kami"{{if eq .Nav "hubungi"}} aria-current="page"{{end}}>Hubungi Kami</a></li>
         {{if and .User .User.IsAdmin}}<li><a href="/admin">Admin</a></li>{{end}}
         {{if .User}}<li class="nav__user"><span>{{.User.FirstName}}</span><form method="post" action="/log-keluar"><button class="nav__logout" type="submit">Log Keluar</button></form></li>
         {{else}}<li><a class="nav__login" href="/log-masuk">Log Masuk</a></li>
@@ -84,8 +84,7 @@
 
     <div class="header__actions">
       <a class="icon-btn icon-btn--wa" href="https://wa.me/60123947200" target="_blank" rel="noopener" aria-label="WhatsApp Chat"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
-      <a class="btn btn--outline btn--sm" href="/hubungi-kami"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg><span>Hubungi Kami</span></a>
-      <a class="btn btn--wa btn--sm" href="https://wa.me/60123947200" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg><span>WhatsApp Chat</span></a>
+      <a class="btn btn--wa btn--sm" href="https://wa.me/60123947200" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg><span>WhatsApp</span></a>
       <button class="burger" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
         <svg class="icon icon--menu" aria-hidden="true"><use href="#i-menu"/></svg>
         <svg class="icon icon--close" aria-hidden="true"><use href="#i-close"/></svg>
