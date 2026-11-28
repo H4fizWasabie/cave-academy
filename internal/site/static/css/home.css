@@ -1,11 +1,112 @@
-/* Home page only. The hero, feature strip, cards and CTA banner come from
-   base.css; this file only adds the full-bleed pale band under the hero on desktop. */
+/* Home page only. The hero, feature strip, cards and CTA banner come from base.css;
+   this file adds the proof row, the navy solution panels, the bots preview and the Coach Adam block. */
+
+/* The home title is long: a little smaller so it sets in 3 lines on phones and desktop. */
+@media (min-width: 1100px) { .home .hero__title { max-width: none; } }
+.home .hero__title { font-size: clamp(26px, 6.6vw, 44px); text-wrap: balance; }
+
+/* Phones: a flex column so the feature strip can sit after the solutions instead of before them. */
+@media (max-width: 1099px) {
+  .home { display: flex; flex-direction: column; }
+  .home-features { order: 1; }
+  .home-bots, .home-coach, .home-cta { order: 2; }
+}
+/* Phones: cap the hero photo so the content starts sooner. */
+@media (max-width: 639px) {
+  .home .hero__img { height: 220px; aspect-ratio: auto; object-position: 50% 20%; margin-top: 12px; }
+  .home-features { margin-top: var(--space-section); }
+  .home-features .feature { min-height: 52px; }
+}
+@media (max-width: 1099px) { .home-features .features { margin-top: 0; } }
+@media (min-width: 640px) and (max-width: 1099px) { .home-features { margin-top: var(--space-section); } }
 
 @media (min-width: 1100px) {
   .home-features { background: var(--paper); }
   .home-features .features { margin-top: 0; background: none; box-shadow: none; border-radius: 0; }
 }
 
-/* The home title is long: a little smaller so it sets in 3 lines on phones and desktop. */
-@media (min-width: 1100px) { .home .hero__title { max-width: none; } }
-.home .hero__title { font-size: clamp(26px, 6.6vw, 44px); text-wrap: balance; }
+/* ---------- Proof row ---------- */
+.home-proof {
+  display: grid; gap: 10px; align-items: center; margin-top: 16px; padding-block: 14px;
+  border-block: 1px solid var(--line-soft);
+}
+.home-proof__label { font: 600 12px/1.2 var(--font-head); letter-spacing: .08em; text-transform: uppercase; color: var(--navy-soft); }
+.home-proof__list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; align-items: start; }
+.home-proof__item { display: grid; justify-items: center; align-content: start; gap: 6px; text-align: center; }
+.home-proof__item img { height: 32px; width: auto; max-width: 100%; object-fit: contain; }
+.home-proof__item span { font: 600 12px/1.3 var(--font-head); color: var(--navy); text-wrap: balance; }
+@media (min-width: 640px) {
+  .home-proof__item img { height: 44px; }
+  .home-proof__item span { font-size: 13px; }
+}
+@media (min-width: 1100px) {
+  .home-proof { grid-template-columns: auto 1fr; gap: 32px; padding-block: 16px; }
+  .home-proof__list { gap: 32px; }
+  .home-proof__item { grid-template-columns: auto 1fr; justify-items: start; align-items: center; gap: 14px; text-align: left; }
+  .home-proof__item img { height: 48px; }
+  .home-proof__item span { font-size: 14px; }
+}
+
+/* ---------- Solution cards: navy panel with a big gold icon and the slanted gold edge ---------- */
+.home-solution__media {
+  position: relative; background: var(--gold-grad);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), 0 100%);
+}
+.home-solution__panel {
+  display: grid; place-items: center; height: 108px; background: var(--navy); color: var(--gold);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 19px), 0 calc(100% - 5px));
+}
+.home-solution__panel .icon { --accent: var(--gold); width: 64px; height: 64px; stroke-width: 1.4; }
+@media (min-width: 640px) and (max-width: 1099px) {
+  .home-solution__media { grid-area: media; clip-path: polygon(0 0, 100% 0, calc(100% - 22px) 100%, 0 100%); }
+  .home-solution__panel { height: 100%; min-height: 190px; clip-path: polygon(0 0, calc(100% - 10px) 0, calc(100% - 32px) 100%, 0 100%); }
+}
+@media (min-width: 1100px) { .home-solution__panel { height: 150px; } }
+
+/* ---------- Bots preview ---------- */
+.home-bots__lead { max-width: 46em; margin-bottom: 18px; color: var(--navy-soft); }
+.home-bots__list { display: grid; gap: 12px; }
+.home-bots__list li { display: flex; }
+.home-bot {
+  flex: 1; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; align-content: start; padding: 14px 16px;
+  background: var(--white); border: 1px solid var(--line-soft); border-radius: var(--r-md); box-shadow: var(--shadow-sm);
+  transition: background-color .15s ease, box-shadow .15s ease;
+}
+.home-bot:hover { background: var(--pale-yellow); box-shadow: var(--shadow-md); }
+.home-bot__icon { grid-row: 1; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--navy); color: var(--gold); }
+.home-bot__icon .icon { --accent: var(--gold); width: 22px; height: 22px; }
+.home-bot__name { grid-row: 1; align-self: center; font-size: 16px; text-wrap: balance; }
+.home-bot__pre { color: var(--gold-text); }
+.home-bot__desc { grid-column: 1 / -1; font-size: 14px; line-height: 1.5; color: var(--navy-soft); }
+.home-bots__all {
+  display: inline-flex; align-items: center; gap: 8px; min-height: var(--tap); margin-top: 16px; padding: 8px 20px;
+  border: 2px solid var(--navy); border-radius: var(--r-pill); font: 600 15px/1.2 var(--font-head); color: var(--navy);
+  transition: background-color .15s ease;
+}
+.home-bots__all:hover { background: var(--pale-yellow); }
+.home-bots__all .icon { width: 18px; height: 18px; stroke-width: 2.2; }
+@media (max-width: 639px) { .home-bots__all { display: flex; justify-content: space-between; } }
+@media (min-width: 640px) { .home-bots__list { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1100px) { .home-bots__list { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
+
+/* ---------- Coach Adam ---------- */
+.home-coach__grid { display: grid; gap: 20px; }
+.home-coach__photo { width: 100%; max-width: 240px; height: auto; border-radius: var(--r-md); box-shadow: var(--shadow-md); }
+.home-coach__text { display: grid; gap: 12px; align-content: start; max-width: 46em; color: var(--navy-soft); }
+.home-coach__role { font-weight: 600; color: var(--navy); }
+.home-coach__creds { display: grid; gap: 8px; }
+.home-coach__creds li { display: flex; gap: 10px; align-items: flex-start; }
+.home-coach__creds .icon { width: 20px; height: 20px; margin-top: 2px; color: var(--navy); stroke-width: 2.4; }
+.home-coach__quote { margin: 4px 0 0; padding: 4px 0 4px 16px; border-left: 4px solid var(--gold); font-size: 17px; color: var(--navy); }
+.home-coach__quote cite { display: block; margin-top: 8px; font: 600 14px var(--font-head); font-style: normal; color: var(--navy-soft); }
+.home-coach__more {
+  display: inline-flex; align-items: center; gap: 8px; justify-self: start; min-height: var(--tap); padding: 8px 20px;
+  border: 2px solid var(--navy); border-radius: var(--r-pill); font: 600 15px/1.2 var(--font-head); color: var(--navy);
+  transition: background-color .15s ease;
+}
+.home-coach__more:hover { background: var(--pale-yellow); }
+.home-coach__more .icon { width: 18px; height: 18px; stroke-width: 2.2; }
+@media (min-width: 1100px) {
+  .home-coach__grid { grid-template-columns: 300px minmax(0, 1fr); gap: 40px; align-items: center; }
+  .home-coach__photo { max-width: none; }
+}
