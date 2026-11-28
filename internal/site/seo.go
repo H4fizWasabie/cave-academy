@@ -43,7 +43,7 @@ func (s *Server) fillSEO(p *Page, r *http.Request, status int) {
 // result pages are left out.
 var sitemapPaths = []string{
 	"/", "/corporate-training", "/ai-nlp-bots", "/ai-nlp-bots/educators", "/ai-nlp-bots/sales-marketing",
-	"/ai-nlp-bots/hr", "/produk-digital", "/tentang-kami", "/hubungi-kami", "/trainer-panel",
+	"/ai-nlp-bots/hr", "/ai-nlp-bots/stres", "/produk-digital", "/tentang-kami", "/hubungi-kami", "/trainer-panel",
 	"/dasar-privasi", "/terma", "/pelan", "/trainer",
 }
 

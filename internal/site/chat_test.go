@@ -241,8 +241,9 @@ func TestRequestSentToOpenRouter(t *testing.T) {
 func TestEachBotHasItsOwnPrompt(t *testing.T) {
 	g := newChatRig(t)
 	c := signUp(t, g.s, "siti@example.com")
+	g.setPlan(t, "siti@example.com", "paid") // four bots, more than the free daily limit
 	seen := map[string]string{}
-	for slug, want := range map[string]string{"educators": "guru", "sales-marketing": "jualan", "hr": "pasukan"} {
+	for slug, want := range map[string]string{"educators": "guru", "sales-marketing": "jualan", "hr": "pasukan", "stres": "stres"} {
 		g.send(slug, "Hai", c)
 		sys := g.or.last()["messages"].([]any)[0].(map[string]any)["content"].(string)
 		if !strings.Contains(sys, want) {
@@ -250,7 +251,7 @@ func TestEachBotHasItsOwnPrompt(t *testing.T) {
 		}
 		seen[sys] = slug
 	}
-	if len(seen) != 3 {
+	if len(seen) != len(bots) {
 		t.Error("bots share a system prompt")
 	}
 }
