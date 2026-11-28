@@ -17,6 +17,15 @@
   </picture>
 </section>
 
+<section class="container home-proof" aria-labelledby="proof-title">
+  <h2 class="home-proof__label" id="proof-title">Diiktiraf &amp; berdaftar</h2>
+  <ul class="home-proof__list">
+    <li class="home-proof__item"><img src="/static/img/hrd-corp-logo.png" alt="Logo HRD Corp" width="334" height="96" loading="lazy"><span>Penyedia Latihan Berdaftar HRD Corp</span></li>
+    <li class="home-proof__item"><img src="/static/img/eperolehan-logo.png" alt="Logo ePerolehan Kementerian Kewangan" width="235" height="160" loading="lazy"><span>Berdaftar dengan Kementerian Kewangan (MOF)</span></li>
+    <li class="home-proof__item"><img src="/static/img/jpk-logo.png" alt="Logo JPK" width="54" height="96" loading="lazy"><span>Jurulatih Bertauliah JPK</span></li>
+  </ul>
+</section>
+
 <section class="home-features">
   <div class="container">
   <ul class="features">
@@ -29,31 +38,66 @@
   </div>
 </section>
 
-<section class="container section">
+<section class="container section home-solutions">
   <h2 class="section-title">Penyelesaian Untuk Anda</h2>
   <div class="cards">
-    <article class="card">
-      <div class="card__media"><img src="/static/img/solution-corporate.jpg" alt="" loading="lazy"></div>
+    <article class="card home-solution">
+      <div class="home-solution__media"><div class="home-solution__panel"><svg class="icon" aria-hidden="true"><use href="#i-calendar-check"/></svg></div></div>
       <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#i-calendar-check"/></svg><h3>Corporate Training &amp; RFQ</h3></div>
       <p class="card__text">Program latihan berimpak tinggi untuk organisasi, jabatan dan agensi.</p>
       <a class="card__cta" href="/corporate-training"><span>Mohon Program / RFQ</span> {{template "arrow"}}</a>
     </article>
-    <article class="card">
-      <div class="card__media"><img src="/static/img/solution-bots.jpg" alt="" loading="lazy"></div>
+    <article class="card home-solution">
+      <div class="home-solution__media"><div class="home-solution__panel"><svg class="icon" aria-hidden="true"><use href="#i-robot"/></svg></div></div>
       <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#i-robot"/></svg><h3>AI NLP Bots</h3></div>
       <p class="card__text">Rakan AI berasaskan NLP untuk komunikasi, kepimpinan, pengurusan dan pembuatan keputusan.</p>
       <a class="card__cta" href="/ai-nlp-bots"><span>Terokai AI NLP Bots</span> {{template "arrow"}}</a>
     </article>
-    <article class="card">
-      <div class="card__media"><img src="/static/img/solution-products.jpg" alt="" loading="lazy"></div>
-      <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><h3>Digital Products</h3></div>
+    <article class="card home-solution">
+      <div class="home-solution__media"><div class="home-solution__panel"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></div></div>
+      <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><h3>Produk Digital</h3></div>
       <p class="card__text">Management game, workbook, eBook dan bahan latihan digital untuk pembelajaran berterusan.</p>
       <a class="card__cta" href="/produk-digital"><span>Lihat Produk Digital</span> {{template "arrow"}}</a>
     </article>
   </div>
 </section>
 
-<section class="container section">
+<section class="container section home-bots" aria-labelledby="home-bots-title">
+  <h2 class="section-title" id="home-bots-title">AI NLP Bots</h2>
+  <p class="home-bots__lead">Rakan AI berasaskan NLP untuk komunikasi, kepimpinan, pengurusan dan pembuatan keputusan.{{if not .User}} Akaun percuma mendapat 3 soalan sehari.{{end}}</p>
+  <ul class="home-bots__list">
+    {{range .Data.Bots}}<li><a class="home-bot" href="/ai-nlp-bots/{{.Slug}}">
+      <span class="home-bot__icon"><svg class="icon" aria-hidden="true"><use href="#{{.Icon}}"/></svg></span>
+      <h3 class="home-bot__name"><span class="home-bot__pre">NLP Bot</span> {{.Name}}</h3>
+      <p class="home-bot__desc">{{.Desc}}</p>
+    </a></li>
+    {{end}}
+  </ul>
+  <a class="home-bots__all" href="/ai-nlp-bots"><span>Terokai AI NLP Bots</span> {{template "arrow"}}</a>
+</section>
+
+<section class="container section home-coach" aria-labelledby="home-coach-title">
+  <h2 class="section-title" id="home-coach-title">Pengasas &amp; Jurulatih Utama</h2>
+  <div class="home-coach__grid">
+    <img class="home-coach__photo" src="/static/img/coach-adam.jpg" alt="Coach Adam Daniel berucap di podium" width="480" height="600" loading="lazy">
+    <div class="home-coach__text">
+      <h3>Coach Adam Daniel</h3>
+      <p class="home-coach__role">Strategic Intelligence Architect, Pengasas &amp; Ketua Perunding The Cave Consult</p>
+      <ul class="home-coach__creds">
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Executive Master in Business Management (Kepujian), UMPSA</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Jurulatih Bertauliah HRD Corp</li>
+        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Certified Generative AI (Associates With Distinction), ICTC</li>
+      </ul>
+      <blockquote class="home-coach__quote">
+        <p>Kepimpinan sebenar bukan tentang memegang kuasa, tetapi memperkasa orang lain untuk memimpin perubahan melalui ilmu, empati dan teknologi.</p>
+        <cite>Coach Adam Daniel</cite>
+      </blockquote>
+      <a class="home-coach__more" href="/tentang-kami"><span>Kenali Kami</span> {{template "arrow"}}</a>
+    </div>
+  </div>
+</section>
+
+<section class="container section home-cta">
   <div class="cta-banner">
     <svg class="icon cta-banner__icon" aria-hidden="true"><use href="#i-trainer"/></svg>
     <h2 class="cta-banner__title">Berminat Menjadi Trainer Panel The Cave Academy?</h2>

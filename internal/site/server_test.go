@@ -57,7 +57,7 @@ func TestHomeHasKeyContent(t *testing.T) {
 	for _, want := range []string{
 		"Pembangunan Kompetensi", "AI, NLP &amp; Pengalaman Praktikal",
 		"Terokai Program Latihan",
-		"Penyelesaian Untuk Anda", "Corporate Training &amp; RFQ", "AI NLP Bots", "Digital Products",
+		"Penyelesaian Untuk Anda", "Corporate Training &amp; RFQ", "AI NLP Bots", "Produk Digital",
 		"Berminat Menjadi Trainer Panel", `href="/trainer-panel"`,
 		`href="/corporate-training"`, `href="/ai-nlp-bots"`, `href="/produk-digital"`,
 		"EMPOWER MINDS. SHAPE LEADERS.", "https://wa.me/60123947200", "012-394 7200", "adam.caveconsult@gmail.com",
