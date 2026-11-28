@@ -17,8 +17,8 @@ func TestBotsLandingHasKeyContent(t *testing.T) {
 		"Berteraskan NLP", "Menyokong Komunikasi", "Membantu Penyelesaian Masalah", "Mudah &amp; Praktikal",
 		"Terokai AI NLP Bots", "Cuba Bot Percuma", `href="#senarai-bot"`,
 		"Pilihan AI NLP Bots",
-		"NLP Bot</span> Educators", "NLP Bot</span> Sales &amp; Marketing", "NLP Bot</span> HR &amp; People Management",
-		`href="/ai-nlp-bots/educators"`, `href="/ai-nlp-bots/sales-marketing"`, `href="/ai-nlp-bots/hr"`,
+		"NLP Bot</span> Educators", "NLP Bot</span> Sales &amp; Marketing", "NLP Bot</span> HR &amp; People Management", "NLP Bot</span> Pengurusan Stres",
+		`href="/ai-nlp-bots/educators"`, `href="/ai-nlp-bots/sales-marketing"`, `href="/ai-nlp-bots/hr"`, `href="/ai-nlp-bots/stres"`, "Terokai Bot Pengurusan Stres",
 		"3 soalan sehari", `href="/daftar"`,
 		"Bagaimana Ia Membantu Anda?", "Produktiviti", "Cuba AI NLP Bots", "Daftar Akaun Percuma", `href="/daftar?next=/ai-nlp-bots"`,
 	} {

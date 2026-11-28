@@ -5,10 +5,11 @@ import (
 	"net/http"
 )
 
-// Bot is one of the three NLP chatbots. Slug is the URL segment, Name the
+// Bot is one of the NLP chatbots. Slug is the URL segment, Name the
 // short name ("Educators"); the full title is "NLP Bot " + Name. Desc, Image,
 // Icon (symbol id in partials.html) and CTA are for the landing page cards.
-// Examples are the three starter questions on the bot's page. The bot's system
+// Examples are the three starter questions on the bot's page. Notice, when set,
+// is a short statement shown on the bot's page (logged out and in). The bot's system
 // prompt is server-side only (chat_prompts.go).
 type Bot struct {
 	Slug     string
@@ -18,6 +19,7 @@ type Bot struct {
 	Icon     string
 	CTA      string
 	Examples []string
+	Notice   string
 }
 
 var bots = []Bot{
@@ -45,6 +47,15 @@ var bots = []Bot{
 			"Macam mana nak beri maklum balas prestasi yang sukar tanpa mematahkan semangat?",
 			"Apa cara untuk membina semangat berpasukan dalam pasukan baharu?",
 		}},
+	{Slug: "stres", Name: "Pengurusan Stres",
+		Desc:  "Teman AI untuk mengurus stres harian: tenangkan fikiran, ubah cara anda melihat tekanan dan ambil langkah kecil yang seterusnya.",
+		Image: "bot-educators.jpg", Icon: "i-shield", CTA: "Terokai Bot Pengurusan Stres",
+		Notice: "Bot ini bukan ahli terapi, kaunselor atau perkhidmatan perubatan. Jika anda dalam krisis, hubungi 999 atau Befrienders KL 03-7627 2929 (24 jam).",
+		Examples: []string{
+			"Saya rasa tertekan dengan beban kerja yang tak habis-habis. Apa saya boleh buat?",
+			"Bila rasa terlalu banyak benda nak buat, macam mana nak tenangkan diri dan mula dari mana?",
+			"Saya susah tidur sebab asyik risau fikir pasal esok. Ada cara untuk tenangkan fikiran?",
+		}},
 }
 
 func findBot(slug string) (Bot, bool) {
@@ -57,7 +68,7 @@ func findBot(slug string) (Bot, bool) {
 }
 
 func (s *Server) botsLanding(w http.ResponseWriter, r *http.Request) {
-	s.render(w, "bots", Page{Title: "AI NLP Bots", Description: "Tiga rakan AI berasaskan NLP untuk guru, pasukan jualan dan pengurus HR. Daftar percuma dan tanya 3 soalan sehari.", Nav: "bots", Crumb: "AI NLP Bots", CSS: []string{"bots"},
+	s.render(w, "bots", Page{Title: "AI NLP Bots", Description: "Rakan AI berasaskan NLP untuk guru, pasukan jualan, pengurus HR dan pengurusan stres harian. Daftar percuma dan tanya 3 soalan sehari.", Nav: "bots", Crumb: "AI NLP Bots", CSS: []string{"bots"},
 		Data: map[string]any{"Bots": bots, "WA": waLink("Salam, saya ingin tahu tentang pelan AI NLP Bots The Cave Academy.")}})
 }
 

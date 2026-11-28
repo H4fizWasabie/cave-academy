@@ -145,6 +145,15 @@ func (s *Server) chatSend(u *User, bot Bot, msg string) chatResult {
 	case n > maxMsgRunes:
 		return res(http.StatusBadRequest, fmt.Sprintf("Soalan terlalu panjang (maksimum %d aksara).", maxMsgRunes))
 	}
+	// A flagged message gets the fixed help-line reply, whatever the key, limit or
+	// cap say, and the model is never called. It is stored (and counts as one
+	// question) so the no-JS redirect shows it; a failed store still returns it.
+	if isCrisis(msg) {
+		if err := s.storeExchange(u, bot, msg, crisisReply); err != nil {
+			log.Printf("chat store: %v", err)
+		}
+		return chatResult{Reply: crisisReply, Remaining: s.remaining(u)}
+	}
 	if s.config.OpenRouterKey == "" {
 		return res(http.StatusServiceUnavailable, "Maaf, chatbot belum dikonfigurasi. Sila cuba lagi kemudian atau hubungi kami di WhatsApp: "+waURL)
 	}

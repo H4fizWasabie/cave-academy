@@ -56,7 +56,7 @@ Contact details on the site: WhatsApp / phone 012-394 7200 (`https://wa.me/60123
 | `/dasar-privasi`, `/terma` | privacy policy, terms | none |
 | `/admin`, `/admin/{rfq,trainer,mesej,pengguna,pelan,pengetahuan,trainer-profil}` | back office for admins (`users.is_admin`), CSV downloads; logged-out visitors are redirected to the login page, other accounts get a 404 | none |
 
-Header nav: Utama / Program (dropdown: Corporate Training & RFQ, Trainer Panel) / AI NLP Bots (dropdown: three bots) / Produk Digital / Tentang Kami, a search icon (may be omitted in v1), "Hubungi Kami" and a green "WhatsApp Chat" button. Mobile: logo, WhatsApp icon, Hubungi Kami, hamburger menu.
+Header nav: Utama / Program (dropdown: Corporate Training & RFQ, Trainer Panel) / AI NLP Bots (dropdown: the bots) / Produk Digital / Tentang Kami, a search icon (may be omitted in v1), "Hubungi Kami" and a green "WhatsApp Chat" button. Mobile: logo, WhatsApp icon, Hubungi Kami, hamburger menu.
 
 ## Design
 
@@ -82,7 +82,7 @@ Assets: no real logo or photos supplied yet. Crop the round CAVE badge and the h
 
 ## AI NLP Bots (chat)
 
-- Three bots: **Educators**, **Sales & Marketing**, **HR & People Management**. Each has a Malay system prompt grounded in NLP (neuro-linguistic programming) coaching for that niche, owned by the server.
+- Four bots: **Educators**, **Sales & Marketing**, **HR & People Management**, **Pengurusan Stres** (stress management; carries a Notice that it is not therapy). Every bot first runs a server-side crisis check (crisis.go): a flagged message gets a fixed help-line reply and never reaches the model. Each has a Malay system prompt grounded in NLP (neuro-linguistic programming) coaching for that niche, owned by the server.
 - The visitor picks the bot (no router). Chat requires login; a logged-out visitor sees the bot page with a prompt to sign up / log in.
 - **Free plan: 3 questions per day** per user (day boundary Asia/Kuala_Lumpur), counted server-side. `paid` users and unlimited tiers: no limit; other tiers have their own daily number (see Paid tiers). When the limit is hit, say so and point to `/pelan` and WhatsApp.
 - The server calls OpenRouter chat completions (`https://openrouter.ai/api/v1/chat/completions`), non-streaming, with `max_tokens` capped (~800), a timeout, and the last ~10 turns of the conversation. Messages are stored per user per bot so history survives reload.
