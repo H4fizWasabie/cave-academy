@@ -6,8 +6,9 @@ import (
 )
 
 // Bot is one of the NLP chatbots. Slug is the URL segment, Name the
-// short name ("Educators"); the full title is "NLP Bot " + Name. Desc, Image,
-// Icon (symbol id in partials.html) and CTA are for the landing page cards.
+// short name ("Educators"); the full title is "NLP Bot " + Name. Desc, Icon
+// (symbol id in partials.html) and CTA are for the landing page cards; the
+// media panel art is picked by Slug (.bot-art--<slug> in bots.css).
 // Examples are the three starter questions on the bot's page. Notice, when set,
 // is a short statement shown on the bot's page (logged out and in). The bot's system
 // prompt is server-side only (chat_prompts.go).
@@ -15,7 +16,6 @@ type Bot struct {
 	Slug     string
 	Name     string
 	Desc     string
-	Image    string
 	Icon     string
 	CTA      string
 	Examples []string
@@ -24,32 +24,32 @@ type Bot struct {
 
 var bots = []Bot{
 	{Slug: "educators", Name: "Educators",
-		Desc:  "Sokongan AI untuk guru dalam komunikasi, pengurusan kelas, motivasi dan kesejahteraan diri.",
-		Image: "bot-educators.jpg", Icon: "i-mortarboard", CTA: "Terokai Educators Bot",
+		Desc: "Sokongan AI untuk guru dalam komunikasi, pengurusan kelas, motivasi dan kesejahteraan diri.",
+		Icon: "i-mortarboard", CTA: "Terokai Educators Bot",
 		Examples: []string{
 			"Macam mana nak pastikan murid fokus dalam kelas?",
 			"Bagaimana nak berkomunikasi dengan ibu bapa yang sukar?",
 			"Saya rasa letih dan hilang semangat mengajar. Apa saya boleh buat?",
 		}},
 	{Slug: "sales-marketing", Name: "Sales & Marketing",
-		Desc:  "Bantu tingkatkan kemahiran komunikasi, pengaruh, rundingan dan pencapaian jualan.",
-		Image: "bot-sales-marketing.jpg", Icon: "i-target", CTA: "Terokai Sales & Marketing Bot",
+		Desc: "Bantu tingkatkan kemahiran komunikasi, pengaruh, rundingan dan pencapaian jualan.",
+		Icon: "i-target", CTA: "Terokai Sales & Marketing Bot",
 		Examples: []string{
 			"Macam mana nak bina rapport dengan pelanggan baharu dalam 5 minit pertama?",
 			"Pelanggan kata harga mahal. Bagaimana nak jawab?",
 			"Bagaimana nak tutup jualan tanpa nampak terlalu mendesak?",
 		}},
 	{Slug: "hr", Name: "HR & People Management",
-		Desc:  "Sokongan untuk pengurusan manusia, motivasi, prestasi, konflik dan pembangunan pasukan.",
-		Image: "bot-hr.jpg", Icon: "i-users", CTA: "Terokai HR Bot",
+		Desc: "Sokongan untuk pengurusan manusia, motivasi, prestasi, konflik dan pembangunan pasukan.",
+		Icon: "i-users", CTA: "Terokai HR Bot",
 		Examples: []string{
 			"Dua orang pekerja saya selalu berkonflik. Bagaimana nak tangani?",
 			"Macam mana nak beri maklum balas prestasi yang sukar tanpa mematahkan semangat?",
 			"Apa cara untuk membina semangat berpasukan dalam pasukan baharu?",
 		}},
 	{Slug: "stres", Name: "Pengurusan Stres",
-		Desc:  "Teman AI untuk mengurus stres harian: tenangkan fikiran, ubah cara anda melihat tekanan dan ambil langkah kecil yang seterusnya.",
-		Image: "bot-educators.jpg", Icon: "i-shield", CTA: "Terokai Bot Pengurusan Stres",
+		Desc: "Teman AI untuk mengurus stres harian: tenangkan fikiran, ubah cara anda melihat tekanan dan ambil langkah kecil yang seterusnya.",
+		Icon: "i-shield", CTA: "Terokai Bot Pengurusan Stres",
 		Notice: "Bot ini bukan ahli terapi, kaunselor atau perkhidmatan perubatan. Jika anda dalam krisis, hubungi 999 atau Befrienders KL 03-7627 2929 (24 jam).",
 		Examples: []string{
 			"Saya rasa tertekan dengan beban kerja yang tak habis-habis. Apa saya boleh buat?",
@@ -116,5 +116,5 @@ func (s *Server) renderBot(w http.ResponseWriter, r *http.Request, status int, b
 		v.Free, v.Limit, v.PlanNote = e.Limit >= 0, e.Limit, e.note()
 		v.Remaining = s.remaining(u)
 	}
-	s.renderStatus(w, status, "bot", Page{Title: "NLP Bot " + bot.Name, Description: bot.Desc, Nav: "bots", Crumb: bot.Name, CrumbParent: "AI NLP Bots", CrumbParentURL: "/ai-nlp-bots", CSS: []string{"chat", "pelan"}, User: u, Data: v})
+	s.renderStatus(w, status, "bot", Page{Title: "NLP Bot " + bot.Name, Description: bot.Desc, Nav: "bots", Crumb: bot.Name, CrumbParent: "AI NLP Bots", CrumbParentURL: "/ai-nlp-bots", CSS: []string{"bots", "chat", "pelan"}, User: u, Data: v})
 }

@@ -1,38 +1,14 @@
 {{define "content"}}
-<section class="hero bots-hero">
-  <div class="container hero__inner">
+<section class="page-hero">
+  <div class="container">
     {{template "breadcrumb" .}}
-    <div class="bots-hero__grid">
-      <div class="hero__text">
-        <h1 class="hero__title">AI NLP <span class="gold">Bots</span></h1>
-        <p class="hero__sub">Rakan AI pintar berteraskan NLP untuk komunikasi, kepimpinan, pengurusan dan pembuatan keputusan.</p>
-        <div class="hero__actions">
-          <a class="btn btn--primary" href="#senarai-bot"><svg class="icon" aria-hidden="true"><use href="#i-robot"/></svg>Terokai AI NLP Bots {{template "arrow"}}</a>
-          <a class="btn btn--outline" href="/ai-nlp-bots/educators">Cuba Bot Percuma</a>
-        </div>
-      </div>
-      <ul class="chips">
-        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Berteraskan NLP</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Menyokong Komunikasi</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Membantu Penyelesaian Masalah</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Mudah &amp; Praktikal</li>
-      </ul>
+    <h1 class="page-hero__title">AI NLP <span class="gold">Bots</span></h1>
+    <p class="page-hero__lead">Rakan AI pintar berteraskan NLP untuk komunikasi, kepimpinan, pengurusan dan pembuatan keputusan.</p>
+    <div class="page-hero__actions">
+      <a class="btn btn--primary" href="#senarai-bot"><svg class="icon" aria-hidden="true"><use href="#i-robot"/></svg>Terokai AI NLP Bots {{template "arrow"}}</a>
+      <a class="btn btn--outline" href="/ai-nlp-bots/educators">Cuba Bot Percuma</a>
     </div>
   </div>
-  <picture>
-    <source media="(min-width: 640px)" srcset="/static/img/bots-hero-desktop.jpg">
-    <img class="hero__img" src="/static/img/bots-hero-mobile.jpg" alt="Pakar The Cave Academy bersama komputer riba dengan otak AI yang bercahaya" width="276" height="287">
-  </picture>
-</section>
-
-<section class="container">
-  <ul class="features">
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-bolt"/></svg><span>Respons Pantas <br>&amp; Relevan</span></li>
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-monitor"/></svg><span>Berpandukan <br>Prinsip NLP</span></li>
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg><span>Disesuaikan <br>Mengikut Niche</span></li>
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-cloud"/></svg><span>Akses 24/7 <br>Di Web &amp; Mobile</span></li>
-    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg><span>Selamat, Mudah <br>&amp; Mesra Pengguna</span></li>
-  </ul>
 </section>
 
 <section class="container bots-list section" id="senarai-bot">
@@ -40,18 +16,18 @@
     <h2 class="section-title">Pilihan AI NLP Bots</h2>
     {{if not .User}}<p class="bots-note">Akaun percuma mendapat 3 soalan sehari. <a href="/daftar">Daftar akaun percuma</a>.</p>{{end}}
   </div>
-  <div class="cards">
-    {{range .Data.Bots}}<article class="card">
-      <div class="card__media"><img src="/static/img/{{.Image}}" alt="" loading="lazy"></div>
-      <div class="card__head"><svg class="icon" aria-hidden="true"><use href="#{{.Icon}}"/></svg><h3><span class="card__pre">NLP Bot</span> {{.Name}}</h3></div>
-      <p class="card__text">{{.Desc}}</p>
-      <a class="card__cta" href="/ai-nlp-bots/{{.Slug}}"><span>{{.CTA}}</span> {{template "arrow"}}</a>
+  <div class="bcards">
+    {{range .Data.Bots}}<article class="bcard">
+      <div class="bot-art bot-art--{{.Slug}}" aria-hidden="true"><svg class="icon"><use href="#{{.Icon}}"/></svg></div>
+      <h3 class="bcard__title"><span class="bcard__pre">NLP Bot</span> {{.Name}}</h3>
+      <p class="bcard__text">{{.Desc}}</p>
+      <a class="bcard__cta" href="/ai-nlp-bots/{{.Slug}}"><span>{{.CTA}}</span> {{template "arrow"}}</a>
     </article>
     {{end}}
   </div>
 </section>
 
-<section class="container section">
+<section class="container section bots-help">
   <h2 class="section-title">Bagaimana Ia Membantu Anda?</h2>
   <ul class="features features--plain">
     <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-chat"/></svg><span>Komunikasi <br>Lebih Berkesan</span></li>
@@ -59,6 +35,14 @@
     <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-gear"/></svg><span>Pengurusan <br>Lebih Teratur</span></li>
     <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg><span>Pemikiran &amp; <br>Keputusan Lebih Jelas</span></li>
     <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg><span>Produktiviti <br>Lebih Tinggi</span></li>
+  </ul>
+
+  <ul class="features bots-help__caps">
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-bolt"/></svg><span>Respons Pantas <br>&amp; Relevan</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-monitor"/></svg><span>Berpandukan <br>Prinsip NLP</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg><span>Disesuaikan <br>Mengikut Niche</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-cloud"/></svg><span>Akses 24/7 <br>Di Web &amp; Mobile</span></li>
+    <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg><span>Selamat, Mudah <br>&amp; Mesra Pengguna</span></li>
   </ul>
 </section>
 

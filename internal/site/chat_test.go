@@ -117,7 +117,7 @@ func TestBotPageLoggedOutShowsBotAndSignupCard(t *testing.T) {
 		t.Fatalf("GET = %d", code)
 	}
 	for _, want := range []string{
-		"NLP Bot Educators", "Sokongan AI untuk guru", "bot-educators.jpg",
+		"NLP Bot Educators", "Sokongan AI untuk guru", "bot-art--educators",
 		"Daftar percuma untuk bertanya 3 soalan sehari",
 		`href="/daftar?next=%2fai-nlp-bots%2feducators"`, `href="/log-masuk?next=%2fai-nlp-bots%2feducators"`,
 	} {

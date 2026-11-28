@@ -11,7 +11,6 @@ No client assets exist yet. Every image here is cropped from the mockups in
 | `solution-bots.jpg`, `solution-products.jpg` | home-desktop solution cards | home cards |
 | `coach-adam.jpg` | client's CAVELMS static assets | Tentang founder section |
 | `hrd-corp-logo.png`, `eperolehan-logo.png`, `jpk-logo.png` | client's CAVELMS static assets | Tentang "Pengiktirafan" strip |
-| `bot-educators.jpg`, `bot-sales-marketing.jpg`, `bot-hr.jpg` | bots-desktop bot cards | AI NLP Bots cards |
 | `area-leadership.jpg`, `area-organisation.jpg`, `area-team.jpg`, `area-ai-nlp.jpg` | corporate-desktop "Bidang Latihan Popular" tiles | Corporate Training areas |
 | `category-management-game.jpg`, `category-workbook.jpg`, `category-ebook.jpg` | produk-tablet category cards | Produk Digital categories |
 | `product-leadership-360.jpg`, `product-nlp-educators.jpg`, `product-ai-educators.jpg`, `product-disc.jpg`, `product-strategic-game.jpg` | produk-tablet "Produk Pilihan" covers | Produk Digital featured products |
