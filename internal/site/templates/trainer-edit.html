@@ -33,7 +33,7 @@
       </div>
       <div class="field{{if .Err.expertise}} field--error{{end}}">
         <label for="expertise">Bidang kepakaran <span class="req" aria-hidden="true">*</span></label>
-        <input id="expertise" name="expertise" type="text" maxlength="200" placeholder="Asingkan dengan koma: kepimpinan, komunikasi, jualan" required value="{{.P.Expertise}}"{{if .Err.expertise}} aria-invalid="true" aria-describedby="expertise-err"{{end}}>
+        <input id="expertise" name="expertise" type="text" maxlength="200" placeholder="Contoh: kepimpinan, jualan" required value="{{.P.Expertise}}"{{if .Err.expertise}} aria-invalid="true" aria-describedby="expertise-err"{{end}}>
         {{with .Err.expertise}}<p class="field__error" role="alert" id="expertise-err">{{.}}</p>{{end}}
       </div>
       <div class="form__grid">
