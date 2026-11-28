@@ -80,8 +80,8 @@ func (s *Server) submitRFQ(w http.ResponseWriter, r *http.Request) {
 		TrainingArea: r.PostFormValue("training_area"), Participants: strings.TrimSpace(r.PostFormValue("participants")),
 		PreferredDate: strings.TrimSpace(r.PostFormValue("preferred_date")), Notes: strings.TrimSpace(r.PostFormValue("notes")),
 	}
-	if r.PostFormValue("website") != "" {
-		// Honeypot: only bots fill it. Look like a success, save and send nothing.
+	if s.isBot(r) {
+		// Honeypot or timing trap: only bots trip it. Look like a success, save and send nothing.
 		http.Redirect(w, r, "/corporate-training?terima-kasih=1#rfq", http.StatusSeeOther)
 		return
 	}

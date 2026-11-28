@@ -5,12 +5,24 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"strconv"
 	"strings"
 	"testing"
+	"time"
 )
+
+// withTS returns form with a ts of 10 seconds ago unless the form sets its own,
+// so it passes the timing trap in isBot.
+func withTS(form url.Values) url.Values {
+	if form.Has("ts") {
+		return form
+	}
+	return with(form, "ts", strconv.FormatInt(time.Now().Unix()-10, 10))
+}
 
 // post submits a form to path and returns the recorder.
 func post(s *Server, path string, form url.Values) *httptest.ResponseRecorder {
+	form = withTS(form)
 	req := httptest.NewRequest(http.MethodPost, path, strings.NewReader(form.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	rec := httptest.NewRecorder()
@@ -101,6 +113,37 @@ func TestContactHoneypotPretendsSuccess(t *testing.T) {
 	}
 	if count(t, s, "contact_messages") != 0 || mail.Len() != 0 {
 		t.Error("honeypot submission was saved or emailed")
+	}
+}
+
+// A form posted too fast, or without a usable ts, gets the same pretend success as a honeypot hit.
+func TestFormTimingTrapPretendsSuccess(t *testing.T) {
+	now := strconv.FormatInt(time.Now().Unix(), 10)
+	future := strconv.FormatInt(time.Now().Add(time.Hour).Unix(), 10)
+	for _, tc := range []struct {
+		path, table string
+		form        url.Values
+	}{{"/hubungi-kami", "contact_messages", contactForm}, {"/trainer-panel", "trainer_applications", trainerForm}, {"/corporate-training", "rfq_requests", validRFQ()}} {
+		for name, ts := range map[string]string{"too fast": now, "future": future, "missing": "", "garbage": "abc"} {
+			s := newTestServer(t)
+			mail := captureMail(s)
+			rec := post(s, tc.path, with(tc.form, "ts", ts))
+			if rec.Code != http.StatusSeeOther || !strings.HasPrefix(rec.Header().Get("Location"), tc.path+"?terima-kasih=1") {
+				t.Errorf("%s %s: got %d to %q, want the normal redirect", tc.path, name, rec.Code, rec.Header().Get("Location"))
+			}
+			if count(t, s, tc.table) != 0 || mail.Len() != 0 {
+				t.Errorf("%s %s: submission was saved or emailed", tc.path, name)
+			}
+		}
+	}
+}
+
+func TestFormPagesCarryTimestamp(t *testing.T) {
+	s := newTestServer(t)
+	for _, path := range []string{"/hubungi-kami", "/trainer-panel", "/corporate-training"} {
+		if _, body := get(t, s, path); !strings.Contains(body, `name="ts"`) {
+			t.Errorf("%s has no ts field", path)
+		}
 	}
 }
 

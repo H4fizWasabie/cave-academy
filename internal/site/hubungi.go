@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/mail"
+	"strconv"
 	"strings"
 	"unicode/utf8"
 )
@@ -30,6 +31,18 @@ func readForm(w http.ResponseWriter, r *http.Request, names ...string) (map[stri
 		v[n] = strings.TrimSpace(r.PostFormValue(n))
 	}
 	return v, true
+}
+
+// isBot reports a submission to treat like a honeypot hit: the "website" trap
+// is filled, or the hidden "ts" (unix seconds the form was rendered) is missing,
+// unparseable, in the future or under 3 seconds old. Handlers then pretend success.
+// ponytail: ts is unsigned, so a bot aimed at this site can forge it; upgrade = HMAC the timestamp.
+func (s *Server) isBot(r *http.Request) bool {
+	if r.PostFormValue("website") != "" {
+		return true
+	}
+	ts, err := strconv.ParseInt(r.PostFormValue("ts"), 10, 64)
+	return err != nil || s.now().Unix()-ts < 3 // also catches a ts in the future
 }
 
 func validEmail(s string) bool {
@@ -86,7 +99,7 @@ func (s *Server) hubungi(w http.ResponseWriter, r *http.Request) {
 		if !ok {
 			return
 		}
-		if v["website"] == "" {
+		if !s.isBot(r) {
 			errs := map[string]string{}
 			require(errs, v, "name", 100, "Sila masukkan nama anda.")
 			if !validEmail(v["email"]) {

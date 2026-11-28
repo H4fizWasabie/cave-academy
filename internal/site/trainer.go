@@ -21,7 +21,7 @@ func (s *Server) trainerPanel(w http.ResponseWriter, r *http.Request) {
 		if !ok {
 			return
 		}
-		if v["website"] == "" {
+		if !s.isBot(r) {
 			errs := map[string]string{}
 			require(errs, v, "name", 100, "Sila masukkan nama anda.")
 			if !validEmail(v["email"]) {
