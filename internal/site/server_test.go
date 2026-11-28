@@ -96,6 +96,14 @@ func TestHomeAssetsExist(t *testing.T) {
 	}
 }
 
+func TestFontsServedAsWoff2(t *testing.T) {
+	s := newTestServer(t)
+	rec := request(s, "/static/fonts/poppins-latin-700-normal.woff2")
+	if rec.Code != http.StatusOK || rec.Header().Get("Content-Type") != "font/woff2" || rec.Header().Get("Cache-Control") == "" {
+		t.Errorf("font: %d, type %q, cache %q", rec.Code, rec.Header().Get("Content-Type"), rec.Header().Get("Cache-Control"))
+	}
+}
+
 func TestIntroVideoButtonsFollowConfig(t *testing.T) {
 	s := newTestServer(t)
 	pages := []string{"/", "/corporate-training", "/produk-digital"}

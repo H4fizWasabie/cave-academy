@@ -51,7 +51,7 @@
   .produk-hero__grid > .hero__text { grid-column: 1; }
   .produk-hero .chips { grid-column: 2; grid-row: 1 / span 2; margin-top: 8px; }
   .produk-hero .hero__text { border-left: 4px solid var(--gold); padding-left: 18px; }
-  .produk-hero .hero__title { border-left: 0; padding-left: 0; font-size: 48px; max-width: none; }
+  .produk-hero .hero__title { border-left: 0; padding-left: 0; max-width: none; }
   .produk-hero .hero__img { width: 46%; object-position: 60% 20%; }
   .pprods li { flex-basis: calc((100% - 4 * 16px) / 5); }
 }

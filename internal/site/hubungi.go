@@ -85,7 +85,7 @@ func (s *Server) notifyAdmin(subject string, v map[string]string, fields [][2]st
 }
 
 func (s *Server) hubungi(w http.ResponseWriter, r *http.Request) {
-	page := Page{Title: "Hubungi Kami", Description: "Hubungi The Cave Academy melalui WhatsApp, emel atau borang untuk soalan tentang latihan, AI NLP Bots dan produk digital.", Crumb: "Hubungi Kami", CSS: []string{"pages"}}
+	page := Page{Title: "Hubungi Kami", Description: "Hubungi The Cave Academy melalui WhatsApp, emel atau borang untuk soalan tentang latihan, AI NLP Bots dan produk digital.", Nav: "hubungi", Crumb: "Hubungi Kami", CSS: []string{"pages"}}
 	switch r.Method {
 	case http.MethodGet, http.MethodHead:
 		page.Data = formView{Thanks: r.URL.Query().Get("terima-kasih") == "1"}

@@ -56,11 +56,11 @@ Contact details on the site: WhatsApp / phone 012-394 7200 (`https://wa.me/60123
 | `/dasar-privasi`, `/terma` | privacy policy, terms | none |
 | `/admin`, `/admin/{rfq,trainer,mesej,pengguna,pelan,pengetahuan,trainer-profil}` | back office for admins (`users.is_admin`), CSV downloads; logged-out visitors are redirected to the login page, other accounts get a 404 | none |
 
-Header nav: Utama / Program (dropdown: Corporate Training & RFQ, Trainer Panel) / AI NLP Bots (dropdown: the bots) / Produk Digital / Tentang Kami, a search icon (may be omitted in v1), "Hubungi Kami" and a green "WhatsApp Chat" button. Mobile: logo, WhatsApp icon, Hubungi Kami, hamburger menu.
+Header nav: Utama / Program (dropdown: Corporate Training & RFQ, Trainer Panel) / AI NLP Bots (dropdown: the bots) / Produk Digital / Tentang Kami, "Hubungi Kami" (a normal nav item) and one green "WhatsApp" button. Mobile: logo, WhatsApp icon, hamburger menu (Hubungi Kami is in the menu).
 
 ## Design
 
-Match the mockups: navy (~#0f1a3c) headings and dark buttons, yellow/gold (~#f5c518 to #e0a800 gradient) accent buttons, highlights and section-title dashes, white cards with soft shadows and rounded corners, WhatsApp green (#25d366). Heavy geometric sans for headings (Poppins, loaded from Google Fonts for now; self-host before launch if wanted), clean sans for body. Mobile-first, responsive to desktop.
+Match the mockups: navy (~#0f1a3c) headings and dark buttons, yellow/gold (~#f5c518 to #e0a800 gradient) accent buttons, highlights and section-title dashes, white cards with soft shadows and rounded corners, WhatsApp green (#25d366). Geometric sans for headings (Poppins 600/700/800, never italic) and Noto Sans for body, both self-hosted under `static/fonts/` (SIL OFL, licences alongside). Mobile-first, responsive to desktop.
 
 Recurring blocks: hero (title with a yellow-highlighted second line, subtitle, primary yellow CTA, outlined "Lihat ... (2 Minit)" video button that appears only when `INTRO_VIDEO_URL` is set, hero photo); a feature strip of 4 to 5 icon+label items; section title with a yellow dash; image cards with a diagonal yellow edge; a pale-yellow CTA banner with a navy pill button.
 
