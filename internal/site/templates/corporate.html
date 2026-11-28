@@ -11,28 +11,20 @@
 {{define "content"}}
 {{template "corp-icons"}}
 {{$e := .Data.Errors}}
-<section class="hero corp-hero">
-  <div class="container hero__inner">
-    <div class="hero__text">
-      {{template "breadcrumb" .}}
-      <div class="corp-hero__head">
-        <h1 class="hero__title">Corporate Training &amp; <span class="gold">RFQ</span></h1>
-        <p class="hero__sub">Program latihan berimpak tinggi untuk organisasi, jabatan dan agensi.</p>
-      </div>
-      <div class="hero__actions">
-        <a class="btn btn--primary" href="#rfq"><svg class="icon" aria-hidden="true"><use href="#i-calendar-check"/></svg>Mohon Program / RFQ {{template "arrow"}}</a>
-        {{if .IntroVideo}}<a class="btn btn--outline" href="{{.IntroVideo}}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Lihat Video Pengenalan (2 Minit)</a>{{end}}
-      </div>
+<section class="page-hero">
+  <div class="container">
+    {{template "breadcrumb" .}}
+    <h1 class="page-hero__title">Corporate Training &amp; <span class="gold">RFQ</span></h1>
+    <p class="page-hero__lead">Program latihan berimpak tinggi untuk organisasi, jabatan dan agensi.</p>
+    <div class="page-hero__actions">
+      <a class="btn btn--primary" href="#rfq"><svg class="icon" aria-hidden="true"><use href="#i-calendar-check"/></svg>Mohon Program / RFQ {{template "arrow"}}</a>
+      {{if .IntroVideo}}<a class="btn btn--outline" href="{{.IntroVideo}}" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Lihat Video Pengenalan (2 Minit)</a>{{end}}
     </div>
   </div>
-  <picture>
-    <source media="(min-width: 640px)" srcset="/static/img/corp-hero-d.jpg" width="705" height="271">
-    <img class="hero__img" src="/static/img/corp-hero-m.jpg" alt="Jurulatih The Cave Academy di bilik latihan" width="361" height="334">
-  </picture>
 </section>
 
 <section class="container">
-  <ul class="features">
+  <ul class="features corp-features">
     <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg><span><b>Trainer</b> <br>Profesional</span></li>
     <li class="feature"><svg class="icon" aria-hidden="true"><use href="#c-target"/></svg><span><b>Kandungan</b> <br>Praktikal &amp; Relevan</span></li>
     <li class="feature"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><span><b>Boleh Disesuaikan</b> <br>(Customized)</span></li>
@@ -51,7 +43,6 @@
       </li>
       {{end}}
     </ul>
-    <a class="btn btn--outline btn--sm corp-all" href="#rfq">Mohon Sebut Harga {{template "arrow"}}</a>
   </section>
 
   <section class="corp-process section" aria-labelledby="process-title">
@@ -65,18 +56,10 @@
   </section>
 </div>
 
-<section class="container section">
-  <div class="cta-banner">
-    <svg class="icon cta-banner__icon" aria-hidden="true"><use href="#c-clipboard"/></svg>
-    <h2 class="cta-banner__title">Mohon Sebut Harga (RFQ)</h2>
-    <p class="cta-banner__text">Dapatkan cadangan program latihan yang bersesuaian dengan keperluan organisasi anda.</p>
-    <a class="btn btn--navy" href="#rfq">Mohon Program / RFQ {{template "arrow"}}</a>
-  </div>
-</section>
-
-<section class="container rfq section" id="rfq" aria-labelledby="rfq-title">
+<section class="rfq section" id="rfq" aria-labelledby="rfq-title">
+  <div class="container">
   <div class="rfq__card">
-    <h2 class="section-title" id="rfq-title">Borang Permohonan Program / RFQ</h2>
+    <h2 class="section-title" id="rfq-title">Mohon Sebut Harga (RFQ)</h2>
     {{if .Data.Sent}}
     <div class="rfq__thanks" role="status">
       <svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>
@@ -144,6 +127,7 @@
       </div>
     </form>
     {{end}}
+  </div>
   </div>
 </section>
 {{end}}

@@ -27,13 +27,13 @@
 }
 
 /* Auth pages */
-.auth { padding-block: 8px 56px; }
+.auth { padding-block: 0 40px; }
 .auth__card {
-  max-width: 440px; margin: 16px auto 0; padding: 24px 20px;
+  max-width: 440px; margin: 4px auto 0; padding: 20px 18px 24px;
   background: var(--white); border: 1px solid var(--line-soft); border-radius: var(--r-lg); box-shadow: var(--shadow-md);
 }
 .auth__title {
-  display: flex; align-items: center; gap: 12px; font-size: 24px;
+  display: flex; align-items: center; gap: 12px; font: 700 24px/1.2 var(--font-head);
 }
 .auth__title::before {
   content: ""; width: 32px; height: 5px; border-radius: 3px; background: var(--gold-grad); flex: none;
@@ -59,6 +59,6 @@
 .auth__alt a { color: var(--navy); font-weight: 700; text-decoration: underline; text-decoration-color: var(--gold-deep); }
 
 @media (min-width: 640px) {
-  .auth { padding-top: 16px; }
-  .auth__card { margin-top: 28px; padding: 32px 36px; }
+  .auth { padding-block: 16px 56px; }
+  .auth__card { margin-top: 20px; padding: 32px 36px; }
 }

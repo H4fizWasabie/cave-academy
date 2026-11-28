@@ -1,21 +1,15 @@
 {{define "content"}}
 {{if .Data.Thanks}}<div class="container"><p class="form-thanks" role="status">Terima kasih! Permohonan anda telah diterima. Pasukan kami akan menghubungi anda selepas menyemak maklumat anda.</p></div>{{end}}
-<section class="hero">
-  <div class="container hero__inner">
+<section class="page-hero">
+  <div class="container">
     {{template "breadcrumb" .}}
-    <div class="hero__text">
-      <h1 class="hero__title">Berminat Menjadi <span class="gold">Trainer Panel</span> The Cave Academy?</h1>
-      <p class="hero__sub">Kongsikan kepakaran dan pengalaman latihan anda. Sertai rangkaian trainer profesional kami.</p>
-      <div class="hero__actions">
-        <a class="btn btn--primary" href="#daftar">Daftar Sekarang {{template "arrow"}}</a>
-        <a class="btn btn--outline" href="/trainer/profil">{{if .User}}Urus Profil Trainer Saya{{else}}Log Masuk &amp; Cipta Profil{{end}}</a>
-      </div>
+    <h1 class="page-hero__title">Berminat Menjadi <span class="gold">Trainer Panel</span> The Cave Academy?</h1>
+    <p class="page-hero__lead">Kongsikan kepakaran dan pengalaman latihan anda. Sertai rangkaian trainer profesional kami.</p>
+    <div class="page-hero__actions">
+      <a class="btn btn--primary" href="#daftar">Daftar Sekarang {{template "arrow"}}</a>
+      <a class="btn btn--outline" href="/trainer/profil">{{if .User}}Urus Profil Trainer Saya{{else}}Log Masuk &amp; Cipta Profil{{end}}</a>
     </div>
   </div>
-  <picture>
-    <source media="(min-width: 1100px)" srcset="/static/img/hero.jpg" width="710" height="248">
-    <img class="hero__img" src="/static/img/home-hero-phone.jpg" alt="" width="409" height="420">
-  </picture>
 </section>
 
 <section class="container section">
