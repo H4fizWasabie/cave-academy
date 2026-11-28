@@ -26,6 +26,7 @@
     <form class="form" method="post" action="/hubungi-kami" novalidate>
       <p class="form__note"><span class="req" aria-hidden="true">*</span> Wajib diisi</p>
       <div class="form__trap" aria-hidden="true"><label>Laman web <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <input type="hidden" name="ts" value="{{.TS}}">
       <div class="field{{if .Data.Err.name}} field--error{{end}}">
         <label for="name">Nama <span class="req" aria-hidden="true">*</span></label>
         <input id="name" name="name" type="text" autocomplete="name" maxlength="100" required value="{{.Data.V.name}}"{{if .Data.Err.name}} aria-invalid="true" aria-describedby="name-err"{{end}}>

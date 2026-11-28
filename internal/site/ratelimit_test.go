@@ -26,7 +26,7 @@ func limitedServer(t *testing.T) (*Server, *fakeClock) {
 
 // postFrom is authPost with an explicit RemoteAddr and extra headers.
 func postFrom(s *Server, path string, form url.Values, remote string, hdr ...string) *httptest.ResponseRecorder {
-	req := httptest.NewRequest(http.MethodPost, path, strings.NewReader(form.Encode()))
+	req := httptest.NewRequest(http.MethodPost, path, strings.NewReader(withTS(form).Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.RemoteAddr = remote
 	for i := 0; i+1 < len(hdr); i += 2 {

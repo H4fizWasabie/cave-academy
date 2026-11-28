@@ -35,6 +35,7 @@
     <form class="form" method="post" action="/trainer-panel#daftar" novalidate>
       <p class="form__note"><span class="req" aria-hidden="true">*</span> Wajib diisi</p>
       <div class="form__trap" aria-hidden="true"><label>Laman web <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <input type="hidden" name="ts" value="{{.TS}}">
       <div class="form__grid">
         <div class="field{{if .Data.Err.name}} field--error{{end}}">
           <label for="name">Nama <span class="req" aria-hidden="true">*</span></label>

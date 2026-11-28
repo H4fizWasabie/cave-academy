@@ -12,7 +12,7 @@ import (
 // postRFQ submits values to /corporate-training and returns the response.
 func postRFQ(t *testing.T, s *Server, v url.Values) *httptest.ResponseRecorder {
 	t.Helper()
-	req := httptest.NewRequest(http.MethodPost, "/corporate-training", strings.NewReader(v.Encode()))
+	req := httptest.NewRequest(http.MethodPost, "/corporate-training", strings.NewReader(withTS(v).Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	rec := httptest.NewRecorder()
 	s.ServeHTTP(rec, req)

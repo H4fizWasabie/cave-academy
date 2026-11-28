@@ -46,7 +46,8 @@ type Page struct {
 	SEO                         seoMeta  // canonical URL and share image; render fills it in (seo.go)
 	IntroVideo                  string   // Config.IntroVideoURL; render fills it in, templates hide the video button when ""
 	Data                        any
-	HasTrainers                 bool // at least one live Cave Trainer; render fills it in, the nav hides /trainer when false
+	TS                          int64 // render time in unix seconds; render fills it in, forms post it back as "ts" (isBot)
+	HasTrainers                 bool  // at least one live Cave Trainer; render fills it in, the nav hides /trainer when false
 }
 
 // New opens the database, loads the templates and registers every route.
@@ -180,6 +181,7 @@ func (s *Server) renderStatus(w http.ResponseWriter, status int, name string, p 
 		return
 	}
 	p.IntroVideo = s.config.IntroVideoURL
+	p.TS = s.now().Unix()
 	s.db.QueryRow(`SELECT EXISTS(SELECT 1 FROM trainer_profiles WHERE published = 1 AND status = 'cave_trainer')`).Scan(&p.HasTrainers)
 	if rw, ok := w.(*reqWriter); ok && p.User == nil {
 		p.User = s.currentUser(rw.r)
