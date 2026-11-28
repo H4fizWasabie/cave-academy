@@ -21,6 +21,10 @@ var crisisPhrases = []string{
 	"bunuh diri", "nak mati", "nk mati", "ingin mati", "mahu mati", "nak bunuh diri",
 	"tak nak hidup", "tak nk hidup", "x nak hidup", "tak mahu hidup", "tidak mahu hidup",
 	"akhiri hidup", "tamatkan hidup", "cederakan diri", "sakiti diri", "kelar tangan",
+	// Suffixed forms, common typos and euphemisms. "tak larat nak teruskan" alone
+	// is everyday work stress, so it needs "hidup" after it.
+	"bunuh dirinya", "membunuh diri", "bunuh dri", "bnuh diri", "tk nak hidup", "tak nak hdup", "tak mau hidup", "x mahu hidup",
+	"tak larat nak hidup", "tak larat nak teruskan hidup", "tidur selamanya", "tidur selama-lamanya",
 	"kill myself", "end my life", "suicide", "suicidal", "self-harm", "self harm", "hurt myself", "want to die",
 }
 

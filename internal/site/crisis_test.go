@@ -10,6 +10,8 @@ func TestIsCrisis(t *testing.T) {
 	for _, m := range []string{
 		"Saya nak mati", "nk mati la", "Aku ingin   MATI.", "dah tak nak hidup", "x nak hidup lagi", "tak nk hidup",
 		"saya fikir nak bunuh diri", "nak akhiri hidup ini", "saya mahu cederakan diri", "kelar tangan",
+		"dia bunuh dirinya", "fikir nak membunuh diri", "nak bunuh dri", "tk nak hidup", "tak nak hdup", "tak mau hidup",
+		"dah tak larat nak teruskan hidup", "tak larat nak hidup", "nak tidur selamanya", "nak tidur selama-lamanya",
 		"I want to die", "thinking of suicide", "I feel suicidal", "i will kill myself", "self-harm", "self harm urges", "i might hurt myself",
 	} {
 		if !isCrisis(m) {
@@ -19,7 +21,7 @@ func TestIsCrisis(t *testing.T) {
 	for _, m := range []string{
 		"Saya stres dengan kerja", "rasa tertekan", "penat sangat", "burnout", "rasa nak give up kerja",
 		"saya mati kutu", "bos saya nak bunuh saya dengan kerja ni", "tolong nak matikan lampu", "nak mati-matian siapkan projek",
-		"susah tidur sebab risau", "mati", "bunuh",
+		"susah tidur sebab risau", "mati", "bunuh", "tak larat nak teruskan kerja ni", "nak tidur awal malam ni",
 	} {
 		if isCrisis(m) {
 			t.Errorf("isCrisis(%q) = true", m)
